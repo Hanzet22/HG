@@ -18,8 +18,13 @@
   },
   "dependencies": {
     "@astrojs/check": "latest",
+    "@astrojs/netlify": "latest",
     "astro": "latest",
-    "typescript": "latest",
-    "@astrojs/netlify": "latest"
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^4.3.3"
   }
 }

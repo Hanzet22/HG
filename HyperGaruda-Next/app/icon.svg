@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#163d51"/>
+      <stop offset="55%" stop-color="#101724"/>
+      <stop offset="100%" stop-color="#2b1930"/>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#77e4ff"/>
+      <stop offset="100%" stop-color="#b4a5ff"/>
+    </linearGradient>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect
+    x="2"
+    y="2"
+    width="60"
+    height="60"
+    rx="16"
+    fill="url(#bg)"
+    stroke="#79dfff"
+    stroke-opacity=".75"
+    stroke-width="1.5"
+  />
+
+  <path
+    d="M8 20V8H20 M44 8H56V20 M56 44V56H44 M20 56H8V44"
+    fill="none"
+    stroke="#79dfff"
+    stroke-opacity=".55"
+    stroke-width="1.5"
+    stroke-linecap="round"
+  />
+
+  <g
+    fill="none"
+    stroke="url(#accent)"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"
+  >
+    <path d="M16 23V41 M16 32H29 M29 23V41"/>
+    <path d="M48 25C45 21 35 22 35 32C35 42 45 43 49 38V32H42"/>
+  </g>
+
+  <circle cx="51" cy="14" r="2" fill="#77e4ff"/>
+</svg>
