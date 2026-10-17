@@ -1,0 +1,25 @@
+{
+  "name": "hypergaruda-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "HyperGaruda-Next"
+  ],
+  "scripts": {
+    "dev": "astro dev",
+    "dev:astro": "astro dev",
+    "dev:next": "npm run dev --workspace=hypergaruda-next",
+    "build": "npm run build:astro && npm run build:next",
+    "build:astro": "astro build",
+    "build:next": "npm run build --workspace=hypergaruda-next",
+    "check": "astro check",
+    "check:next": "npm run lint --workspace=hypergaruda-next"
+  },
+  "dependencies": {
+    "@astrojs/check": "latest",
+    "astro": "latest",
+    "typescript": "latest",
+    "@astrojs/netlify": "latest"
+  }
+}
