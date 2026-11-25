@@ -106,3 +106,12 @@ export function mountMorphGlass(
 
   return { refresh, setQuality, destroy };
 }
+
+
+// Public typed configuration and opt-in GPU renderer.
+export { normalizeMorphGlassConfig, DEFAULT_MORPH_GLASS_CONFIG } from "./core/config";
+export type { MorphGlassConfig, MorphGlassConfigInput } from "./core/config";
+export { detectMorphGlassCapabilities } from "./core/capabilities";
+export type { MorphGlassCapabilities } from "./core/capabilities";
+export { createMorphGlassRenderer } from "./renderer/webgl2";
+export type { MorphGlassRenderer, MorphGlassRendererOptions, NormalizedSourceRect } from "./renderer/webgl2";

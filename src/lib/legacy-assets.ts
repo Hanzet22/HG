@@ -11,6 +11,7 @@ import teapotHtml from "../../418.html?raw";
 import rateLimitHtml from "../../429.html?raw";
 import styles from "../../Style.css?raw";
 import scripts from "../../Script.js?raw";
+import morphGlassStyles from "../../shared/morphglass/morphglass.css?raw";
 
 const assets: Record<string, { body: string; type: string }> = {
   "index.html": {
@@ -58,7 +59,7 @@ const assets: Record<string, { body: string; type: string }> = {
     type: "text/html; charset=utf-8",
   },
   "style.css": {
-    body: styles,
+    body: `${styles}\n\n${morphGlassStyles}`,
     type: "text/css; charset=utf-8",
   },
   "script.js": {
