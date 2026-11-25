@@ -306,7 +306,7 @@ export function createMorphGlassRenderer(
 
     if (targetWidth === 0 || targetHeight === 0 ||
         targetWidth !== Math.max(1, Math.floor(sourceWidth * Math.min(config.renderScale, maxRenderEdge / Math.max(sourceWidth, sourceHeight)))) ||
-        targetHeight !== Math.max(1, Math.floor(sourceHeight * Math.min(config.renderScale, maxRenderEdge / Math.max(sourceWidth, sourceHeight)))) {
+        targetHeight !== Math.max(1, Math.floor(sourceHeight * Math.min(config.renderScale, maxRenderEdge / Math.max(sourceWidth, sourceHeight))))) {
       resizeTargets(sourceWidth, sourceHeight);
     }
 
