@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import AnimationModeToggle from "./components/AnimationModeToggle";
+import MorphGlassClient from "./components/MorphGlassClient";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -56,6 +57,7 @@ export default function RootLayout({
     <html lang="id">
       <body>
         <AnimationModeToggle />
+        <MorphGlassClient />
         <div className="site-shell">{children}</div>
       </body>
     </html>
