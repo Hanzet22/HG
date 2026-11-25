@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../../shared/morphglass/morphglass.css";
 
 :root {
   color-scheme: dark;
