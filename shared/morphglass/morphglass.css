@@ -1,0 +1,111 @@
+/* HG MorphGlass — framework-agnostic glass surface foundation.
+   Clean-room implementation; no Mochy source code or shader is copied. */
+
+:root {
+  --hg-mg-blur: 18px;
+  --hg-mg-saturation: 1.28;
+  --hg-mg-tint: rgba(15, 22, 35, 0.52);
+  --hg-mg-edge: rgba(225, 237, 255, 0.2);
+  --hg-mg-shine: rgba(255, 255, 255, 0.2);
+  --hg-mg-radius: 24px;
+  --hg-mg-shadow: 0 18px 54px rgba(0, 0, 0, 0.24);
+}
+
+.hg-morph-glass {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--hg-mg-edge);
+  border-radius: var(--hg-mg-radius);
+  background: var(--hg-mg-tint);
+  box-shadow:
+    var(--hg-mg-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+  -webkit-backdrop-filter: blur(var(--hg-mg-blur)) saturate(var(--hg-mg-saturation));
+  backdrop-filter: blur(var(--hg-mg-blur)) saturate(var(--hg-mg-saturation));
+  transform: translateZ(0);
+}
+
+.hg-morph-glass::before,
+.hg-morph-glass::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
+}
+
+.hg-morph-glass::before {
+  background:
+    radial-gradient(
+      460px circle at var(--hg-mg-pointer-x, 50%) var(--hg-mg-pointer-y, 0%),
+      var(--hg-mg-shine),
+      transparent 62%
+    ),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), transparent 42%);
+  opacity: var(--hg-mg-light-opacity, 0.72);
+}
+
+.hg-morph-glass::after {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.10), transparent 24% 76%, rgba(255,255,255,0.035));
+  box-shadow: inset 0 0 0 1px rgba(5, 12, 24, 0.12);
+  mask: linear-gradient(#000, #000);
+}
+
+/* Quality profiles keep the same visual language on weaker devices. */
+.hg-morph-glass[data-hg-glass-quality="high"] {
+  --hg-mg-blur: 24px;
+  --hg-mg-saturation: 1.42;
+  --hg-mg-light-opacity: 0.9;
+}
+
+.hg-morph-glass[data-hg-glass-quality="medium"] {
+  --hg-mg-blur: 15px;
+  --hg-mg-saturation: 1.2;
+  --hg-mg-light-opacity: 0.62;
+}
+
+.hg-morph-glass[data-hg-glass-quality="low"] {
+  --hg-mg-blur: 7px;
+  --hg-mg-saturation: 1.08;
+  --hg-mg-light-opacity: 0.38;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hg-morph-glass {
+    background: rgba(18, 26, 42, 0.94);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hg-morph-glass {
+    --hg-mg-light-opacity: 0.42;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .hg-morph-glass {
+    --hg-mg-blur: 0px;
+    --hg-mg-tint: rgba(15, 22, 35, 0.94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .hg-morph-glass::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-morph-glass,
+  .hg-morph-glass::before,
+  .hg-morph-glass::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
