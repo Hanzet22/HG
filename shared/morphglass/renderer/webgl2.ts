@@ -219,25 +219,28 @@ export function createMorphGlassRenderer(
     powerPreference: "low-power",
   });
   if (!gl) throw new Error("MorphGlass requires WebGL2; keep the CSS fallback available.");
+  // Keep a non-null context alias for nested renderer callbacks.
+  const context = context as WebGL2RenderingContext;
 
-  const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
+  const maxTextureSize = context.getParameter(context.MAX_TEXTURE_SIZE) as number;
   const requestedMaxEdge = options.maxRenderEdge ?? 2048;
   const maxRenderEdge = Math.max(256, Math.min(
     Number.isFinite(requestedMaxEdge) ? requestedMaxEdge : 2048,
     maxTextureSize,
   ));
-  const blurProgram = createProgram(gl, BLUR_SHADER);
-  const compositeProgram = createProgram(gl, COMPOSITE_SHADER);
-  const vao = gl.createVertexArray();
-  const sourceTexture = gl.createTexture();
-  const targetA = makeTarget(gl);
-  const targetB = makeTarget(gl);
+  const blurProgram = createProgram(context, BLUR_SHADER);
+  const compositeProgram = createProgram(context, COMPOSITE_SHADER);
+  const vao = context.createVertexArray();
+  const sourceTexture = context.createTexture();
+  const targetA = makeTarget(context);
+  const targetB = makeTarget(context);
   const staging = document.createElement("canvas");
   const stagingContext = staging.getContext("2d", { alpha: true, willReadFrequently: false });
 
   if (!vao || !sourceTexture || !stagingContext) {
     throw new Error("MorphGlass could not initialize its GPU resources.");
   }
+  const staging2d = stagingContext as CanvasRenderingContext2D;
 
   let config: MorphGlassConfig = normalizeMorphGlassConfig(options.config);
   let rect = normalizeRect(options.sourceRect ?? { x: 0, y: 0, width: 1, height: 1 });
@@ -247,13 +250,13 @@ export function createMorphGlassRenderer(
   let lost = false;
   let pointer: [number, number] = [0.5, 0.25];
 
-  gl.bindVertexArray(vao);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, sourceTexture);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  context.bindVertexArray(vao);
+  context.activeTexture(context.TEXTURE0);
+  context.bindTexture(context.TEXTURE_2D, sourceTexture);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MIN_FILTER, context.LINEAR);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_MAG_FILTER, context.LINEAR);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_S, context.CLAMP_TO_EDGE);
+  context.texParameteri(context.TEXTURE_2D, context.TEXTURE_WRAP_T, context.CLAMP_TO_EDGE);
 
   const onLost = (event: Event): void => {
     event.preventDefault();
@@ -274,20 +277,20 @@ export function createMorphGlassRenderer(
     targetHeight = Math.max(1, Math.floor(height * scale));
 
     for (const target of [targetA, targetB]) {
-      gl.bindTexture(gl.TEXTURE_2D, target.texture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, targetWidth, targetHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, target.framebuffer);
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, target.texture, 0);
-      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+      context.bindTexture(context.TEXTURE_2D, target.texture);
+      context.texImage2D(context.TEXTURE_2D, 0, context.RGBA8, targetWidth, targetHeight, 0, context.RGBA, context.UNSIGNED_BYTE, null);
+      context.bindFramebuffer(context.FRAMEBUFFER, target.framebuffer);
+      context.framebufferTexture2D(context.FRAMEBUFFER, context.COLOR_ATTACHMENT0, context.TEXTURE_2D, target.texture, 0);
+      if (context.checkFramebufferStatus(context.FRAMEBUFFER) !== context.FRAMEBUFFER_COMPLETE) {
         throw new Error("MorphGlass framebuffer is incomplete.");
       }
     }
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    context.bindFramebuffer(context.FRAMEBUFFER, null);
   }
 
   function render(source: CanvasImageSource, nextRect?: NormalizedSourceRect): void {
     if (destroyed) throw new Error("MorphGlass renderer has been destroyed.");
-    if (lost || gl.isContextLost()) throw new Error("MorphGlass WebGL context is unavailable; remount after context restoration.");
+    if (lost || context.isContextLost()) throw new Error("MorphGlass WebGL context is unavailable; remount after context restoration.");
     if (nextRect) rect = normalizeRect(nextRect);
 
     const dimensions = sourceDimensions(source);
@@ -301,8 +304,8 @@ export function createMorphGlassRenderer(
       staging.height = sourceHeight;
     }
 
-    stagingContext.clearRect(0, 0, sourceWidth, sourceHeight);
-    stagingContext.drawImage(source, 0, 0, sourceWidth, sourceHeight);
+    staging2d.clearRect(0, 0, sourceWidth, sourceHeight);
+    staging2d.drawImage(source, 0, 0, sourceWidth, sourceHeight);
 
     if (targetWidth === 0 || targetHeight === 0 ||
         targetWidth !== Math.max(1, Math.floor(sourceWidth * Math.min(config.renderScale, maxRenderEdge / Math.max(sourceWidth, sourceHeight)))) ||
@@ -310,56 +313,56 @@ export function createMorphGlassRenderer(
       resizeTargets(sourceWidth, sourceHeight);
     }
 
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, sourceTexture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, staging);
+    context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, 1);
+    context.activeTexture(context.TEXTURE0);
+    context.bindTexture(context.TEXTURE_2D, sourceTexture);
+    context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, staging);
 
-    gl.bindVertexArray(vao);
-    gl.useProgram(blurProgram);
-    gl.uniform1i(gl.getUniformLocation(blurProgram, "u_image"), 0);
-    gl.uniform2f(gl.getUniformLocation(blurProgram, "u_texel"), 1 / sourceWidth, 1 / sourceHeight);
+    context.bindVertexArray(vao);
+    context.useProgram(blurProgram);
+    context.uniform1i(context.getUniformLocation(blurProgram, "u_image"), 0);
+    context.uniform2f(context.getUniformLocation(blurProgram, "u_texel"), 1 / sourceWidth, 1 / sourceHeight);
 
     let inputTexture = sourceTexture;
     const passes = config.quality === "low" ? 1 : config.quality === "high" ? 4 : 3;
     for (let i = 0; i < passes; i += 1) {
       const target = i % 2 === 0 ? targetA : targetB;
-      gl.bindFramebuffer(gl.FRAMEBUFFER, target.framebuffer);
-      gl.viewport(0, 0, targetWidth, targetHeight);
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, inputTexture);
-      gl.uniform2f(
-        gl.getUniformLocation(blurProgram, "u_texel"),
+      context.bindFramebuffer(context.FRAMEBUFFER, target.framebuffer);
+      context.viewport(0, 0, targetWidth, targetHeight);
+      context.activeTexture(context.TEXTURE0);
+      context.bindTexture(context.TEXTURE_2D, inputTexture);
+      context.uniform2f(
+        context.getUniformLocation(blurProgram, "u_texel"),
         1 / (i === 0 ? sourceWidth : targetWidth),
         1 / (i === 0 ? sourceHeight : targetHeight),
       );
-      gl.uniform1f(gl.getUniformLocation(blurProgram, "u_offset"), 0.8 + i * 0.55);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      context.uniform1f(context.getUniformLocation(blurProgram, "u_offset"), 0.8 + i * 0.55);
+      context.drawArrays(context.TRIANGLES, 0, 3);
       inputTexture = target.texture;
     }
 
     const blurredTexture = passes % 2 === 1 ? targetA.texture : targetB.texture;
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.useProgram(compositeProgram);
+    context.bindFramebuffer(context.FRAMEBUFFER, null);
+    context.viewport(0, 0, canvas.width, canvas.height);
+    context.clearColor(0, 0, 0, 0);
+    context.clear(context.COLOR_BUFFER_BIT);
+    context.useProgram(compositeProgram);
 
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, sourceTexture);
-    gl.uniform1i(gl.getUniformLocation(compositeProgram, "u_source"), 0);
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, blurredTexture);
-    gl.uniform1i(gl.getUniformLocation(compositeProgram, "u_blurred"), 1);
+    context.activeTexture(context.TEXTURE0);
+    context.bindTexture(context.TEXTURE_2D, sourceTexture);
+    context.uniform1i(context.getUniformLocation(compositeProgram, "u_source"), 0);
+    context.activeTexture(context.TEXTURE1);
+    context.bindTexture(context.TEXTURE_2D, blurredTexture);
+    context.uniform1i(context.getUniformLocation(compositeProgram, "u_blurred"), 1);
 
     const set2 = (name: string, x: number, y: number): void => {
-      gl.uniform2f(gl.getUniformLocation(compositeProgram, name), x, y);
+      context.uniform2f(context.getUniformLocation(compositeProgram, name), x, y);
     };
     const set1 = (name: string, value: number): void => {
-      gl.uniform1f(gl.getUniformLocation(compositeProgram, name), value);
+      context.uniform1f(context.getUniformLocation(compositeProgram, name), value);
     };
     const set4 = (name: string, value: readonly number[]): void => {
-      gl.uniform4fv(gl.getUniformLocation(compositeProgram, name), value);
+      context.uniform4fv(context.getUniformLocation(compositeProgram, name), value);
     };
 
     set4("u_sourceRect", [rect.x, rect.y, rect.width, rect.height]);
@@ -374,7 +377,7 @@ export function createMorphGlassRenderer(
     set1("u_sheenStrength", config.sheenStrength);
     set4("u_tint", config.tint);
     set4("u_edge", config.edge);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    context.drawArrays(context.TRIANGLES, 0, 3);
   }
 
   function setConfig(input: MorphGlassConfigInput): void {
@@ -395,15 +398,15 @@ export function createMorphGlassRenderer(
     destroyed = true;
     canvas.removeEventListener("webglcontextlost", onLost);
     canvas.removeEventListener("webglcontextrestored", onRestored);
-    if (!gl.isContextLost()) {
-      gl.deleteProgram(blurProgram);
-      gl.deleteProgram(compositeProgram);
-      gl.deleteVertexArray(vao);
-      gl.deleteTexture(sourceTexture);
-      gl.deleteTexture(targetA.texture);
-      gl.deleteTexture(targetB.texture);
-      gl.deleteFramebuffer(targetA.framebuffer);
-      gl.deleteFramebuffer(targetB.framebuffer);
+    if (!context.isContextLost()) {
+      context.deleteProgram(blurProgram);
+      context.deleteProgram(compositeProgram);
+      context.deleteVertexArray(vao);
+      context.deleteTexture(sourceTexture);
+      context.deleteTexture(targetA.texture);
+      context.deleteTexture(targetB.texture);
+      context.deleteFramebuffer(targetA.framebuffer);
+      context.deleteFramebuffer(targetB.framebuffer);
     }
     staging.width = 1;
     staging.height = 1;
