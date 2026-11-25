@@ -9,6 +9,7 @@
   "include": [
     ".astro/types.d.ts",
     "src/**/*",
+    "shared/**/*.ts",
     "*.js"
   ],
   "exclude": [
