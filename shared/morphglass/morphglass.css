@@ -1,14 +1,15 @@
-/* HG MorphGlass — framework-agnostic glass surface foundation.
-   Clean-room implementation; no Mochy source code or shader is copied. */
+/* HG MorphGlass — browser-native glass surface foundation.
+   The CSS backend is an HG implementation; it does not copy Mochy's Android shader.
+   SPDX-License-Identifier: GPL-3.0-only */
 
 :root {
-  --hg-mg-blur: 18px;
-  --hg-mg-saturation: 1.28;
-  --hg-mg-tint: rgba(15, 22, 35, 0.52);
-  --hg-mg-edge: rgba(225, 237, 255, 0.2);
-  --hg-mg-shine: rgba(255, 255, 255, 0.2);
+  --hg-mg-blur: 22px;
+  --hg-mg-saturation: 1.34;
+  --hg-mg-tint: rgba(12, 20, 36, 0.34);
+  --hg-mg-edge: rgba(221, 235, 255, 0.30);
+  --hg-mg-shine: rgba(255, 255, 255, 0.28);
   --hg-mg-radius: 24px;
-  --hg-mg-shadow: 0 18px 54px rgba(0, 0, 0, 0.24);
+  --hg-mg-shadow: 0 22px 58px rgba(0, 0, 0, 0.30);
 }
 
 .hg-morph-glass {
@@ -20,8 +21,8 @@
   background: var(--hg-mg-tint);
   box-shadow:
     var(--hg-mg-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
   -webkit-backdrop-filter: blur(var(--hg-mg-blur)) saturate(var(--hg-mg-saturation));
   backdrop-filter: blur(var(--hg-mg-blur)) saturate(var(--hg-mg-saturation));
   transform: translateZ(0);
@@ -40,51 +41,118 @@
 .hg-morph-glass::before {
   background:
     radial-gradient(
-      460px circle at var(--hg-mg-pointer-x, 50%) var(--hg-mg-pointer-y, 0%),
+      520px circle at var(--hg-mg-pointer-x, 50%) var(--hg-mg-pointer-y, 0%),
       var(--hg-mg-shine),
-      transparent 62%
+      transparent 64%
     ),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.11), transparent 42%);
-  opacity: var(--hg-mg-light-opacity, 0.72);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.17), transparent 38%),
+    linear-gradient(315deg, rgba(94, 145, 220, 0.10), transparent 48%);
+  opacity: var(--hg-mg-light-opacity, 0.82);
 }
 
 .hg-morph-glass::after {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.10), transparent 24% 76%, rgba(255,255,255,0.035));
-  box-shadow: inset 0 0 0 1px rgba(5, 12, 24, 0.12);
-  mask: linear-gradient(#000, #000);
+    linear-gradient(135deg, rgba(255,255,255,0.13), transparent 25% 72%, rgba(255,255,255,0.055)),
+    linear-gradient(180deg, rgba(255,255,255,0.045), transparent 38%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(5, 12, 24, 0.14);
+}
+
+/* Bind the glass material to real card components.
+   These compound selectors intentionally outrank each component's opaque base
+   background declarations, which previously hid the shared glass surface. */
+.project-card.hg-morph-glass {
+  --hg-mg-radius: 18px;
+  --hg-mg-blur: 20px;
+  --hg-mg-tint: rgba(15, 23, 39, 0.38);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.075), transparent 58%),
+    linear-gradient(315deg, rgba(0,53,128,0.13), transparent 60%),
+    rgba(15, 23, 39, 0.38);
+  border-color: rgba(207, 222, 248, 0.22);
+}
+
+.project-card.hg-morph-glass:hover {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.11), transparent 58%),
+    linear-gradient(315deg, rgba(0,53,128,0.18), transparent 60%),
+    rgba(20, 30, 49, 0.46);
+  border-color: rgba(204, 34, 0, 0.72);
+}
+
+.category-card.hg-morph-glass {
+  --hg-mg-radius: 19px;
+  --hg-mg-blur: 19px;
+  --hg-mg-tint: rgba(18, 26, 42, 0.38);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.075), transparent 56%),
+    linear-gradient(315deg, rgba(0,53,128,0.12), transparent 62%),
+    rgba(18, 26, 42, 0.38);
+  border-color: rgba(183, 203, 238, 0.23);
+}
+
+.category-card.hg-morph-glass[open] {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.10), transparent 56%),
+    linear-gradient(315deg, rgba(0,53,128,0.17), transparent 62%),
+    rgba(14, 22, 38, 0.52);
+  border-color: rgba(255, 146, 125, 0.48);
+}
+
+.link-card.hg-morph-glass {
+  --hg-mg-radius: 15px;
+  --hg-mg-blur: 16px;
+  --hg-mg-tint: rgba(25, 35, 54, 0.30);
+  background:
+    linear-gradient(125deg, rgba(255,255,255,0.085), transparent 58%),
+    rgba(25, 35, 54, 0.30);
+  border-color: rgba(180, 200, 235, 0.18);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.link-card.hg-morph-glass:hover {
+  background:
+    linear-gradient(125deg, rgba(255,255,255,0.13), transparent 58%),
+    rgba(33, 47, 70, 0.42);
+  border-color: rgba(255, 146, 125, 0.48);
 }
 
 /* Quality profiles keep the same visual language on weaker devices. */
 .hg-morph-glass[data-hg-glass-quality="high"] {
-  --hg-mg-blur: 24px;
-  --hg-mg-saturation: 1.42;
-  --hg-mg-light-opacity: 0.9;
+  --hg-mg-blur: 26px;
+  --hg-mg-saturation: 1.46;
+  --hg-mg-light-opacity: 0.94;
 }
 
 .hg-morph-glass[data-hg-glass-quality="medium"] {
-  --hg-mg-blur: 15px;
-  --hg-mg-saturation: 1.2;
-  --hg-mg-light-opacity: 0.62;
+  --hg-mg-blur: 19px;
+  --hg-mg-saturation: 1.28;
+  --hg-mg-light-opacity: 0.78;
 }
 
 .hg-morph-glass[data-hg-glass-quality="low"] {
-  --hg-mg-blur: 7px;
-  --hg-mg-saturation: 1.08;
-  --hg-mg-light-opacity: 0.38;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.12);
+  --hg-mg-blur: 8px;
+  --hg-mg-saturation: 1.10;
+  --hg-mg-light-opacity: 0.50;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .hg-morph-glass {
+  .hg-morph-glass,
+  .project-card.hg-morph-glass,
+  .category-card.hg-morph-glass,
+  .link-card.hg-morph-glass {
     background: rgba(18, 26, 42, 0.94);
   }
 }
 
 @media (hover: none), (pointer: coarse) {
   .hg-morph-glass {
-    --hg-mg-light-opacity: 0.42;
+    --hg-mg-light-opacity: 0.58;
   }
 }
 
@@ -97,7 +165,7 @@
   }
 
   .hg-morph-glass::before {
-    display: none;
+    opacity: 0.28;
   }
 }
 
