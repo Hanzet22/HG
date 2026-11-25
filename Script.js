@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupRevealAnimations();
     setupCounters();
     setupCardInteractions();
+    setupMorphGlass();
     setupPageTransitions();
     setupErrorPages();
 
@@ -821,6 +822,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
         buttons.forEach(button => {
             button.classList.add("hg-motion-button");
+        });
+    }
+
+    /* -----------------------------------------------------
+       9A. MORPHGLASS POINTER HIGHLIGHT
+       No animation loop; CSS owns the rendering.
+       ----------------------------------------------------- */
+
+    function setupMorphGlass() {
+        const surfaces = $(".hg-morph-glass");
+
+        if (
+            surfaces.length === 0 ||
+            HG.reducedMotion ||
+            window.matchMedia("(pointer: coarse)").matches
+        ) {
+            return;
+        }
+
+        surfaces.forEach(surface => {
+            const onPointerMove = event => {
+                const rect = surface.getBoundingClientRect();
+
+                if (rect.width <= 0 || rect.height <= 0) return;
+
+                const x = ((event.clientX - rect.left) / rect.width) * 100;
+                const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+                surface.style.setProperty(
+                    "--hg-mg-pointer-x",
+                    `${Math.min(100, Math.max(0, x))}%`
+                );
+                surface.style.setProperty(
+                    "--hg-mg-pointer-y",
+                    `${Math.min(100, Math.max(0, y))}%`
+                );
+            };
+
+            const onPointerLeave = () => {
+                surface.style.removeProperty("--hg-mg-pointer-x");
+                surface.style.removeProperty("--hg-mg-pointer-y");
+            };
+
+            surface.addEventListener("pointermove", onPointerMove, { passive: true });
+            surface.addEventListener("pointerleave", onPointerLeave, { passive: true });
         });
     }
 
