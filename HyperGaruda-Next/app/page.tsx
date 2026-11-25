@@ -526,13 +526,13 @@ export default async function Home() {
                   the complete repository list and the latest activity.
                 </p>
                 <div className="link-list">
-                  <LinkCard href="https://github.com/Hanzet22/FORGE-TS" title="FORGE-TS" description="Native Android network and systems toolkit · Kotlin" icon="◇" badge="IN DEVELOPMENT" />
+                  <LinkCard href="https://github.com/Hanzet22/FORGE-TS" title="FORGE-TS" description="Native Android network and systems toolkit · Kotlin" icon="◇" badge="HANDOFF REFRESHED" />
                   <LinkCard href="https://github.com/Hanzet22/Security-Audit-MCP-Ver" title="Security-Audit-MCP-Ver" description="Read-only evidence-led source-code audit tools · MCP" icon="⌘" badge="v0.3.1 RELEASED" />
                   <LinkCard href="https://github.com/Hanzet22/HG-ESR-NET" title="HG-ESR-NET" description="Universal image super-resolution inference engine" icon="▧" badge="ACTIVE DEVELOPMENT" />
                   <LinkCard href="https://github.com/Hanzet22/HG-Plugin-Utils" title="HG-Plugin-Utils" description="Kotlin Aliucord plugin with custom UI and motion utilities" icon="✦" badge="v0.13.1" />
-                  <LinkCard href="https://github.com/Hanzet22/FurFinder" title="FurFinder" description="Global furry community and convention discovery platform" icon="◎" badge="WEB MVP" />
-                  <LinkCard href="https://github.com/Hanzet22/hyperai-openrouter-backend" title="HyperAI Backend" description="AI chat client backend with Vercel and OpenRouter" icon="✧" badge="ACTIVE DEVELOPMENT" />
-                  <LinkCard href="https://github.com/Hanzet22/Sekereper" title="HANZET-SCRAPER / Sekereper" description="Modular HTTP(S) scraping workbench with bounded jobs" icon="⌁" badge="v3.7.0" />
+                  <LinkCard href="https://github.com/Hanzet22/FurFinder" title="FurFinder" description="Global furry community and convention discovery with protected submissions and authenticated moderation" icon="◎" badge="MODERATION CONSOLE" />
+                  <LinkCard href="https://github.com/Hanzet22/hyperai-openrouter-backend" title="HyperAI Backend" description="AI chat client backend with Vercel and OpenRouter · Security 1.1 hardening tracked" icon="✧" badge="SECURITY 1.1" />
+                  <LinkCard href="https://github.com/Hanzet22/Sekereper" title="HANZET-SCRAPER / Sekereper" description="Modular HTTP(S) scraping workbench with bounded jobs · Node 24 LTS and CodeQL" icon="⌁" badge="NODE 24 LTS" />
                   <LinkCard href="https://github.com/Hanzet22/hg-alpine-packages" title="hg-alpine-packages" description="Personal Alpine Linux package collection" icon="▤" />
                 </div>
                 <div className="link-list">
