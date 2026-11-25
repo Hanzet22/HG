@@ -11,7 +11,6 @@
  */
 
 import {
-  DEFAULT_MORPH_GLASS_CONFIG,
   normalizeMorphGlassConfig,
   type MorphGlassConfig,
   type MorphGlassConfigInput,
@@ -35,6 +34,7 @@ export interface MorphGlassRendererOptions {
 export interface MorphGlassRenderer {
   render(source: CanvasImageSource, sourceRect?: NormalizedSourceRect): void;
   setConfig(config: MorphGlassConfigInput): void;
+  setPointer(x: number, y: number): void;
   destroy(): void;
 }
 
@@ -137,7 +137,7 @@ function sourceDimensions(source: CanvasImageSource): { width: number; height: n
   if (source instanceof ImageBitmap) {
     return { width: source.width, height: source.height };
   }
-  if (source instanceof HTMLCanvasElement || source instanceof OffscreenCanvas) {
+  if (source instanceof HTMLCanvasElement || (typeof OffscreenCanvas !== "undefined" && source instanceof OffscreenCanvas)) {
     return { width: source.width, height: source.height };
   }
   const candidate = source as { width?: number; height?: number };
@@ -322,6 +322,11 @@ export function createMorphGlassRenderer(
       gl.viewport(0, 0, targetWidth, targetHeight);
       gl.activeTexture(gl.TEXTURE0);
       gl.bindTexture(gl.TEXTURE_2D, inputTexture);
+      gl.uniform2f(
+        gl.getUniformLocation(blurProgram, "u_texel"),
+        1 / (i === 0 ? sourceWidth : targetWidth),
+        1 / (i === 0 ? sourceHeight : targetHeight),
+      );
       gl.uniform1f(gl.getUniformLocation(blurProgram, "u_offset"), 0.8 + i * 0.55);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       inputTexture = target.texture;
@@ -372,6 +377,13 @@ export function createMorphGlassRenderer(
     targetHeight = 0;
   }
 
+  function setPointer(x: number, y: number): void {
+    pointer = [
+      Number.isFinite(x) ? Math.min(1, Math.max(0, x)) : 0.5,
+      Number.isFinite(y) ? Math.min(1, Math.max(0, y)) : 0.25,
+    ];
+  }
+
   function destroy(): void {
     if (destroyed) return;
     destroyed = true;
@@ -397,6 +409,7 @@ export function createMorphGlassRenderer(
       render(source, sourceRect);
     },
     setConfig,
+    setPointer,
     destroy,
   };
 }
