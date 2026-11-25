@@ -538,50 +538,50 @@ export default async function Home() {
                 <h3 className="subsection-title subsection-spaced">Complete personal repository directory · 44</h3>
                 <p className="panel-intro">All personal repositories visible in the connected account snapshot. Repository presence does not imply active maintenance. Only PCAPDROID-JS-FEATURE is confirmed archived; older or experimental repositories are not automatically marked deprecated.</p>
                 <div className="link-list">
-                  <LinkCard href="https://github.com/YouTube-Downloader" title="YouTube-Downloader" description="Video download utility" icon="⌘" />
-                  <LinkCard href="https://github.com/YouTube-Downloader-simple" title="YouTube-Downloader-simple" description="Simplified video download project" icon="⌘" />
-                  <LinkCard href="https://github.com/PCAPDROID-JS-FEATURE" title="PCAPDROID-JS-FEATURE" description="PCAPdroid JavaScript feature fork" icon="⌘" badge="ARCHIVED" />
-                  <LinkCard href="https://github.com/Custom-UI-HTML" title="Custom-UI-HTML" description="Custom HTML UI experiments" icon="⌘" />
-                  <LinkCard href="https://github.com/GAN-Furry-Art-Photo" title="GAN-Furry-Art-Photo" description="Generative image research" icon="⌘" />
-                  <LinkCard href="https://github.com/Sekereper" title="Sekereper" description="HTTP(S) scraping workbench" icon="⌘" />
-                  <LinkCard href="https://github.com/LOD-Audio" title="LOD-Audio" description="Audio utility and scripting" icon="⌘" />
-                  <LinkCard href="https://github.com/Ipeye-enbe" title="Ipeye-enbe" description="IP lookup experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/LTX-Video-Upscaler" title="LTX-Video-Upscaler" description="Video upscaling experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/hypergaruda-API" title="hypergaruda-API" description="HyperGaruda API project" icon="⌘" />
-                  <LinkCard href="https://github.com/Gatau-ini-apaan-" title="Gatau-ini-apaan-" description="Early inference experiments" icon="⌘" />
-                  <LinkCard href="https://github.com/Custom-Inference-Universal" title="Custom-Inference-Universal" description="Custom inference experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/Real-ESRGAN" title="Real-ESRGAN" description="Real-ESRGAN source/fork" icon="⌘" />
-                  <LinkCard href="https://github.com/Hanzet22" title="Hanzet22" description="GitHub profile documentation" icon="⌘" />
-                  <LinkCard href="https://github.com/Inference-Modification" title="Inference-Modification" description="Inference modification experiments" icon="⌘" />
-                  <LinkCard href="https://github.com/TKJ-Dumps" title="TKJ-Dumps" description="Technical learning and Colab repository" icon="⌘" />
-                  <LinkCard href="https://github.com/NETHERCAP" title="NETHERCAP" description="Network capture project" icon="⌘" />
-                  <LinkCard href="https://github.com/spiderfoot" title="spiderfoot" description="SpiderFoot source/fork" icon="⌘" />
-                  <LinkCard href="https://github.com/Cailin-Asistent-mod" title="Cailin-Asistent-mod" description="Modified assistant project" icon="⌘" />
-                  <LinkCard href="https://github.com/HG-ESR-NET" title="HG-ESR-NET" description="Image restoration and super-resolution engine" icon="⌘" />
-                  <LinkCard href="https://github.com/bnb-real-time-timeline" title="bnb-real-time-timeline" description="Real-time timeline web experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/gabut-web-gl-aja" title="gabut-web-gl-aja" description="WebGL experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/bsc-grid-next" title="bsc-grid-next" description="Grid web project" icon="⌘" />
-                  <LinkCard href="https://github.com/furcon-compliance-audit" title="furcon-compliance-audit" description="FurCon compliance audit tooling" icon="⌘" />
-                  <LinkCard href="https://github.com/Dumper-Metadata" title="Dumper-Metadata" description="Metadata utility" icon="⌘" />
-                  <LinkCard href="https://github.com/JMoF-APK-Forensic-Investigation" title="JMoF-APK-Forensic-Investigation" description="Android APK investigation research" icon="⌘" />
-                  <LinkCard href="https://github.com/JMoF-APK-Forensic-Investigation-Split" title="JMoF-APK-Forensic-Investigation-Split" description="Split APK investigation repository" icon="⌘" />
-                  <LinkCard href="https://github.com/ESP8266-EvilTwin-Forked-" title="ESP8266-EvilTwin-Forked-" description="ESP8266 forked wireless-security research" icon="⌘" />
-                  <LinkCard href="https://github.com/esp8266_deauther" title="esp8266_deauther" description="ESP8266 source/fork" icon="⌘" />
-                  <LinkCard href="https://github.com/hyperai-openrouter-backend" title="hyperai-openrouter-backend" description="HyperAI OpenRouter backend" icon="⌘" />
-                  <LinkCard href="https://github.com/smkn1mandau-replika-rtd" title="smkn1mandau-replika-rtd" description="SMKN 1 Mandau replica / RTD" icon="⌘" />
-                  <LinkCard href="https://github.com/smkn1mandau-site" title="smkn1mandau-site" description="SMKN 1 Mandau website project" icon="⌘" />
-                  <LinkCard href="https://github.com/JMoF-App-Rec" title="JMoF-App-Rec" description="JMoF application research" icon="⌘" />
-                  <LinkCard href="https://github.com/hg-alpine-packages" title="hg-alpine-packages" description="Alpine Linux package collection" icon="⌘" />
-                  <LinkCard href="https://github.com/HG" title="HG" description="HyperGaruda portfolio repository" icon="⌘" />
-                  <LinkCard href="https://github.com/tg-assets" title="tg-assets" description="Project asset repository" icon="⌘" />
-                  <LinkCard href="https://github.com/HG-Plugin-Utils" title="HG-Plugin-Utils" description="Kotlin Aliucord plugin utilities" icon="⌘" />
-                  <LinkCard href="https://github.com/FptnClient-Android-Forked" title="FptnClient-Android-Forked" description="Android client fork" icon="⌘" />
-                  <LinkCard href="https://github.com/FurFinder" title="FurFinder" description="Community and convention discovery" icon="⌘" />
-                  <LinkCard href="https://github.com/Security-Audit-MCP-Ver" title="Security-Audit-MCP-Ver" description="Read-only security audit MCP toolkit" icon="⌘" />
-                  <LinkCard href="https://github.com/github-stats-extended" title="github-stats-extended" description="GitHub statistics generator" icon="⌘" />
-                  <LinkCard href="https://github.com/FORGE-TS" title="FORGE-TS" description="Android network and systems toolkit" icon="⌘" />
-                  <LinkCard href="https://github.com/My-first-site-Anjay" title="My-first-site-Anjay" description="Early personal website experiment" icon="⌘" />
-                  <LinkCard href="https://github.com/IWAG-replika-rtd" title="IWAG-replika-rtd" description="IWAG policy and replica research" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/YouTube-Downloader" title="YouTube-Downloader" description="Video download utility" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/YouTube-Downloader-simple" title="YouTube-Downloader-simple" description="Simplified video download project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/PCAPDROID-JS-FEATURE" title="PCAPDROID-JS-FEATURE" description="PCAPdroid JavaScript feature fork" icon="⌘" badge="ARCHIVED" />
+                  <LinkCard href="https://github.com/Hanzet22/Custom-UI-HTML" title="Custom-UI-HTML" description="Custom HTML UI experiments" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/GAN-Furry-Art-Photo" title="GAN-Furry-Art-Photo" description="Generative image research" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Sekereper" title="Sekereper" description="HTTP(S) scraping workbench" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/LOD-Audio" title="LOD-Audio" description="Audio utility and scripting" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Ipeye-enbe" title="Ipeye-enbe" description="IP lookup experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/LTX-Video-Upscaler" title="LTX-Video-Upscaler" description="Video upscaling experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/hypergaruda-API" title="hypergaruda-API" description="HyperGaruda API project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Gatau-ini-apaan-" title="Gatau-ini-apaan-" description="Early inference experiments" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Custom-Inference-Universal" title="Custom-Inference-Universal" description="Custom inference experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Real-ESRGAN" title="Real-ESRGAN" description="Real-ESRGAN source/fork" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Hanzet22" title="Hanzet22" description="GitHub profile documentation" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Inference-Modification" title="Inference-Modification" description="Inference modification experiments" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/TKJ-Dumps" title="TKJ-Dumps" description="Technical learning and Colab repository" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/NETHERCAP" title="NETHERCAP" description="Network capture project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/spiderfoot" title="spiderfoot" description="SpiderFoot source/fork" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Cailin-Asistent-mod" title="Cailin-Asistent-mod" description="Modified assistant project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/HG-ESR-NET" title="HG-ESR-NET" description="Image restoration and super-resolution engine" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/bnb-real-time-timeline" title="bnb-real-time-timeline" description="Real-time timeline web experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/gabut-web-gl-aja" title="gabut-web-gl-aja" description="WebGL experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/bsc-grid-next" title="bsc-grid-next" description="Grid web project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/furcon-compliance-audit" title="furcon-compliance-audit" description="FurCon compliance audit tooling" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Dumper-Metadata" title="Dumper-Metadata" description="Metadata utility" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/JMoF-APK-Forensic-Investigation" title="JMoF-APK-Forensic-Investigation" description="Android APK investigation research" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/JMoF-APK-Forensic-Investigation-Split" title="JMoF-APK-Forensic-Investigation-Split" description="Split APK investigation repository" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/ESP8266-EvilTwin-Forked-" title="ESP8266-EvilTwin-Forked-" description="ESP8266 forked wireless-security research" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/esp8266_deauther" title="esp8266_deauther" description="ESP8266 source/fork" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/hyperai-openrouter-backend" title="hyperai-openrouter-backend" description="HyperAI OpenRouter backend" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/smkn1mandau-replika-rtd" title="smkn1mandau-replika-rtd" description="SMKN 1 Mandau replica / RTD" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/smkn1mandau-site" title="smkn1mandau-site" description="SMKN 1 Mandau website project" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/JMoF-App-Rec" title="JMoF-App-Rec" description="JMoF application research" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/hg-alpine-packages" title="hg-alpine-packages" description="Alpine Linux package collection" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/HG" title="HG" description="HyperGaruda portfolio repository" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/tg-assets" title="tg-assets" description="Project asset repository" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/HG-Plugin-Utils" title="HG-Plugin-Utils" description="Kotlin Aliucord plugin utilities" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/FptnClient-Android-Forked" title="FptnClient-Android-Forked" description="Android client fork" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/FurFinder" title="FurFinder" description="Community and convention discovery" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/Security-Audit-MCP-Ver" title="Security-Audit-MCP-Ver" description="Read-only security audit MCP toolkit" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/github-stats-extended" title="github-stats-extended" description="GitHub statistics generator" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/FORGE-TS" title="FORGE-TS" description="Android network and systems toolkit" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/My-first-site-Anjay" title="My-first-site-Anjay" description="Early personal website experiment" icon="⌘" />
+                  <LinkCard href="https://github.com/Hanzet22/IWAG-replika-rtd" title="IWAG-replika-rtd" description="IWAG policy and replica research" icon="⌘" />
                 </div>
                 <h3 className="subsection-title subsection-spaced">Organization repositories · 4</h3>
                 <p className="panel-intro">These repositories belong to their respective GitHub organizations and are accessible through the account; they are not presented as personally owned repositories.</p>
