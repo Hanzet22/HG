@@ -28,6 +28,8 @@ export interface MorphGlassRendererOptions {
   config?: MorphGlassConfigInput;
   sourceRect?: NormalizedSourceRect;
   onContextLost?: () => void;
+  onContextRestored?: () => void;
+  onError?: (error: Error) => void;
   maxRenderEdge?: number;
 }
 
@@ -223,6 +225,7 @@ export function createMorphGlassRenderer(
   const context = gl as WebGL2RenderingContext;
 
   const maxTextureSize = context.getParameter(context.MAX_TEXTURE_SIZE) as number;
+  const maxViewportDims = context.getParameter(context.MAX_VIEWPORT_DIMS) as Int32Array;
   const requestedMaxEdge = options.maxRenderEdge ?? 2048;
   const maxRenderEdge = Math.max(256, Math.min(
     Number.isFinite(requestedMaxEdge) ? requestedMaxEdge : 2048,
@@ -266,7 +269,7 @@ export function createMorphGlassRenderer(
   const onRestored = (): void => {
     // WebGL object handles are invalid after restoration. The owner must remount the renderer.
     lost = true;
-    options.onContextLost?.();
+    options.onContextRestored?.();
   };
   canvas.addEventListener("webglcontextlost", onLost, false);
   canvas.addEventListener("webglcontextrestored", onRestored, false);
@@ -295,6 +298,10 @@ export function createMorphGlassRenderer(
 
     const dimensions = sourceDimensions(source);
     if (dimensions.width <= 0 || dimensions.height <= 0 || canvas.width <= 0 || canvas.height <= 0) return;
+    if (canvas.width > maxViewportDims[0] || canvas.height > maxViewportDims[1]) {
+      options.onError?.(new Error(`MorphGlass output canvas exceeds WebGL viewport limits (${maxViewportDims[0]}×${maxViewportDims[1]}).`));
+      return;
+    }
 
     const sourceScale = Math.min(1, maxRenderEdge / Math.max(dimensions.width, dimensions.height));
     const sourceWidth = Math.max(1, Math.floor(dimensions.width * sourceScale));
@@ -304,8 +311,13 @@ export function createMorphGlassRenderer(
       staging.height = sourceHeight;
     }
 
-    staging2d.clearRect(0, 0, sourceWidth, sourceHeight);
-    staging2d.drawImage(source, 0, 0, sourceWidth, sourceHeight);
+    try {
+      staging2d.clearRect(0, 0, sourceWidth, sourceHeight);
+      staging2d.drawImage(source, 0, 0, sourceWidth, sourceHeight);
+    } catch (error) {
+      options.onError?.(error instanceof Error ? error : new Error("MorphGlass could not read the supplied source. Check its readiness and CORS permissions."));
+      return;
+    }
 
     if (targetWidth === 0 || targetHeight === 0 ||
         targetWidth !== Math.max(1, Math.floor(sourceWidth * Math.min(config.renderScale, maxRenderEdge / Math.max(sourceWidth, sourceHeight)))) ||
@@ -316,7 +328,12 @@ export function createMorphGlassRenderer(
     context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, 1);
     context.activeTexture(context.TEXTURE0);
     context.bindTexture(context.TEXTURE_2D, sourceTexture);
-    context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, staging);
+    try {
+      context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, staging);
+    } catch (error) {
+      options.onError?.(error instanceof Error ? error : new Error("MorphGlass texture upload failed. The source may be cross-origin without CORS permission."));
+      return;
+    }
 
     context.bindVertexArray(vao);
     context.useProgram(blurProgram);
@@ -324,7 +341,8 @@ export function createMorphGlassRenderer(
     context.uniform2f(context.getUniformLocation(blurProgram, "u_texel"), 1 / sourceWidth, 1 / sourceHeight);
 
     let inputTexture = sourceTexture;
-    const passes = config.quality === "low" ? 1 : config.quality === "high" ? 4 : 3;
+    const passes = config.blur <= 0 ? 0 : config.quality === "low" ? 1 : config.quality === "high" ? 4 : 3;
+    const blurStep = passes > 0 ? Math.max(0.25, config.blur / (passes * 4)) : 0;
     for (let i = 0; i < passes; i += 1) {
       const target = i % 2 === 0 ? targetA : targetB;
       context.bindFramebuffer(context.FRAMEBUFFER, target.framebuffer);
@@ -336,12 +354,12 @@ export function createMorphGlassRenderer(
         1 / (i === 0 ? sourceWidth : targetWidth),
         1 / (i === 0 ? sourceHeight : targetHeight),
       );
-      context.uniform1f(context.getUniformLocation(blurProgram, "u_offset"), 0.8 + i * 0.55);
+      context.uniform1f(context.getUniformLocation(blurProgram, "u_offset"), blurStep + i * blurStep * 0.45);
       context.drawArrays(context.TRIANGLES, 0, 3);
       inputTexture = target.texture;
     }
 
-    const blurredTexture = passes % 2 === 1 ? targetA.texture : targetB.texture;
+    const blurredTexture = passes === 0 ? sourceTexture : passes % 2 === 1 ? targetA.texture : targetB.texture;
     context.bindFramebuffer(context.FRAMEBUFFER, null);
     context.viewport(0, 0, canvas.width, canvas.height);
     context.clearColor(0, 0, 0, 0);
