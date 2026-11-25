@@ -44,7 +44,7 @@ function LinkCard({
 }: LinkCardProps) {
   return (
     <a
-      className="link-card"
+      className="link-card hg-morph-glass"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export default async function Home() {
           </div>
 
           <div className="category-list">
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="01"
                 icon="🌐"
@@ -162,7 +162,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="02"
                 icon="◎"
@@ -211,7 +211,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="03"
                 icon="🎓"
@@ -292,7 +292,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="04"
                 icon="✉️"
@@ -354,7 +354,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="05"
                 icon="⌘"
@@ -374,7 +374,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="06"
                 icon="▧"
@@ -437,7 +437,7 @@ export default async function Home() {
               </div>
             </details>
 
-            <details className="category-card">
+            <details className="category-card hg-morph-glass">
               <CategorySummary
                 number="07"
                 icon="⑂"
