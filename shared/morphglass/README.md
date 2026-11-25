@@ -1,6 +1,6 @@
 # HG MorphGlass
 
-Framework-agnostic glass-surface foundation for the HyperGaruda portfolio ecosystem.
+Framework-agnostic glass rendering engine for the HyperGaruda portfolio ecosystem. The adapted MorphGlass package is licensed under GPL-3.0-only.
 
 ## Status
 
@@ -62,15 +62,16 @@ This CSS-first phase does **not** implement physical refraction or a custom per-
 - Use glass selectively; large overlapping blur layers can be expensive on mobile GPUs.
 - Provide meaningful contrast in the content itself; glass is decorative and must not carry status information by color alone.
 
-## Research and implementation boundary
+## Upstream adaptation and licensing
 
-The design study referenced Mochy Music's public module-glass documentation:
+HG MorphGlass adapts relevant glass rendering subsystems from Mochy Music at pinned commit e6a17d2eb9f48b503fe07e35049cb522b8486db2. File-level provenance, blob SHAs, platform differences, and adaptation notes are recorded in `UPSTREAM_AUDIT.md`.
+
+The package is licensed under GPL-3.0-only. See `LICENSE` and `NOTICE.md` for the license text and attribution.
+
+The upstream design documentation is:
 https://realidkroo.github.io/Mochy-Music/wiki/#modules-glass
 
-Mochy's repository is licensed under GPL-3.0:
-https://github.com/realidkroo/Mochy-Music
-
-HG MorphGlass is an independent, clean-room implementation of general visual principles (blurred backdrop, tint, edge highlight, configurable quality). No Mochy source code, shader text, or assets are copied into this engine. Review the upstream license before considering direct code reuse.
+Upstream source files are adapted under the GPL-3.0-only terms. No Mochy branding, app assets, or Android-specific APIs are included as browser runtime dependencies. Review the upstream license before considering direct code reuse.
 
 ## Integration plan
 
