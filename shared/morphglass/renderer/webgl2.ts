@@ -134,7 +134,7 @@ function sourceDimensions(source: CanvasImageSource): { width: number; height: n
   if (source instanceof HTMLImageElement) {
     return { width: source.naturalWidth, height: source.naturalHeight };
   }
-  if (source instanceof ImageBitmap) {
+  if (typeof ImageBitmap !== "undefined" && source instanceof ImageBitmap) {
     return { width: source.width, height: source.height };
   }
   if (source instanceof HTMLCanvasElement || (typeof OffscreenCanvas !== "undefined" && source instanceof OffscreenCanvas)) {
@@ -197,10 +197,12 @@ function makeTarget(gl: WebGL2RenderingContext): {
 }
 
 function normalizeRect(rect: NormalizedSourceRect): NormalizedSourceRect {
-  const x = Math.min(1, Math.max(0, rect.x));
-  const y = Math.min(1, Math.max(0, rect.y));
-  const width = Math.min(1 - x, Math.max(0.001, rect.width));
-  const height = Math.min(1 - y, Math.max(0.001, rect.height));
+  const x = Number.isFinite(rect.x) ? Math.min(1, Math.max(0, rect.x)) : 0;
+  const y = Number.isFinite(rect.y) ? Math.min(1, Math.max(0, rect.y)) : 0;
+  const rawWidth = Number.isFinite(rect.width) ? rect.width : 1;
+  const rawHeight = Number.isFinite(rect.height) ? rect.height : 1;
+  const width = Math.min(1 - x, Math.max(0.001, rawWidth));
+  const height = Math.min(1 - y, Math.max(0.001, rawHeight));
   return { x, y, width, height };
 }
 
@@ -219,7 +221,11 @@ export function createMorphGlassRenderer(
   if (!gl) throw new Error("MorphGlass requires WebGL2; keep the CSS fallback available.");
 
   const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
-  const maxRenderEdge = Math.min(options.maxRenderEdge ?? 2048, maxTextureSize);
+  const requestedMaxEdge = options.maxRenderEdge ?? 2048;
+  const maxRenderEdge = Math.max(256, Math.min(
+    Number.isFinite(requestedMaxEdge) ? requestedMaxEdge : 2048,
+    maxTextureSize,
+  ));
   const blurProgram = createProgram(gl, BLUR_SHADER);
   const compositeProgram = createProgram(gl, COMPOSITE_SHADER);
   const vao = gl.createVertexArray();
@@ -285,7 +291,7 @@ export function createMorphGlassRenderer(
     if (nextRect) rect = normalizeRect(nextRect);
 
     const dimensions = sourceDimensions(source);
-    if (dimensions.width <= 0 || dimensions.height <= 0) return;
+    if (dimensions.width <= 0 || dimensions.height <= 0 || canvas.width <= 0 || canvas.height <= 0) return;
 
     const sourceScale = Math.min(1, maxRenderEdge / Math.max(dimensions.width, dimensions.height));
     const sourceWidth = Math.max(1, Math.floor(dimensions.width * sourceScale));
@@ -372,7 +378,7 @@ export function createMorphGlassRenderer(
   }
 
   function setConfig(input: MorphGlassConfigInput): void {
-    config = normalizeMorphGlassConfig(input);
+    config = normalizeMorphGlassConfig({ ...config, ...input });
     targetWidth = 0;
     targetHeight = 0;
   }
