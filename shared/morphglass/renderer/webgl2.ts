@@ -220,7 +220,7 @@ export function createMorphGlassRenderer(
   });
   if (!gl) throw new Error("MorphGlass requires WebGL2; keep the CSS fallback available.");
   // Keep a non-null context alias for nested renderer callbacks.
-  const context = context as WebGL2RenderingContext;
+  const context = gl as WebGL2RenderingContext;
 
   const maxTextureSize = context.getParameter(context.MAX_TEXTURE_SIZE) as number;
   const requestedMaxEdge = options.maxRenderEdge ?? 2048;
