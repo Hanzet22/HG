@@ -124,7 +124,7 @@ void main() {
   base += u_edge.rgb * (edgeBand * u_rimStrength + rim * u_rimStrength * 0.45);
   base += vec3(sheen) * 0.18;
   float alpha = max(u_tint.a, sharp.a) * coverage;
-  outColor = vec4(clamp(base, 0.0, 1.0), alpha);
+  outColor = vec4(clamp(base, 0.0, 1.0) * alpha, alpha);
 }`;
 
 function sourceDimensions(source: CanvasImageSource): { width: number; height: number } {
