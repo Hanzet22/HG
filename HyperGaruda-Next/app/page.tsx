@@ -127,7 +127,7 @@ export default async function Home() {
               <p className="eyebrow">EXPLORE MY CORNER OF THE INTERNET</p>
               <h2 id="links-heading">Find your way.</h2>
             </div>
-            <span className="section-count">08 CATEGORIES</span>
+            <span className="section-count">09 CATEGORIES</span>
           </div>
 
           <div className="category-list">
@@ -599,6 +599,45 @@ export default async function Home() {
             </details>
           </div>
         </section>
+
+            <details className="category-card hg-morph-glass">
+              <CategorySummary
+                number="09"
+                icon="＋"
+                title="Join & Contribute"
+                description="Help develop VRTc or report issues in the SMKN 1 Mandau replica"
+              />
+              <div className="category-panel">
+                <p className="panel-intro">
+                  Choose the contribution path that matches the project. Joining does not automatically grant repository write access; use the public contribution workflow and follow maintainer review.
+                </p>
+                <div className="link-list">
+                  <LinkCard
+                    href="https://github.com/VRTcTeam/VRTc-SDK"
+                    title="Join VRTc Development"
+                    description="Explore the SDK, review its roadmap and contribute through issues, forks, and pull requests."
+                    icon="⌘"
+                    badge="DEVELOPMENT"
+                  />
+                  <LinkCard
+                    href="https://github.com/VRTcTeam/VRTc-SDK/issues"
+                    title="VRTc Issues"
+                    description="Discuss bugs, implementation gaps, and proposed development work."
+                    icon="!"
+                  />
+                  <LinkCard
+                    href="https://github.com/TKJ-Team-SMKN1/smkn1mandau-replika-rtd/issues/new"
+                    title="Report an Issue — SMKN 1 Mandau Replica"
+                    description="Report bugs, broken links, accessibility problems, or UI/UX issues in the independent replica."
+                    icon="!"
+                    badge="ISSUE REPORT"
+                  />
+                </div>
+                <p className="panel-intro">
+                  The SMKN 1 Mandau project is an independent replica concept, not the official school website and not a representative channel for the school. Do not submit students' personal information in issue reports.
+                </p>
+              </div>
+            </details>
 
         <section aria-labelledby="system-heading" className="system-card">
           <div className="system-card-heading">
