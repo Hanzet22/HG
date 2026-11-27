@@ -6,7 +6,7 @@ This document tracks known third-party works referenced by the **entire HyperGar
 
 ## Known Third-Party Media
 
-The entries below are a working inventory, not a guarantee that every detail or current deployment location has been independently verified. The specific on-site page/path and direct Catbox asset URL were not recorded in the current inventory; add them when confirmed.
+The entries below are a working inventory, not a guarantee that every detail or current deployment location has been independently verified. Some page-to-asset placements have since been confirmed and are listed below; the identity of a hosted file must still be matched to its original work before treating the association as verified.
 
 ### 1. FurryGintan — X post/video
 
@@ -38,8 +38,18 @@ The entries below are a working inventory, not a guarantee that every detail or 
 - **Creator/channel:** Hood VO
 - **Title shown/provided:** `Hoodbob Employee of the Month - Spongebob In The Hood (#15)`
 - **Original source:** https://youtu.be/LWKIFtzgZew
-- **Reported portfolio use:** A copy has been described as hosted through Catbox; exact asset URL and page/path are not recorded here.
+- **Reported portfolio use:** User-confirmed placement on `403.html`: `https://files.catbox.moe/vxiws3.mp4` (confirmed 2026-10-15). The page label references Hoodbob, consistent with this entry, but the hosted file has not been independently compared with the original YouTube source.
 - **License/permission status:** Not verified/documented
+
+
+## Confirmed page-to-asset placements (identity caveats)
+
+These mappings record the page and Catbox URL explicitly supplied by the maintainer. They do not by themselves identify the original creator/work or establish reuse permission.
+
+- **Astro `404.html`** → `https://files.catbox.moe/uga9i3.mp4` (user-confirmed 2026-10-15). The original work represented by this file has not been matched to one of the four source entries above.
+- **Astro `403.html`** → `https://files.catbox.moe/vxiws3.mp4` (user-confirmed 2026-10-15). The page's Hoodbob label is consistent with the Hood VO entry, but source-file identity has not been independently verified.
+
+The Catbox asset and page mapping for Jvan's YouTube short, Kongfu Furry, and the Japanese-titled FurDance video remain unresolved. Do not infer those mappings from filenames, page captions, or the order of the media players.
 
 ## Ownership and Reuse Guidelines
 
