@@ -1,6 +1,17 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
+function relativeLuminance(hex) {
+  const channels = [1, 3, 5].map(offset => parseInt(hex.slice(offset, offset + 2), 16) / 255);
+  const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+}
+
+function contrastRatio(first, second) {
+  const values = [relativeLuminance(first), relativeLuminance(second)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
 const script = readFileSync("Script.js", "utf8");
 const css = readFileSync("Style.css", "utf8");
 const router = readFileSync("src/lib/legacy-assets.ts", "utf8");
@@ -23,6 +34,12 @@ assert.match(css, /\.response-speed\.super-slow \.status-dot/, "Super-slow statu
 assert.match(css, /\.response-speed\.super-fast \.status-dot/, "Super-fast status must have a non-color shape");
 assert.match(css, /main p a:not\(\.button\):not\(\.btn-primary\)/, "Inline content links must have non-color distinction");
 assert.match(css, /\.hg-cvd-dialog button:focus-visible/, "Dialog controls must have visible focus styles");
+
+assert.ok(contrastRatio("#d0d0d8", "#12121a") >= 4.5, "Dialog body text must meet WCAG AA normal-text contrast");
+assert.ok(contrastRatio("#c5c5ce", "#12121a") >= 4.5, "Dialog hint text must meet WCAG AA normal-text contrast");
+assert.ok(contrastRatio("#c0a020", "#12121a") >= 3, "Dialog focus indicator token must meet WCAG non-text contrast");
+assert.ok(contrastRatio("#ffffff", "#cc2200") >= 4.5, "Primary dialog button text must meet WCAG AA normal-text contrast");
+
 assert.match(css, /\.hg-cvd-dialog,\s*\.hg-cvd-dialog \*\s*\{\s*box-sizing:\s*border-box;/, "Dialog sizing must include padding and borders to prevent narrow-screen overflow");
 assert.match(css, /\.hg-cvd-dialog\s*\{[^}]*overscroll-behavior:\s*contain/s, "Dialog scrolling must remain contained");
 assert.match(css, /\.hg-cvd-check\s*\{[^}]*min-height:\s*24px/s, "Checkbox label target must meet WCAG 2.5.8 minimum");
