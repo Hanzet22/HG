@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { chromium } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
 const baseUrl = process.env.CVD_TEST_BASE_URL ?? "http://127.0.0.1:4321";
@@ -10,9 +10,12 @@ const routes = [
 ];
 const results = [];
 const record = (name, details = {}) => results.push({ name, ...details });
-const launchOptions = { headless: true, args: ["--no-sandbox"] };
-if (process.env.CVD_CHROMIUM_EXECUTABLE) launchOptions.executablePath = process.env.CVD_CHROMIUM_EXECUTABLE;
-const browser = await chromium.launch(launchOptions);
+const browserName = process.env.CVD_BROWSER_ENGINE ?? "chromium";
+const engines = { chromium, firefox, webkit };
+assert.ok(engines[browserName], "CVD_BROWSER_ENGINE must be chromium, firefox, or webkit");
+const launchOptions = { headless: true, args: browserName === "chromium" ? ["--no-sandbox"] : [] };
+if (browserName === "chromium" && process.env.CVD_CHROMIUM_EXECUTABLE) launchOptions.executablePath = process.env.CVD_CHROMIUM_EXECUTABLE;
+const browser = await engines[browserName].launch(launchOptions);
 
 try {
   for (const route of routes) {
@@ -154,20 +157,24 @@ try {
   record("storage-disabled fallback", { profile: "p08", pageErrors: blockedErrors.length });
   await blockedContext.close();
 
-  const mobileContext = await browser.newContext({
-    viewport: { width: 360, height: 780 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
-  });
-  const mobilePage = await mobileContext.newPage();
-  await mobilePage.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
-  await mobilePage.locator("#hg-cvd-launcher").tap();
-  const mobileDialog = mobilePage.locator("#hg-cvd-dialog");
-  const mobileTarget = await mobileDialog.locator("#hg-cvd-boundaries").boundingBox();
-  assert.ok(await mobileDialog.isVisible(), "Touch must open the dialog");
-  assert.ok(mobileTarget && mobileTarget.width >= 24 && mobileTarget.height >= 24, "Mobile checkbox target must meet 24x24 CSS pixels");
-  await mobileDialog.locator("#hg-cvd-profile").selectOption("p07");
-  assert.equal(await mobilePage.evaluate(() => document.documentElement.dataset.hgCvdProfile), "p07");
-  record("mobile touch emulation", { checkboxTarget: mobileTarget });
-  await mobileContext.close();
+  if (browserName === "firefox") {
+    record("mobile touch emulation", { skipped: "Playwright Firefox does not expose mobile viewport emulation" });
+  } else {
+    const mobileContext = await browser.newContext({
+      viewport: { width: 360, height: 780 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true,
+    });
+    const mobilePage = await mobileContext.newPage();
+    await mobilePage.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
+    await mobilePage.locator("#hg-cvd-launcher").tap();
+    const mobileDialog = mobilePage.locator("#hg-cvd-dialog");
+    const mobileTarget = await mobileDialog.locator("#hg-cvd-boundaries").boundingBox();
+    assert.ok(await mobileDialog.isVisible(), "Touch must open the dialog");
+    assert.ok(mobileTarget && mobileTarget.width >= 24 && mobileTarget.height >= 24, "Mobile checkbox target must meet 24x24 CSS pixels");
+    await mobileDialog.locator("#hg-cvd-profile").selectOption("p07");
+    assert.equal(await mobilePage.evaluate(() => document.documentElement.dataset.hgCvdProfile), "p07");
+    record("mobile touch emulation", { checkboxTarget: mobileTarget });
+    await mobileContext.close();
+  }
 
   const reducedContext = await browser.newContext({ viewport: { width: 360, height: 780 } });
   const reducedPage = await reducedContext.newPage();
@@ -182,7 +189,8 @@ try {
   record("reduced motion", motion);
   await reducedContext.close();
 
-  console.log(JSON.stringify({ total: results.length, passed: results.length, failed: 0, results }, null, 2));
+  const skipped = results.filter((result) => result.skipped).length;
+  console.log(JSON.stringify({ engine: browserName, total: results.length, passed: results.length - skipped, skipped, failed: 0, results }, null, 2));
 } finally {
   await browser.close();
 }
