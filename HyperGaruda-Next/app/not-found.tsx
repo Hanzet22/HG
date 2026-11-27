@@ -42,7 +42,7 @@ export default function NotFound() {
           ← Return to Bio Link
         </Link>
 
-        <p className="mt-10 text-[10px] tracking-[0.2em] text-slate-600">
+        <p className="mt-10 text-[10px] tracking-[0.2em] text-[#74839b]">
           HYPERGARUDA · HTTP ERROR ARCHIVE
         </p>
       </section>
