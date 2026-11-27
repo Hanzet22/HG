@@ -367,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 #hg-back-to-top {
                     right: 14px;
-                    bottom: 14px;
+                    /* Preserve clearance above the fixed Netlify badge on mobile too. */
                     width: 42px;
                     height: 42px;
                 }
