@@ -3523,3 +3523,69 @@ html[data-hg-cvd-strength="stronger"] .response-speed .status-dot {
         transition: none !important;
     }
 }
+
+/* Windows High Contrast / forced-colors support */
+@media (forced-colors: active) {
+    .hg-cvd-launcher,
+    .hg-cvd-dialog,
+    .hg-cvd-dialog * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    .hg-cvd-launcher {
+        border: 1px solid ButtonText;
+        background: ButtonFace;
+        color: ButtonText;
+        forced-color-adjust: auto;
+    }
+
+    .hg-cvd-launcher-icon {
+        border-color: ButtonText;
+        color: ButtonText;
+    }
+
+    .hg-cvd-dialog {
+        color-scheme: light;
+        border: 1px solid CanvasText;
+        background: Canvas;
+        color: CanvasText;
+        forced-color-adjust: auto;
+    }
+
+    .hg-cvd-dialog :is(
+        .hg-cvd-eyebrow, h2, .hg-cvd-description, .hg-cvd-hint,
+        .hg-cvd-privacy, .hg-cvd-live, .hg-cvd-field > label,
+        .hg-cvd-options legend, .hg-cvd-check
+    ) {
+        color: CanvasText !important;
+    }
+
+    .hg-cvd-dialog select {
+        border: 1px solid FieldText;
+        background: Field;
+        color: FieldText;
+    }
+
+    .hg-cvd-dialog button {
+        border: 1px solid ButtonText !important;
+        background: ButtonFace !important;
+        color: ButtonText !important;
+    }
+
+    .hg-cvd-dialog :is(button, select, input):focus-visible,
+    .hg-cvd-launcher:focus-visible {
+        outline: 3px solid Highlight !important;
+        outline-offset: 3px;
+    }
+
+    .hg-cvd-privacy {
+        border-left-color: Highlight;
+        background: Canvas;
+    }
+
+    .hg-cvd-dialog::backdrop {
+        background: Canvas;
+        opacity: 0.72;
+    }
+}
