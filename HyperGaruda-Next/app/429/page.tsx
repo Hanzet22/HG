@@ -43,11 +43,11 @@ export default function TooManyRequestsPage() {
           </div>
 
           <div className="space-y-3 px-4 py-5 sm:px-5">
-            <p className="text-base font-black leading-7 text-rose-200 sm:text-lg">
+            <p lang="id" className="text-base font-black leading-7 text-rose-200 sm:text-lg">
               BLUD NGAPAIN DODOS WEB GW AJG AWOKAWOKAWOK 💀
             </p>
 
-            <p className="text-sm leading-7 text-slate-300">
+            <p lang="id" className="text-sm leading-7 text-slate-300">
               Nah daripada ngedodos web gw mending nonton nih
               Dancer Furries dari Production TAIIKUKAN bersama
               Bro Gintan AWOKAWOKAWOK 🪲🪲🪲🪲🪲🪲🪲
@@ -97,7 +97,7 @@ export default function TooManyRequestsPage() {
             href="/"
             className="inline-flex rounded-xl border border-rose-300/30 bg-rose-300/10 px-6 py-3 text-sm font-bold text-rose-200 transition hover:bg-rose-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-300"
           >
-            ← Balik ke Bio Link
+            <span lang="id">← Balik ke Bio Link</span>
           </Link>
         </div>
 
