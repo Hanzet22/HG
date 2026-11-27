@@ -412,6 +412,14 @@ document.addEventListener("DOMContentLoaded", () => {
         setupSkipLink(navbar);
 
         links.forEach(link => {
+            // The Dynamic Hub placeholder is an external companion link, not
+            // a route in this site. Never expose it as the current page.
+            if (link.id === "dynamic-hub-link") {
+                link.removeAttribute("aria-current");
+                link.classList.remove("hg-current-link");
+                return;
+            }
+
             let target;
 
             try {
@@ -1041,6 +1049,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     link.href = target.href;
+    link.removeAttribute("aria-current");
+    link.classList.remove("hg-current-link");
     link.hidden = false;
   } catch (error) {
     console.error("Dynamic Hub connection unavailable:", error);
