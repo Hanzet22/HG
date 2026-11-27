@@ -140,3 +140,15 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Martins, Pereira, and Duarte (2024), [QualState: Finding Website States for Accessibility Evaluation](https://doi.org/10.1145/3677846.3677851), describes how interaction-dependent states in single-page applications can be missed when evaluation tools inspect only the initial DOM. This supports testing expanded/collapsed and other meaningful UI states; it is research evidence, not a WCAG requirement.
 - Fliti et al. (2026), [Flow-A11y: Flow-Aware Accessibility Testing](https://doi.org/10.48550/arXiv.2607.03100), evaluates runtime traces across 45 dynamic WCAG checks and 17 completed public-site scenarios. The reported pipeline reached 45.6% exact status accuracy, 41.4% failure precision, and 38.7% failure recall, with 39.7% of rows marked incomplete; the study did not test screen-reader/assistive-technology combinations. Treat it as evidence for flow-based testing and evidence-gated uncertainty—not as proof that an automated agent can certify conformance.
 - Kalantari, Bagale, and Motti (2025), [Designing assistive technologies for and with neurodivergent users: considerations from research practice](https://doi.org/10.1093/iwc/iwaf037).
+
+
+## CVD follow-up hardening — 2026-11-27
+
+- Active engineering branch: `cvd-a11y-hardening` (based on `portfolio-setup`). This work is not yet merged into the production branch.
+- Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs JavaScript syntax validation, the CVD source audit, Astro checks, and an Astro build. It does not invoke Netlify or deploy artifacts.
+- Dialog geometry now uses border-box sizing to prevent its declared viewport width from overflowing after padding and borders are added. Dialog scrolling is contained.
+- Checkbox controls now have 24 × 24 CSS-pixel input targets and a 24-pixel minimum label hit-area height, aligning with WCAG 2.2 SC 2.5.8 without relying on a spacing exception.
+- WCAG mapping now includes SC 2.4.11 (Focus Not Obscured) and SC 2.5.8 (Target Size Minimum), in addition to the existing color, contrast, and focus criteria.
+- Additional research records the limitations of small single-page CVD user surveys and the distinction between simulation-based screening and validation with people who have CVD.
+- Deployment remains intentionally paused. The latest published Netlify deployment has not been changed by this branch.
+
