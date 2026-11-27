@@ -14,7 +14,8 @@
     "build:astro": "astro build",
     "build:next": "npm run build --workspace=hypergaruda-next",
     "check": "astro check",
-    "check:next": "npm run lint --workspace=hypergaruda-next"
+    "check:next": "npm run lint --workspace=hypergaruda-next",
+    "test:cvd:browser": "node scripts/test-cvd-browser.mjs"
   },
   "dependencies": {
     "@astrojs/check": "latest",
@@ -23,7 +24,9 @@
     "typescript": "latest"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "playwright": "^1.65.1",
     "postcss": "^8.5.30",
     "tailwindcss": "^4.3.3"
   },
