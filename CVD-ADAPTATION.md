@@ -113,3 +113,14 @@ This regression pass found and fixed two additional issues:
 - A dialog opened at one viewport size could retain stale vw/vh dimensions after a live resize. Its sizing now uses a responsive width: auto with percentage-based max-width and max-height, so the dialog recalculates after viewport changes.
 
 These are automated Chromium/axe results, not physical-device testing, screen-reader certification, cross-browser certification, or user testing with people who have CVD. The site is not being represented as WCAG-conformant solely on the basis of these checks.
+
+
+### Biomedical literature cross-check
+
+The biomedical literature was checked separately from the HCI/web-accessibility studies. These sources concern optical or image-level aids, not website controls, so they inform the limits of claims rather than directly validating this interface:
+
+- Álvaro et al. (2022) tested 20 colour-vision-normal and 16 red–green CVD adults across clinical tests, colour discrimination, colour naming and sorting. A Variantor filter could simulate a protan-like pattern in the normal-vision group, but EnChroma did not significantly improve overall CVD performance across the task set; some hue-specific changes were mixed and task-dependent. This is evidence against claiming that a single general filter restores colour vision, not a direct test of web UI recolouring. DOI: https://doi.org/10.1038/s41598-022-13877-9
+- Male et al. (2022) reviewed 16 heterogeneous reports of optical, electronic and prototype aids. Most evidence was low certainty, four reports were moderate certainty, and the review concluded that commercially available devices did not have clinically significant evidence of improved subjective colour perception. The included studies were not a systematic evaluation of website accessibility features. DOI: https://doi.org/10.1002/hsr2.842
+- Lin et al. (2025), ColorAssist, introduces a CVD-individual-labelled image dataset and a perception-guided recolouring model; the PubMed abstract reports subjective testing in hospitals. The full PDF was not available in the research workspace during this pass. This is image-recolouring research, not evidence that static CSS profiles or a global website filter work. DOI: https://doi.org/10.1109/TIP.2025.3602643
+
+The biomedical and HCI evidence point to the same conservative product boundary: keep controls optional, avoid universal correction claims, and do not equate image recolouring or optical-filter results with web-interface usability.
