@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!navbar || !navLinks) return;
 
-        const links = $("a[href]", navLinks);
+        const links = $$("a[href]", navLinks);
         const currentPath = normalizePath(location.pathname);
         setupSkipLink(navbar);
 
@@ -887,7 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ----------------------------------------------------- */
 
     function setupMorphGlass() {
-        const surfaces = $(".hg-morph-glass");
+        const surfaces = $$(".hg-morph-glass");
 
         if (
             surfaces.length === 0 ||
