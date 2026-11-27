@@ -48,6 +48,31 @@ try {
     await reflowContext.close();
   }
 
+  const statusPages = [
+    { route: "/projects.html", selector: ".project-status" },
+    { route: "/socialmedia.html", selector: ".social-status" },
+    { route: "/contact.html", selector: ".response-speed" },
+  ];
+  for (const item of statusPages) {
+    const statusContext = await browser.newContext({ viewport: { width: 900, height: 760 }, reducedMotion: "reduce" });
+    const statusPage = await statusContext.newPage();
+    await statusPage.goto(new URL(item.route, baseUrl).toString(), { waitUntil: "domcontentloaded" });
+    const statuses = statusPage.locator(item.selector);
+    const count = await statuses.count();
+    assert.ok(count > 0, item.route + " must expose status information");
+    for (let index = 0; index < count; index += 1) {
+      const status = statuses.nth(index);
+      assert.equal(await status.getAttribute("data-cvd-text-status"), "true", item.route + " status must be marked for redundant text support");
+      assert.ok((await status.innerText()).trim().length > 0, item.route + " status must retain a visible text label");
+      const dots = status.locator(".status-dot");
+      for (let dotIndex = 0; dotIndex < await dots.count(); dotIndex += 1) {
+        assert.equal(await dots.nth(dotIndex).getAttribute("aria-hidden"), "true", "Decorative status shapes must be hidden from assistive technology");
+      }
+    }
+    record("redundant status labels " + item.route, { count, textLabels: true, decorativeShapesHidden: true });
+    await statusContext.close();
+  }
+
   const context = await browser.newContext({ viewport: { width: 320, height: 700 }, reducedMotion: "reduce" });
   const page = await context.newPage();
   const pageErrors = [];

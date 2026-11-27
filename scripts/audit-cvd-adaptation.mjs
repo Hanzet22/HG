@@ -28,6 +28,8 @@ assert.match(cvdBlock, /localStorage/, "Preferences must persist locally");
 assert.doesNotMatch(cvdBlock, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/, "CVD preference code must not transmit preference data");
 assert.match(cvdBlock, /showModal/, "Dialog should use native modal behavior where supported");
 assert.match(cvdBlock, /aria-live="polite"/, "Profile changes should be announced");
+assert.match(cvdBlock, /\.response-speed, \.project-status, \.social-status/, "Status components must be identified for redundant text support");
+assert.match(cvdBlock, /dot\.setAttribute\("aria-hidden", "true"\)/, "Decorative status shapes must be hidden from assistive technology");
 assert.doesNotMatch(cvdBlock, /launcher\.setAttribute\("aria-label"/, "Launcher accessible name should come from its visible text label");
 
 assert.match(css, /\.response-speed\.slow \.status-dot/, "Slow status must have a non-color shape");

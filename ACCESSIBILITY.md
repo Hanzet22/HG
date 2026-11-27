@@ -170,7 +170,7 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - Cross-browser checks covered all 12 canonical routes and the open dialog with zero axe violations in Chromium, Firefox, and WebKit. Firefox mobile viewport emulation is skipped because Playwright Firefox does not support that mode; touch/mobile emulation is tested in Chromium and WebKit.
 
-- The three-engine suite now also asserts 320px reflow on all 12 routes (no horizontal overflow), a visible 3px keyboard-focus outline, and an unobscured focused control. Per-engine results in the expanded suite: Chromium 43/43, WebKit 43/43, Firefox 42 passed plus one unsupported mobile-emulation case skipped; all three had zero axe violations across all routes and the open dialog.
+- The three-engine suite now also asserts that 20 project, one social and six response-speed status components retain visible text labels, are marked for redundant text support, and hide decorative dots from assistive technology. It also checks 320px reflow on all 12 routes (no horizontal overflow), a visible 3px keyboard-focus outline, and an unobscured focused control. Latest local results: Chromium 46/46, WebKit 46/46, Firefox 45 passed plus one unsupported mobile-emulation case skipped; all three had zero axe violations across all routes and the open dialog.
 
 - Earlier GitHub Actions result: run 46080898780 passed all 14 validation steps with the 31-group Chromium/Firefox/WebKit suite. The expanded 43-group suite and profile-state assertions subsequently passed all 14 steps in run 46082600617 on commit f56d19c31e2e92d184612d96942cc87685ece939; no deployment step is present.
 
@@ -189,3 +189,6 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - The profile regression also verifies that every selection updates the polite live region and that P01–P06 explicitly state they are not diagnoses; axe scans cover representative baseline, preset, low-chroma, high-distinction and personal-calibration states.
 
 - Documentation finalization CI: run 46083005616 passed all 14 steps on commit 48d76874ac8399e87130327e5c97f66ab186200e. The final branch-ahead count in this guide includes one subsequent documentation-only correction commit.
+
+- Research update (2026-11-28): added the CHI 2022 direct CVD-participant colour-pattern study (29 CVD participants + 29 controls; three task types with aid-specific outcomes) and clarified the 2025 web-colour-scheme study composition (18 male CVD participants: 10 deutan, 5 protan, 3 tritan; one page only). These studies support task-specific redundant cues and individual evaluation, not blanket pattern overlays or a universal color scheme.
+- 2026 local regression expansion adds runtime checks for 27 status components across Projects, Social Media and Contact. CI is pending for this expansion; previous CI run 46083274778 passed the earlier 43-group suite and all 14 quality/build steps.
