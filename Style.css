@@ -1699,7 +1699,7 @@ main {
 
 .social-card > a {
     display: inline-flex;
-    min-height: 24px;
+    min-height: 26px;
     align-items: center;
     padding-block: 4px;
     gap: 8px;
@@ -3412,7 +3412,7 @@ main p a:not(.button):not(.btn-primary) {
 
 .hg-cvd-check {
     display: flex;
-    min-height: 24px;
+    min-height: 26px;
     align-items: center;
     gap: 10px;
     color: #f0f0f4;
@@ -3422,9 +3422,9 @@ main p a:not(.button):not(.btn-primary) {
 }
 
 .hg-cvd-check input {
-    width: 24px;
-    height: 24px;
-    flex: 0 0 24px;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
     margin: 0;
     accent-color: var(--accent-text);
 }
