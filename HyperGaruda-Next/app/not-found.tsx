@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Page not found" };
 
 export default function NotFound() {
   return (
-      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-5 py-12 text-[#edf4ff]">
+      <main id="main-content" tabIndex={-1} className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-5 py-12 text-[#edf4ff]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,#15364b_0%,transparent_55%)]"
