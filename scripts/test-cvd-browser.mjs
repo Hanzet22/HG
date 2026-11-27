@@ -32,6 +32,16 @@ try {
     assert.equal(axe.violations.length, 0, route + " has axe violations: " + axe.violations.map((item) => item.id).join(", "));
     record("route " + route, { status: response.status(), axeViolations: axe.violations.length });
     await context.close();
+
+    const reflowContext = await browser.newContext({ viewport: { width: 320, height: 780 }, reducedMotion: "reduce" });
+    const reflowPage = await reflowContext.newPage();
+    await reflowPage.goto(new URL(route, baseUrl).toString(), { waitUntil: "domcontentloaded" });
+    const reflow = await reflowPage.evaluate(() => ({ viewport: innerWidth, documentWidth: document.documentElement.scrollWidth }));
+    assert.ok(reflow.documentWidth <= reflow.viewport, route + " must reflow at 320 CSS pixels without horizontal overflow");
+    const reflowAxe = await new AxeBuilder({ page: reflowPage }).analyze();
+    assert.equal(reflowAxe.violations.length, 0, route + " has 320px axe violations: " + reflowAxe.violations.map((item) => item.id).join(", "));
+    record("reflow " + route, { ...reflow, axeViolations: reflowAxe.violations.length });
+    await reflowContext.close();
   }
 
   const context = await browser.newContext({ viewport: { width: 320, height: 700 }, reducedMotion: "reduce" });
@@ -40,7 +50,8 @@ try {
   page.on("pageerror", (error) => pageErrors.push(error.message));
   await page.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
   const launcher = page.locator("#hg-cvd-launcher");
-  await launcher.click();
+  await launcher.focus();
+  await page.keyboard.press("Enter");
   const dialog = page.locator("#hg-cvd-dialog");
   await dialog.waitFor({ state: "visible" });
 
@@ -54,6 +65,17 @@ try {
   const checkboxBox = await dialog.locator("#hg-cvd-boundaries").boundingBox();
   assert.ok(checkboxBox && checkboxBox.width >= 24 && checkboxBox.height >= 24, "Checkbox target must be at least 24x24 CSS pixels");
   assert.ok(await dialog.evaluate((element) => element.contains(document.activeElement)), "Focus must enter the dialog");
+  const focusedState = await page.evaluate(() => {
+    const element = document.activeElement;
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    const dialogRect = document.querySelector("#hg-cvd-dialog").getBoundingClientRect();
+    return { outlineStyle: style.outlineStyle, outlineWidth: style.outlineWidth, top: rect.top, bottom: rect.bottom, dialogTop: dialogRect.top, dialogBottom: dialogRect.bottom };
+  });
+  assert.equal(focusedState.outlineStyle, "solid", "Keyboard focus must have a visible outline");
+  assert.ok(Number.parseFloat(focusedState.outlineWidth) >= 3, "Keyboard focus outline must be at least 3px");
+  assert.ok(focusedState.top >= focusedState.dialogTop && focusedState.bottom <= focusedState.dialogBottom, "Focused control must not be obscured by the dialog viewport");
+  record("visible and unobscured keyboard focus", focusedState);
   assert.equal(await dialog.locator("#hg-cvd-profile option").count(), 10, "All ten profiles must be available");
 
   await page.keyboard.press("Tab");
