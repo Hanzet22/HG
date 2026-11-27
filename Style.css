@@ -11,7 +11,8 @@
   --bg-secondary: #12121a;
   --text-primary: #f5f5f7;
   --text-secondary: #a1a1aa;
-  --accent: #cc2200;\n  --accent-text: #ff927d;
+  --accent: #cc2200;
+  --accent-text: #ff927d;
   --accent-blue: #003580;
   --accent-gold: #c0a020;
 }
@@ -121,6 +122,27 @@ main {
 /* =================================
    NAVBAR — HYPERGARUDA
    ================================= */
+
+/* Keyboard-accessible skip navigation (works without JavaScript). */
+.hg-skip-link {
+  position: absolute;
+  z-index: 10001;
+  top: 12px;
+  left: -10000px;
+  padding: 12px 16px;
+  border: 2px solid var(--accent-gold);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.hg-skip-link:focus {
+  position: fixed;
+  left: 12px;
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 3px;
+}
 
 .site-header {
   width: 100%;
