@@ -1075,7 +1075,6 @@ document.addEventListener("DOMContentLoaded", () => {
         launcher.className = "hg-cvd-launcher";
         launcher.setAttribute("aria-haspopup", "dialog");
         launcher.setAttribute("aria-controls", "hg-cvd-dialog");
-        launcher.setAttribute("aria-label", "Open color vision and display support settings");
         launcher.innerHTML = '<span class="hg-cvd-launcher-icon" aria-hidden="true">Aa</span><span>Display support</span>';
 
         const dialog = document.createElement("dialog");
