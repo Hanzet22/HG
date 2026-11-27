@@ -1,10 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Too many requests" };
 
 const videoUrl = "https://files.catbox.moe/vz0vsb.mp4";
 
 export default function TooManyRequestsPage() {
   return (
-    <title>429 — Too Many Requests | HyperGaruda</title>
       <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-4 py-10 text-[#edf4ff]">
       <div
         aria-hidden="true"
