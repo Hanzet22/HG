@@ -46,8 +46,8 @@ export default function AnimationModeToggle() {
       aria-pressed={enabled}
       aria-label={
         enabled
-          ? "Disable advanced animations"
-          : "Enable advanced animations; may cause lag on slower devices"
+          ? "LAG MODE: ON — Disable advanced animations"
+          : "ADV FX: OFF — Enable advanced animations; may cause lag on slower devices"
       }
       title={
         enabled
