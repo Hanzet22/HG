@@ -57,6 +57,10 @@ for (const path of imports) {
   assert.match(html, /href=["']Style\.css["']/, path + " must load the shared stylesheet");
 }
 assert.match(guide, /not a medical tool/i, "Documentation must state that profiles are non-diagnostic");
+const workflow = readFileSync(".github/workflows/cvd-accessibility.yml", "utf8");
+assert.match(workflow, /playwright install --with-deps chromium firefox webkit/, "CI must install all supported browser engines");
+assert.match(workflow, /for engine in chromium firefox webkit/, "CI must execute the regression suite in all supported engines");
+assert.doesNotMatch(workflow, /netlify deploy(?:\\s|$)/i, "Accessibility validation workflow must never deploy to Netlify");
 assert.match(guide, /WCAG 2\.2 mapping/, "Documentation must map relevant WCAG criteria");
 
 assert.ok(script.includes('const surfaces = $$(".hg-morph-glass");'), "MorphGlass surfaces must be collected as a NodeList");
