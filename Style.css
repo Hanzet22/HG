@@ -11,7 +11,7 @@
   --bg-secondary: #12121a;
   --text-primary: #f5f5f7;
   --text-secondary: #a1a1aa;
-  --accent: #cc2200;
+  --accent: #cc2200;\n  --accent-text: #ff927d;
   --accent-blue: #003580;
   --accent-gold: #c0a020;
 }
@@ -148,7 +148,7 @@ main {
 }
 
 .brand span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .nav-links {
@@ -288,7 +288,7 @@ main {
 }
 
 .project-card:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   transform: translateY(-3px);
 }
 
@@ -351,7 +351,7 @@ main {
 }
 
 .brand:hover span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .brand-logo {
@@ -370,7 +370,7 @@ main {
 /* Hero headline accent */
 
 .hero h1 span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* Hero description */
@@ -433,7 +433,7 @@ main {
 }
 
 .button-secondary:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
 }
 
 /* Footer */
@@ -850,7 +850,7 @@ main {
 }
 
 .experience-page > h1 span {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .experience-page > .page-description {
@@ -1159,7 +1159,7 @@ main {
 
 .missions-page > h1 span {
   display: block;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .missions-page > .page-description {
@@ -1383,7 +1383,7 @@ main {
 .roadmap-stage {
   display: inline-block;
   margin-bottom: 8px;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -1551,7 +1551,7 @@ main {
 }
 
 .social-hero .section-label {
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 4px;
@@ -1566,7 +1566,7 @@ main {
 }
 
 .social-hero h1 span {
-    color: var(--accent);
+    color: var(--accent-text);
     text-shadow: 0 0 25px rgba(204, 34, 0, 0.25);
 }
 
@@ -1684,7 +1684,7 @@ main {
 }
 
 .social-card > a:hover {
-    color: var(--accent);
+    color: var(--accent-text);
     gap: 13px;
 }
 
@@ -1944,7 +1944,7 @@ main {
 .contact-section-heading .section-label,
 .principles-heading .section-label,
 .contact-cta .section-label {
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: 0.76rem;
     font-weight: 800;
     letter-spacing: 4px;
@@ -1961,7 +1961,7 @@ main {
 .contact-hero h1 span {
     display: block;
     margin-top: 8px;
-    color: var(--accent);
+    color: var(--accent-text);
     text-shadow: 0 0 28px rgba(204, 34, 0, 0.25);
 }
 
@@ -2209,7 +2209,7 @@ main {
 }
 
 .contact-link:hover {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .contact-arrow {
@@ -2317,7 +2317,7 @@ main {
     width: 38px;
     height: 38px;
 
-    color: var(--accent);
+    color: var(--accent-text);
     background: rgba(204, 34, 0, 0.1);
     border: 1px solid rgba(204, 34, 0, 0.25);
     border-radius: 10px;
@@ -2647,7 +2647,7 @@ main {
 
 .error-code {
     margin: 0;
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: clamp(5rem, 18vw, 9rem);
     font-weight: 900;
     line-height: 1;
@@ -2783,7 +2783,7 @@ main {
 
 .error-video-link:hover {
     background: var(--accent);
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     transform: translateY(-2px);
 }
 
