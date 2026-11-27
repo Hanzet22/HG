@@ -173,3 +173,6 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - The three-engine suite now also asserts 320px reflow on all 12 routes (no horizontal overflow), a visible 3px keyboard-focus outline, and an unobscured focused control. Per-engine results: Chromium 29/29, WebKit 29/29, Firefox 28 passed plus one unsupported mobile-emulation case skipped; all three had zero axe violations across all routes and the open dialog.
 
 - Final recorded GitHub Actions result: run 46078026621 passed all 14 validation steps on branch cvd-a11y-hardening at commit 73c3c975af581a78ddd563a5a92b07b9500b8cfa. It includes Chromium/Firefox/WebKit browser regression, full npm audit, Astro production build, Next lint/build, and no deployment step.
+
+- Latest CVD hardening adds explicit Windows High Contrast / forced-colors support for the launcher and dialog using system color tokens. It was added after a forced-colors browser test exposed light-on-white contrast failures in the original dark palette.
+- Playwright regression now includes WCAG 1.4.12 text-spacing overrides and forced-colors mode. Current local runs: Chromium 31/31, WebKit 31/31, Firefox 30 passed with one mobile-emulation case skipped (unsupported in Playwright Firefox); all three have zero axe violations in forced-colors and text-spacing states.
