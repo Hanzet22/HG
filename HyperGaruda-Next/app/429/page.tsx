@@ -57,6 +57,7 @@ export default function TooManyRequestsPage() {
           </div>
 
           <video
+            aria-label="Video accompanying the 429 Too Many Requests page"
             className="aspect-video w-full bg-black object-contain"
             controls
             playsInline
