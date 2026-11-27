@@ -176,3 +176,6 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - Latest CVD hardening adds explicit Windows High Contrast / forced-colors support for the launcher and dialog using system color tokens. It was added after a forced-colors browser test exposed light-on-white contrast failures in the original dark palette.
 - Playwright regression now includes WCAG 1.4.12 text-spacing overrides and forced-colors mode. Current local runs: Chromium 31/31, WebKit 31/31, Firefox 30 passed with one mobile-emulation case skipped (unsupported in Playwright Firefox); all three have zero axe violations in forced-colors and text-spacing states.
+
+- Biomedical cross-check added the 2023 saturation study (15 CVD participants; no significant overall high-vs-original saturation gain), the 2026 small notch-filter clinical trial (12 CVD test participants with mixed outcomes; no inferential group testing), and a 2024 web-chart user test (12 low-vision users, 4 with CVD; preferences varied). These findings do not justify a universal saturation boost or claim of clinical correction.
+- A 2026 feasibility paper on automated CVD web-page screening (21 pages, maximum AUC 0.76) used non-CVD raters on simulated screenshots; it is useful as a triage concept but not direct CVD user validation: https://arxiv.org/abs/2606.22095.
