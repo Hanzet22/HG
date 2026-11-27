@@ -91,7 +91,7 @@ This document records source-level remediation and static checks. It is not a fo
 
 ## Deployment status
 
-No deployment was initiated as part of this remediation. The live Netlify sites still serve a previously published build. Source fixes are present on `portfolio-setup`; they will not affect production until a deployment is separately authorized.
+The CVD adaptation and the pending source-level accessibility remediations are committed to the Netlify production branch `portfolio-setup` at commit `af16001c232e26a82adc92af7b519b81d69b40c2`. The latest published Netlify deployment checked after that commit is still the previous ready deployment (commit `9acd2eb7b3c0b23f9ada6a0232e5be959a5205f9`). The source changes are not confirmed live yet. The repository branch is updated; verify a new production deployment before claiming that the live site has received these changes.
 
 ### Live production snapshot — 2026-11-27
 
