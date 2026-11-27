@@ -41,6 +41,10 @@ try {
     const reflowAxe = await new AxeBuilder({ page: reflowPage }).analyze();
     assert.equal(reflowAxe.violations.length, 0, route + " has 320px axe violations: " + reflowAxe.violations.map((item) => item.id).join(", "));
     record("reflow " + route, { ...reflow, axeViolations: reflowAxe.violations.length });
+    await reflowPage.evaluate(() => document.documentElement.style.setProperty("font-size", "200%", "important"));
+    const textResize = await reflowPage.evaluate(() => ({ viewport: innerWidth, documentWidth: document.documentElement.scrollWidth, bodyWidth: document.body.scrollWidth }));
+    assert.ok(textResize.documentWidth <= textResize.viewport && textResize.bodyWidth <= textResize.viewport, route + " must remain usable without horizontal overflow at 200% text size");
+    record("200% text resize " + route, textResize);
     await reflowContext.close();
   }
 
@@ -219,12 +223,18 @@ try {
   const forcedLauncher = forcedColorsPage.locator("#hg-cvd-launcher");
   assert.ok(await forcedLauncher.isVisible(), "Display support launcher must remain visible in forced-colors mode");
   await forcedLauncher.focus();
+  const forcedFocus = await forcedLauncher.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { outlineStyle: style.outlineStyle, outlineWidth: style.outlineWidth, outlineColor: style.outlineColor };
+  });
+  assert.equal(forcedFocus.outlineStyle, "solid", "Forced-colors keyboard focus must remain visible");
+  assert.ok(Number.parseFloat(forcedFocus.outlineWidth) >= 3, "Forced-colors focus outline must be at least 3px");
   await forcedColorsPage.keyboard.press("Enter");
   const forcedDialog = forcedColorsPage.locator("#hg-cvd-dialog");
   assert.ok(await forcedDialog.isVisible(), "Display support dialog must open in forced-colors mode");
   const forcedAxe = await new AxeBuilder({ page: forcedColorsPage }).analyze();
   assert.equal(forcedAxe.violations.length, 0, "Forced-colors state must have no axe violations: " + forcedAxe.violations.map((item) => item.id + " (" + item.nodes.map((node) => node.target.join(" ") + ": " + node.failureSummary).join(" | ") + ")").join("; "));
-  record("forced-colors mode", { launcherVisible: true, dialogVisible: true, axeViolations: forcedAxe.violations.length });
+  record("forced-colors mode", { launcherVisible: true, dialogVisible: true, focus: forcedFocus, axeViolations: forcedAxe.violations.length });
   await forcedColorsContext.close();
 
   const reducedContext = await browser.newContext({ viewport: { width: 360, height: 780 } });
