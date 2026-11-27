@@ -182,4 +182,6 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - PubMed/PMC provider contracts were discovered through the Firecrawl Life Sciences catalogue, but no provider query ran because the connected Firecrawl balance was 0 credits (the attempted Europe PMC search was refused before execution). Firecrawl research-index and full-text paper reads did succeed. A further Undermind deep search was blocked by the workspace free-usage limit until 2026-11-28 00:30 UTC; existing Undermind PDFs and the completed CVD searches were used.
 
-- Latest full CI before the 200% text-size test expansion: run 46080898780 passed all 14 steps on branch head 77a0bc40b05fa1b69c0ffd621afdaf50af2bc974. The expanded 43-group browser suite has passed locally in Chromium, Firefox and WebKit and is being pushed for another CI pass.
+- Final code/test CI confirmation: run 46081672945 passed all 14 steps on branch head 1441f0e7a454b9dff9681dc9ff231435d81466f5, including the expanded 43-group Chromium/Firefox/WebKit browser suite, 200% text-size emulation, full npm audit, Astro production build, Next lint and Next build. No deployment step is present.
+
+- Deployment guard: the CVD branch is 72 commits ahead of production branch portfolio-setup; the latter is 117 commits ahead of the live Netlify deploy. The 20-file branch diff also contains earlier Next companion, dependency lock, and legacy-route changes. No merge, PR, or deploy has been initiated; the latest live Netlify deployment remains unchanged.
