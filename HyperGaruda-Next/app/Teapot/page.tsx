@@ -1,10 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "I'm a Teapot" };
 
 const videoUrl = "https://files.catbox.moe/xjm054.mp4";
 
 export default function TeapotPage() {
   return (
-    <title>418 — I’m a Teapot | HyperGaruda</title>
       <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-4 py-10 text-[#edf4ff]">
       <div
         aria-hidden="true"
