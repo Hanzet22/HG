@@ -52,17 +52,32 @@ This document records source-level remediation and static checks. It is not a fo
 
 ## Still requires browser or media verification
 
-1. **Captions and video alternatives:** none of the six players currently has a `track` captions element. There are five unique MP4 sources. The media host did not provide inspectable media content through the available retrieval tools, so the audio tracks and visual content could not be verified. If the files are video-only, WCAG 1.2.1 (Level A) requires a time-based media alternative or an audio track conveying equivalent information. If synchronized audio is present, 1.2.2 (Level A) requires captions. For synchronized video, 1.2.3 (Level A) requires a media alternative or audio description and 1.2.5 (Level AA) requires audio description, unless the stated media-alternative exception applies. Do not invent captions or descriptions; inspect the actual media and prepare accurate alternatives.
-2. **Keyboard testing:** verify first-focus skip links, menu open/close, Escape focus restoration, visible focus, focus order, and that fixed controls never obscure focused content.
-3. **Responsive testing:** verify 320 CSS-pixel reflow, 200% text resize, and WCAG text-spacing overrides without clipping, overlap, or loss of functionality.
-4. **Assistive technology:** inspect the accessibility tree and test with at least one screen reader on desktop and mobile.
-5. **Visual states:** verify text and non-text contrast across gradients, backgrounds, hover, focus, active, expanded, and status states. Static token calculations do not cover every composited surface or state.
-6. **Media behavior:** inspect the actual audio/video tracks, captions, visual description needs, flashing, and native control behavior in a browser.
-7. **Rendered behavior:** validate each route and the full page/process in current browsers. Automated scans can find some machine-detectable issues but cannot establish full WCAG conformance.
+1. **Captions and video alternatives:** none of the six players currently has a `track` captions element. There are five unique MP4 sources. The media host did not provide inspectable media content through the available retrieval tools, so the audio tracks and visual content could not be verified.
+   - For Jvan's **“Watch Out for Lemon Attack”** clip, the user reports that the YouTube transcript panel is empty. A user-provided Gemini Hydrogen analysis identified audible lyric segments at **00:01** and **00:07**. This is partial timestamp evidence, not a complete caption file or proof of full caption coverage. The lyric text is intentionally not copied into this audit.
+   - Captions must represent the relevant audio throughout the clip, not just the two identified moments. This includes dialogue, speaker identification where needed, and meaningful non-speech audio such as sound effects or music. Review the entire clip before deciding that captions are complete.
+   - If a file is video-only, WCAG 1.2.1 (Level A) requires a time-based media alternative or an audio track conveying equivalent information. If synchronized audio is present, 1.2.2 (Level A) requires captions, except when the media is a clearly labeled alternative for text. For synchronized video, 1.2.3 (Level A) requires a media alternative or audio description and 1.2.5 (Level AA) requires audio description, unless the stated media-alternative exception applies. Do not invent captions or descriptions; inspect the actual media and prepare accurate alternatives.
+2. **Flashing content:** the Japanese-titled FurDance source title includes a flashing-lights warning. That warning is not evidence of WCAG compliance or non-compliance. Inspect the actual video against 2.3.1 (Level A), including the largest supported presentation size; do not infer flash frequency or threshold results from the title alone.
+3. **Keyboard testing:** verify first-focus skip links, menu open/close, Escape focus restoration, visible focus, focus order, and that fixed controls never obscure focused content.
+4. **Responsive testing:** verify 320 CSS-pixel reflow, 200% text resize, and WCAG text-spacing overrides without clipping, overlap, or loss of functionality.
+5. **Assistive technology:** inspect the accessibility tree and test with at least one screen reader on desktop and mobile.
+6. **Visual states:** verify text and non-text contrast across gradients, backgrounds, hover, focus, active, expanded, and status states. Static token calculations do not cover every composited surface or state.
+7. **Media behavior:** inspect the actual audio/video tracks, captions, visual description needs, flashing, and native control behavior in a browser.
+8. **Rendered behavior:** validate each route and the full page/process in current browsers. Automated scans can find some machine-detectable issues but cannot establish full WCAG conformance.
 
 ## Deployment status
 
-No deployment was initiated as part of this remediation. The live Netlify sites still serve the previously published build. The live Astro `/join.html` route returned 404 during the earlier production check. Source fixes are present on `portfolio-setup`; they will not affect production until a deployment is separately authorized.
+No deployment was initiated as part of this remediation. The live Netlify sites still serve a previously published build. Source fixes are present on `portfolio-setup`; they will not affect production until a deployment is separately authorized.
+
+### Live production snapshot — 2026-11-27
+
+The currently published pages were fetched separately from the working branch. This is a limited markup/content snapshot, not a full interactive browser test.
+
+- The live Astro `/join.html` route still renders the custom 404 page.
+- The live Astro 404 page still contains a video element with `autoplay`, `muted`, and `loop`; the working-branch `404.html` has those attributes removed and uses user-initiated native controls.
+- The live Astro homepage exposes both Home and Dynamic Hub with `aria-current="page"`; the working-branch `Index.html` hides the Dynamic Hub placeholder and marks only Home as current.
+- The live Next.js root document declares `lang="id"`, while the working-branch root layout declares `lang="en"` and marks Indonesian passages individually.
+
+These differences confirm that the production sites have not yet picked up the current branch changes. Do not treat a successful source-level check as evidence that the live deployment has been remediated.
 
 ## References
 
@@ -73,6 +88,7 @@ No deployment was initiated as part of this remediation. The live Netlify sites 
 - [Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html)
 - [Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html)
 - [Understanding Audio Description (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-prerecorded.html)
+- [Understanding Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html)
 - [Understanding Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)
 - [Understanding Text Spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html)
 - [Understanding Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html)
