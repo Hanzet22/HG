@@ -104,7 +104,7 @@ A further literature pass checked the design decisions against recent HCI and vi
 
 ## Browser regression and CI coverage — 2026-11-28
 
-A new reproducible browser suite lives at scripts/test-cvd-browser.mjs and is invoked by npm run test:cvd:browser. The GitHub Actions workflow installs Chromium, builds Astro, starts the local Astro dev server, and runs Playwright plus axe-core before completing Next lint/build. Astro's Netlify adapter does not support the generic astro preview command, so the browser suite exercises the dev server while the production Astro bundle is checked separately. It remains a validation-only workflow and contains no Netlify deployment step.
+A new reproducible browser suite lives at scripts/test-cvd-browser.mjs and is invoked by npm run test:cvd:browser. The GitHub Actions workflow installs Chromium, Firefox, and WebKit, builds Astro, starts the local Astro dev server, and runs Playwright plus axe-core in all three engines before completing Next lint/build. Astro's Netlify adapter does not support the generic astro preview command, so the browser suite exercises the dev server while the production Astro bundle is checked separately. It remains a validation-only workflow and contains no Netlify deployment step.
 
 The independent Playwright Chromium 159 run passed all 16 test groups: 12 canonical lower-case legacy routes each returned HTTP 200, had no uncaught page errors, and produced zero full-page axe violations; the open dialog also had zero axe violations. The interaction checks cover all ten profile states, all three emphasis levels, manual calibration toggles, keyboard focus entry and Tab/Shift+Tab containment, Escape dismissal and focus restoration, reset, local persistence, storage-disabled fallback, 320px-to-280px resizing, a 420px-tall viewport, touch/mobile emulation, and reduced-motion preference.
 
@@ -112,7 +112,9 @@ This regression pass found and fixed two additional issues:
 - The launcher's explicit accessible name did not match its visible label. The redundant aria-label was removed so the visible “Display support” text supplies the accessible name.
 - A dialog opened at one viewport size could retain stale vw/vh dimensions after a live resize. Its sizing now uses a responsive width: auto with percentage-based max-width and max-height, so the dialog recalculates after viewport changes.
 
-These are automated Chromium/axe results, not physical-device testing, screen-reader certification, cross-browser certification, or user testing with people who have CVD. The site is not being represented as WCAG-conformant solely on the basis of these checks.
+A cross-browser pass on 2026-11-28 then ran the same suite in Playwright Chromium 159, Firefox 159, and WebKit 27.2. All three engines returned HTTP 200 on all 12 canonical routes, reported zero full-page axe violations on each route, and reported zero axe violations with the dialog open. The profile, keyboard, storage fallback, responsive resize, short-viewport and reduced-motion checks passed in all three. Chromium and WebKit also passed touch/mobile emulation; Firefox's mobile emulation case is explicitly skipped because Playwright Firefox does not expose mobile viewport emulation.
+
+These are automated browser-engine and mobile-emulation results, not physical-device testing, screen-reader certification, or user testing with people who have CVD. The site is not being represented as WCAG-conformant solely on the basis of these checks.
 
 
 ### Biomedical literature cross-check
