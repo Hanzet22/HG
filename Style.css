@@ -160,6 +160,10 @@ main {
 }
 
 .nav-links a {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding-block: 4px;
   color: var(--text-secondary);
   font-size: 0.85rem;
   text-decoration: none;
@@ -469,7 +473,10 @@ main {
 
 /* Repository links */
 .project-link {
-  display: inline-block;
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding-block: 4px;
   margin-bottom: 16px;
   color: var(--accent-gold);
   font-size: 0.9rem;
@@ -1670,7 +1677,9 @@ main {
 
 .social-card > a {
     display: inline-flex;
+    min-height: 24px;
     align-items: center;
+    padding-block: 4px;
     gap: 8px;
 
     color: var(--text-primary);
@@ -2405,6 +2414,10 @@ main {
 }
 
 .contact-secondary-link {
+    display: inline-flex;
+    min-height: 24px;
+    align-items: center;
+    padding-block: 4px;
     color: var(--text-secondary);
     font-size: 0.88rem;
     font-weight: 700;
