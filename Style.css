@@ -3144,3 +3144,25 @@ main {
     letter-spacing: 0.2px;
     overflow-wrap: anywhere;
 }
+/* Keyboard bypass navigation */
+.hg-skip-link {
+    position: absolute;
+    z-index: 10001;
+    top: 12px;
+    left: 12px;
+    padding: 12px 16px;
+    border: 2px solid #ff927d;
+    border-radius: 8px;
+    background: #12121a;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    transform: translateY(-160%);
+}
+
+.hg-skip-link:focus {
+    transform: translateY(0);
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
