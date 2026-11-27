@@ -495,6 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!main) return;
 
         main.id ||= "main-content";
+        main.tabIndex = -1;
         if ($(".hg-skip-link")) return;
 
         const skipLink = document.createElement("a");
