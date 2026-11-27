@@ -698,9 +698,21 @@ a {
 }
 
 .site-footer a {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
   margin-top: 5px;
+  padding-block: 4px;
   color: #8eb8ff;
   text-decoration: none;
+}
+
+.map-link,
+.repository-link,
+.system-link {
+  min-height: 24px;
+  align-items: center;
+  padding-block: 4px;
 }
 
 .site-footer a:hover {
