@@ -3284,7 +3284,12 @@ main p a:not(.button):not(.btn-primary) {
     font-weight: 850;
 }
 
+.hg-cvd-dialog, .hg-cvd-dialog * {
+    box-sizing: border-box;
+}
+
 .hg-cvd-dialog {
+    box-sizing: border-box;
     color-scheme: dark;
     width: min(540px, calc(100vw - 28px));
     max-width: 540px;
@@ -3292,6 +3297,8 @@ main p a:not(.button):not(.btn-primary) {
     margin: auto;
     padding: 24px;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
     border: 1px solid rgba(245, 245, 247, 0.32);
     border-radius: 18px;
     background: #12121a;
@@ -3405,7 +3412,8 @@ main p a:not(.button):not(.btn-primary) {
 
 .hg-cvd-check {
     display: flex;
-    align-items: flex-start;
+    min-height: 24px;
+    align-items: center;
     gap: 10px;
     color: #f0f0f4;
     font-size: 0.85rem;
@@ -3414,10 +3422,10 @@ main p a:not(.button):not(.btn-primary) {
 }
 
 .hg-cvd-check input {
-    width: 18px;
-    height: 18px;
-    flex: 0 0 18px;
-    margin: 1px 0 0;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    margin: 0;
     accent-color: var(--accent-text);
 }
 
