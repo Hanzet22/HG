@@ -796,7 +796,7 @@ a {
 }
 
 .profile-avatar {
-  animation: hg-avatar-float 5.5s ease-in-out 900ms infinite;
+  animation: none;
 }
 
 .profile-tags span {
