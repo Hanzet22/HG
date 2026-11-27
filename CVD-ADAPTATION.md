@@ -67,15 +67,13 @@ These criteria are necessary checks, not proof that two hues remain distinguisha
 
 ## Validation still required
 
-Engineering verification on 2026-11-27: JavaScript syntax check and the 10-profile / 12-route source audit passed; Astro check reported 0 errors, 0 warnings, and 0 hints; Astro build passed; the Next companion build also passed after dependency updates. GitHub Actions run 46003655165 completed successfully on the earlier CVD source state. A fresh workflow run is required after the dependency-lock and documentation updates.
+Engineering verification on 2026-11-27: JavaScript syntax check and the 10-profile / 12-route source audit passed; Astro check reported 0 errors, 0 warnings, and 0 hints; Astro build passed; the Next companion build also passed after dependency updates. GitHub Actions run 46003655165 completed successfully on the earlier CVD source state. A fresh workflow run is required for the final dependency, lint, and documentation updates; the latest run must be checked before merging.
 
 Static token contrast checks also pass: dialog body text #d0d0d8 on #12121a = 12.15:1; hint text #c5c5ce on #12121a = 10.87:1; focus indicator #c0a020 on #12121a = 7.36:1; and white primary-button text on #cc2200 = 5.53:1. These are source-token calculations, not a substitute for measuring all rendered states and adjacent backgrounds.
 
-The dependency audit initially reported 24 vulnerabilities (17 moderate, 7 high). Updating Astro, the Netlify adapter, Next.js and applying non-breaking npm audit fixes removed all 7 high findings. Ten moderate findings remain in the Netlify packaging dependency graph (glob, minimatch, and dependent packaging tools). npm audit fix --force proposes downgrading @astrojs/netlify to 6.5.13, a major rollback incompatible with the current Astro 7 adapter line; that forced downgrade was not applied. Track and resolve these remaining moderate advisories through compatible upstream releases or a separately validated override.
+The dependency audit initially reported 24 vulnerabilities (17 moderate, 7 high). The dependency tree was refreshed to Astro 7.4.13, @astrojs/netlify 8.2.14, and Next.js 16.4.6. Compatible scoped npm overrides pin @vercel/nft 1.11.15, readdir-glob 4.0.0, and minimatch 11.0.9 within the Netlify packaging chain. A clean npm ci then reported zero vulnerabilities, and Astro check/build plus Next lint/build all passed locally. The overrides avoid the unsafe forced downgrade to @astrojs/netlify 6.5.13. The lockfile is reproducible with npm ci.
 
-The separate npm run check:next command currently fails because the Next workspace has no ESLint flat configuration file for ESLint 9. The Next production build itself passes. This lint configuration gap is recorded as adjacent repository work and is not represented as a passing check.
-
-This implementation has passed the Astro build and source type check, but it has not been tested with a representative group of people with CVD. It is not a WCAG conformance certification.
+The Next companion now has an ESLint 9 flat configuration based on the official Next.js ESLint guidance; Next lint and build pass. This implementation has passed the Astro build and source type check, but it has not been tested with a representative group of people with CVD. It is not a WCAG conformance certification.
 
 Before claiming full conformance, test every route and relevant state in desktop and mobile browsers, including:
 - P00–P09 selection, all three emphasis levels, manual toggles, reset, persistence, and storage-disabled behavior;
