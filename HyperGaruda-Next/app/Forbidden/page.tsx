@@ -42,7 +42,7 @@ export default function ForbiddenPage() {
           ← Return to Bio Link
         </Link>
 
-        <p className="mt-10 text-[10px] tracking-[0.2em] text-slate-600">
+        <p className="mt-10 text-[10px] tracking-[0.2em] text-[#74839b]">
           HYPERGARUDA · ACCESS CONTROL SYSTEM
         </p>
       </section>
