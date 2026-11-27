@@ -4,7 +4,7 @@ import projectsHtml from "../../Projects.html?raw";
 import experienceHtml from "../../Experience.html?raw";
 import missionsHtml from "../../Missions.html?raw";
 import socialmediaHtml from "../../Socialmedia.html?raw";
-import contactHtml from "../../Contact.html?raw";
+import contactHtml from "../../Contact.html?raw";\nimport joinHtml from "../../join.html?raw";
 import forbiddenHtml from "../../403.html?raw";
 import notFoundHtml from "../../404.html?raw";
 import teapotHtml from "../../418.html?raw";
