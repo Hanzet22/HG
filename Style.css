@@ -2979,7 +2979,7 @@ main {
     font-size: clamp(4rem, 15vw, 7rem);
     line-height: 1.2;
     filter: drop-shadow(0 0 18px rgba(192, 160, 32, 0.2));
-    animation: teapot-float 3s ease-in-out infinite;
+    animation: none;
 }
 
 .teapot-panel .error-code {
@@ -3075,7 +3075,7 @@ main {
     font-size: clamp(4rem, 15vw, 7rem);
     line-height: 1.2;
     filter: drop-shadow(0 0 18px rgba(192, 160, 32, 0.2));
-    animation: rate-limit-pulse 2s ease-in-out infinite;
+    animation: none;
 }
 
 .rate-limit-panel .error-code {
