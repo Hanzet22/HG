@@ -178,3 +178,5 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Cross-browser checks covered all 12 canonical routes and the open dialog with zero axe violations in Chromium, Firefox, and WebKit. Firefox mobile viewport emulation is skipped because Playwright Firefox does not support that mode; touch/mobile emulation is tested in Chromium and WebKit.
 
 - The three-engine suite now also asserts 320px reflow on all 12 routes (no horizontal overflow), a visible 3px keyboard-focus outline, and an unobscured focused control. Per-engine results: Chromium 29/29, WebKit 29/29, Firefox 28 passed plus one unsupported mobile-emulation case skipped; all three had zero axe violations across all routes and the open dialog.
+
+- Final recorded GitHub Actions result: run 46078026621 passed all 14 validation steps on branch cvd-a11y-hardening at commit 73c3c975af581a78ddd563a5a92b07b9500b8cfa. It includes Chromium/Firefox/WebKit browser regression, full npm audit, Astro production build, Next lint/build, and no deployment step.
