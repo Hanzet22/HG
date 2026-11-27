@@ -89,6 +89,8 @@ The currently published pages were fetched separately from the working branch us
 
 A fresh bounded Firecrawl crawl on 2026-11-27 was configured for the 12 Astro routes (including `/join.html`), but the service returned only 3 pages because the crawl was throttled at the connected account's concurrency limit. A follow-up per-route fetch could not run because the Firecrawl credit allowance was exhausted. This pass therefore does **not** claim a complete fresh live-route sweep; use the earlier individually fetched route observations above as the available evidence, and re-run the remaining live pages when Firecrawl access is available.
 
+A separate Parallel content-extraction pass requested 17 URLs: the 11 known Astro content/error routes and four live Next.js routes returned content, while `/join.html` returned HTTP 404 and a deliberately nonexistent Next.js test route returned HTTP 404 as expected. This is content-level route evidence, not a DOM, accessibility-tree, keyboard, or visual audit. Several excerpts were cached from 2026-11-24, so do not treat all 17 as fresh 2026-11-27 production snapshots.
+
 These differences confirm that the production sites have not yet picked up the current branch changes. Do not treat a successful source-level check as evidence that the live deployment has been remediated.
 ## References
 
