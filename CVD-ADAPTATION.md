@@ -71,7 +71,7 @@ Browser smoke validation on 2026-11-27 used a temporary Chromium 159 + Playwrigh
 
 The browser run exposed two pre-existing shared-script initialization errors: setupNavigation and setupMorphGlass called forEach on a single element returned by the $ helper. Both now use the $$ collection helper; previously these errors stopped execution before setupCvdAdaptation. It also exposed a dev-server path collision for five lowercase root-level legacy HTML files. Those sources now live under legacy/ and are imported by the shared legacy asset router, allowing all 12 routes to resolve and receive the CVD launcher.
 
-Engineering verification on 2026-11-27: JavaScript syntax check and the 10-profile / 12-route source audit passed; Astro check reported 0 errors, 0 warnings, and 0 hints; Astro build passed; the Next companion build also passed after dependency updates. GitHub Actions run 46003655165 completed successfully on the earlier CVD source state. A fresh workflow run is required for the final dependency, lint, and documentation updates; the latest run must be checked before merging.
+Engineering verification on 2026-11-27: JavaScript syntax check and the 10-profile / 12-route source audit passed; Astro check reported 0 errors, 0 warnings, and 0 hints; Astro build passed; the Next companion build also passed after dependency updates. GitHub Actions run 46009114914 passed all 11 validation steps on commit c73e63c04851676da525a731ef20c4e2d8de1e3f, including npm audit, CVD source audit, Astro check/build, Next lint, and Next build. The workflow contains no deployment step.
 
 Static token contrast checks also pass: dialog body text #d0d0d8 on #12121a = 12.15:1; hint text #c5c5ce on #12121a = 10.87:1; focus indicator #c0a020 on #12121a = 7.36:1; and white primary-button text on #cc2200 = 5.53:1. These are source-token calculations, not a substitute for measuring all rendered states and adjacent backgrounds.
 
@@ -79,10 +79,10 @@ The dependency audit initially reported 24 vulnerabilities (17 moderate, 7 high)
 
 The Next companion now has an ESLint 9 flat configuration based on the official Next.js ESLint guidance; Next lint and build pass. This implementation has passed local Chromium smoke checks, Astro build, and source checks, but it has not been tested with a representative group of people with CVD. It is not a WCAG conformance certification.
 
-Before claiming full conformance, test every route and relevant state in desktop and mobile browsers, including:
+Before claiming full conformance, complete cross-browser and assistive-technology validation beyond the Chromium headless smoke run, including:
 - P00–P09 selection, all three emphasis levels, manual toggles, reset, persistence, and storage-disabled behavior;
-- keyboard opening, focus order, Escape dismissal, focus restoration, and screen-reader announcement;
-- 320 CSS-pixel reflow, zoom/text resize, reduced motion, and host-injected Netlify overlays;
+- full keyboard tab sequence/focus containment, screen-reader announcement, and storage-disabled behavior;
+- actual mobile devices, zoom/text resize, reduced motion, and host-injected Netlify overlays;
 - text and non-text contrast across actual backgrounds, gradients, hover, focus, active, expanded, and status states;
 - status comprehension and task performance with people who have different CVD experiences.
 
