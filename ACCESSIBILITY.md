@@ -147,7 +147,7 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Active engineering branch: `cvd-a11y-hardening` (based on `portfolio-setup`). This work is not yet merged into the production branch.
 - Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs the full npm audit, JavaScript syntax validation, the CVD source audit, Astro checks, Next lint, and Astro plus Next companion builds. It does not invoke Netlify or deploy artifacts.
 - Dialog geometry now uses border-box sizing to prevent its declared viewport width from overflowing after padding and borders are added. Dialog scrolling is contained.
-- Checkbox controls now have 24 × 24 CSS-pixel input targets and a 24-pixel minimum label hit-area height, aligning with WCAG 2.2 SC 2.5.8 without relying on a spacing exception.
+- Checkbox controls now have 26 × 26 CSS-pixel input targets and a 26-pixel minimum label hit-area height, aligning with WCAG 2.2 SC 2.5.8 without relying on a spacing exception.
 - WCAG mapping now includes SC 2.4.11 (Focus Not Obscured) and SC 2.5.8 (Target Size Minimum), in addition to the existing color, contrast, and focus criteria.
 - Additional research records the limitations of small single-page CVD user surveys and the distinction between simulation-based screening and validation with people who have CVD.
 - Deployment remains intentionally paused. The latest published Netlify deployment has not been changed by this branch.
@@ -159,3 +159,8 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - The Next motion toggle now uses React's external-store subscription pattern to hydrate from local storage without a synchronous state update inside an effect; it retains an in-memory fallback if storage is unavailable.
 - Added the official Next.js ESLint flat configuration and corrected one JSX apostrophe. Next lint and build now pass locally.
+
+- A temporary Chromium + Playwright + axe-core smoke test (kept outside the repository) found zero axe violations in the CVD dialog subtree, verified all 12 legacy routes return HTTP 200 and inject the launcher, and confirmed no uncaught page errors.
+- The same browser run verified dialog fit at 320px and 280px widths, contained scrolling at 420px height, a rendered 25.74 × 25.74 CSS-pixel checkbox target, focus entry, Escape dismissal, focus restoration, and local-only profile persistence.
+- Browser testing found and fixed two shared-script collection errors that previously stopped initialization before the CVD panel, plus a route collision caused by lowercase root HTML filenames. Five legacy HTML sources were moved under legacy/ and their raw imports updated.
+- This is Chromium headless smoke coverage, not cross-browser/assistive-technology certification or validation with people who have CVD.
