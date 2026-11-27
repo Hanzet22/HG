@@ -10,6 +10,8 @@ on:
       - "Style.css"
       - "scripts/**"
       - "src/lib/legacy-assets.ts"
+      - "src/pages/**"
+      - "legacy/**"
       - "Index.html"
       - "About.html"
       - "Projects.html"
@@ -42,7 +44,7 @@ concurrency:
 
 jobs:
   validate-astro-and-cvd:
-    name: Astro + CVD + Next build validation
+    name: Astro + CVD + Next quality validation
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -58,7 +60,7 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Audit dependency vulnerabilities (fail on high or critical)
+      - name: Audit dependency vulnerabilities (fail on any known finding)
         run: npm audit
 
       - name: Check JavaScript syntax
