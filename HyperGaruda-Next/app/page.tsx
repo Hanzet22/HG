@@ -461,7 +461,7 @@ export default async function Home() {
                         rel="noopener noreferrer"
                         className="repository-link"
                       >
-                        Gatau-ini-apaan- <span aria-hidden="true">↗</span>
+                        <span lang="id">Gatau-ini-apaan-</span> <span aria-hidden="true">↗</span>
                       </a>
                     </div>
                   </article>
