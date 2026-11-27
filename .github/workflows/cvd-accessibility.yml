@@ -46,7 +46,7 @@ jobs:
   validate-astro-and-cvd:
     name: Astro + CVD + Next quality validation
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -74,6 +74,25 @@ jobs:
 
       - name: Build Astro production bundle (no deployment)
         run: npm run build:astro
+
+      - name: Install Chromium for browser accessibility tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Astro dev server for browser regression
+        run: |
+          npm run dev:astro -- --host 127.0.0.1 > /tmp/hg-astro-dev.log 2>&1 &
+          echo $! > /tmp/hg-astro-dev.pid
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:4321/index.html > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/hg-astro-dev.log
+          exit 1
+
+      - name: Run Chromium and axe accessibility smoke tests
+        run: npm run test:cvd:browser
 
       - name: Lint Next companion
         run: npm run check:next
