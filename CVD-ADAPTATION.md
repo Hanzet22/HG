@@ -45,10 +45,12 @@ The emphasis options—Subtle, Balanced, and Stronger—change visual emphasis o
 
 - **1.4.1 Use of Color (Level A):** color is not the sole visual means for conveying status or distinguishing inline links; text and shape cues are retained.
 - **1.4.3 Contrast (Minimum) (Level AA):** normal text requires at least 4.5:1; large text requires at least 3:1.
-- **1.4.11 Non-text Contrast (Level AA):** meaningful UI component boundaries, states, and graphical objects generally require at least 3:1 against adjacent colors, subject to the criterion's exceptions.
+- **1.4.11 Non-text Contrast (Level AA):** meaningful UI component states and graphical objects generally require at least 3:1 against adjacent colors, subject to the criterion's exceptions. Thin strokes can be harder to perceive in practice even when their computed ratio passes.
 - **2.4.7 Focus Visible (Level AA):** keyboard-operable controls need a mode in which focus is visible.
+- **2.4.11 Focus Not Obscured (Minimum) (Level AA):** a focused component must not be entirely hidden by author-created content. The native modal path uses `showModal()` so focus is moved into the dialog and outside content is not interactive; test the launcher against sticky or host-injected overlays on every viewport.
+- **2.5.8 Target Size (Minimum) (Level AA):** pointer targets are at least 24 × 24 CSS pixels unless a defined exception applies. The dialog's checkbox hit areas are 24 × 24 CSS pixels; the launcher, close control, select controls, and footer buttons exceed the minimum.
 
-These criteria are necessary checks, not proof that two hues remain distinguishable to every person with CVD. Luminance-based contrast ratios do not fully measure hue discrimination or an individual's color perception.
+These criteria are necessary checks, not proof that two hues remain distinguishable to every person with CVD. WCAG contrast ratios measure relative luminance, not an individual's color discrimination. Criterion 2.5.8 has spacing and other exceptions; this implementation chooses to meet the 24-pixel minimum for its checkbox controls rather than rely on an exception.
 
 ## Research basis
 
@@ -58,6 +60,11 @@ These criteria are necessary checks, not proof that two hues remain distinguisha
 - Andrew and Tigwell (2025), “Understanding the Experiences of People With and Without Vision Impairments When Using Mobile User Interface Alternative Color Modes.” Interviews with 29 mobile users identified inconsistent coverage across interface elements and the value of coherent, user-adjustable modes. DOI: https://doi.org/10.1145/3743704
 - Flatla and Gutwin (2012), “SSMRecolor: Improving Recoloring Tools with Situation-Specific Models of Color Differentiation.” A small controlled study found benefits from individualized, situation-specific modeling compared with tested generic recolorers; this does not validate a fixed set of population-wide presets. DOI: https://doi.org/10.1145/2207676.2208388
 - Jiang, Arunkumar, and Bryan (2025), “The Hue-Man Factor: An Empirical Evaluation of Visualization Perception and Accessibility Across Color Vision Profiles.” The work emphasizes that simulation alone does not capture the full interpretation experience of people with CVD. DOI: https://doi.org/10.1109/TVCG.2025.3634261
+
+- Sajek, Korotenko, and Kyrychok (2025), “Research on the Accessibility of Different Colour Schemes for Web Resources for People with Colour Blindness.” A web-colour-scheme survey included 18 participants; the authors explicitly caution that the sample was small, adult and male-only, and evaluated one website page. This is useful direct user evidence, but not a broad validation basis. DOI: https://doi.org/10.3390/jimaging11080268
+- Jiang, Arunkumar, and Bryan (2025), “The Hue-Man Factor: An Empirical Evaluation of Visualization Perception and Accessibility Across Color Vision Profiles.” Three studies combined simulated views, responses from participants with diagnosed CVD, and interviews. The authors report that simulations miss interpretive breakdowns and the role of structural cues and affective experience. DOI: https://doi.org/10.1109/TVCG.2025.3634261
+- Jamil and Denes (2024), “Investigating Color Blind User Interface Accessibility via Simulated Interfaces.” This arXiv preprint uses non-CVD observers rating screenshots of 20 websites under simulated CVD. It can help screen for visual pitfalls, but it is not a substitute for participants with CVD. https://arxiv.org/abs/2401.10357
+- Sajadi et al. (2013), “Using Patterns to Encode Color Information for Dichromats.” Two user studies found that pattern overlays can improve color-category interpretation; this supports redundant encoding as a complement to hue. DOI: https://doi.org/10.1109/TVCG.2012.93
 
 ## Validation still required
 
