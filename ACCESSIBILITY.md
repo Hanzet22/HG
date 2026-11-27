@@ -176,3 +176,5 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Research documentation includes a separate biomedical evidence cross-check (optical filters and image recolouring) and explicitly distinguishes it from web UI validation.
 
 - Cross-browser checks covered all 12 canonical routes and the open dialog with zero axe violations in Chromium, Firefox, and WebKit. Firefox mobile viewport emulation is skipped because Playwright Firefox does not support that mode; touch/mobile emulation is tested in Chromium and WebKit.
+
+- The three-engine suite now also asserts 320px reflow on all 12 routes (no horizontal overflow), a visible 3px keyboard-focus outline, and an unobscured focused control. Per-engine results: Chromium 29/29, WebKit 29/29, Firefox 28 passed plus one unsupported mobile-emulation case skipped; all three had zero axe violations across all routes and the open dialog.
