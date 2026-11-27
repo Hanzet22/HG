@@ -3285,6 +3285,7 @@ main p a:not(.button):not(.btn-primary) {
 }
 
 .hg-cvd-dialog {
+    color-scheme: dark;
     width: min(540px, calc(100vw - 28px));
     max-width: 540px;
     max-height: min(84vh, 760px);
