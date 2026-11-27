@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupMorphGlass();
     setupPageTransitions();
     setupErrorPages();
+    setupCvdAdaptation();
 
     /* -----------------------------------------------------
        2. DYNAMIC COPYRIGHT YEAR
@@ -1022,6 +1023,179 @@ document.addEventListener("DOMContentLoaded", () => {
                 video.pause();
             }
         });
+    }
+
+
+    /* -----------------------------------------------------
+       12. OPTIONAL COLOR-VISION / DISPLAY SUPPORT
+       Presentation preferences only; never a diagnosis.
+       ----------------------------------------------------- */
+
+    function setupCvdAdaptation() {
+        if (document.getElementById("hg-cvd-launcher")) return;
+
+        const storageKey = "hg-cvd-display-preferences-v1";
+        const profiles = [
+            { id: "p00", name: "Accessible Default", note: "Baseline support: status meaning stays available through words, shapes, and structure." },
+            { id: "p01", name: "Protanomaly Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a protanomaly correction." },
+            { id: "p02", name: "Protanopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a protanopia correction." },
+            { id: "p03", name: "Deuteranomaly Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a deuteranomaly correction." },
+            { id: "p04", name: "Deuteranopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a deuteranopia correction." },
+            { id: "p05", name: "Tritanomaly Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanomaly correction." },
+            { id: "p06", name: "Tritanopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanopia correction." },
+            { id: "p07", name: "Low-Chroma / Monochrome-Friendly", note: "Reduces decorative color in selected surfaces while preserving text and status labels." },
+            { id: "p08", name: "High-Distinction UI", note: "Strengthens component boundaries and link distinction without applying a global color filter." },
+            { id: "p09", name: "Personal Calibration", note: "Combine the manual display controls below to suit your own viewing preference." }
+        ];
+
+        const defaults = {
+            profile: "p00",
+            strength: "balanced",
+            boundaries: false,
+            neutralSurfaces: false
+        };
+
+        let preferences = { ...defaults };
+
+        try {
+            const stored = JSON.parse(window.localStorage.getItem(storageKey) || "null");
+            if (stored && typeof stored === "object") {
+                if (profiles.some(profile => profile.id === stored.profile)) preferences.profile = stored.profile;
+                if (["subtle", "balanced", "stronger"].includes(stored.strength)) preferences.strength = stored.strength;
+                preferences.boundaries = stored.boundaries === true;
+                preferences.neutralSurfaces = stored.neutralSurfaces === true;
+            }
+        } catch {
+            // Private browsing or disabled storage: use the accessible default.
+        }
+
+        const launcher = document.createElement("button");
+        launcher.type = "button";
+        launcher.id = "hg-cvd-launcher";
+        launcher.className = "hg-cvd-launcher";
+        launcher.setAttribute("aria-haspopup", "dialog");
+        launcher.setAttribute("aria-controls", "hg-cvd-dialog");
+        launcher.setAttribute("aria-label", "Open color vision and display support settings");
+        launcher.innerHTML = '<span class="hg-cvd-launcher-icon" aria-hidden="true">Aa</span><span>Display support</span>';
+
+        const dialog = document.createElement("dialog");
+        dialog.id = "hg-cvd-dialog";
+        dialog.className = "hg-cvd-dialog";
+        dialog.setAttribute("aria-labelledby", "hg-cvd-title");
+        dialog.setAttribute("aria-describedby", "hg-cvd-description");
+        const options = profiles.map(profile =>
+            '<option value="' + profile.id + '">' + profile.id.toUpperCase() + ' — ' + profile.name + '</option>'
+        ).join("");
+        dialog.innerHTML =
+            '<div class="hg-cvd-dialog-header">' +
+                '<div><p class="hg-cvd-eyebrow">ACCESSIBILITY SETTINGS</p><h2 id="hg-cvd-title">Color &amp; display support</h2></div>' +
+                '<button class="hg-cvd-close" id="hg-cvd-close" type="button" aria-label="Close display support settings">×</button>' +
+            '</div>' +
+            '<p class="hg-cvd-description" id="hg-cvd-description">Choose an optional presentation preference. These profiles are not medical diagnoses and do not apply a simulated color-vision filter.</p>' +
+            '<div class="hg-cvd-field"><label for="hg-cvd-profile">Display profile</label><select id="hg-cvd-profile" name="profile">' + options + '</select><p class="hg-cvd-hint" id="hg-cvd-profile-note"></p></div>' +
+            '<div class="hg-cvd-field"><label for="hg-cvd-strength">Support emphasis</label><select id="hg-cvd-strength" name="strength"><option value="subtle">Subtle</option><option value="balanced">Balanced</option><option value="stronger">Stronger</option></select><p class="hg-cvd-hint">This changes visual emphasis only, not medical severity.</p></div>' +
+            '<fieldset class="hg-cvd-options"><legend>Personal calibration</legend>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox"><span>Emphasize component boundaries</span></label>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Reduce decorative color on selected surfaces</span></label>' +
+            '</fieldset>' +
+            '<p class="hg-cvd-privacy">Your preference is stored locally in this browser only. It is not sent to HyperGaruda. Images and videos are not recolored.</p>' +
+            '<div class="hg-cvd-dialog-footer"><button class="hg-cvd-reset" id="hg-cvd-reset" type="button">Reset preferences</button><button class="hg-cvd-done" id="hg-cvd-done" type="button">Apply &amp; close</button></div>' +
+            '<p class="hg-cvd-live" id="hg-cvd-live" role="status" aria-live="polite"></p>';
+
+        document.body.append(launcher, dialog);
+
+        const profileSelect = dialog.querySelector("#hg-cvd-profile");
+        const strengthSelect = dialog.querySelector("#hg-cvd-strength");
+        const boundariesToggle = dialog.querySelector("#hg-cvd-boundaries");
+        const neutralToggle = dialog.querySelector("#hg-cvd-neutral-surfaces");
+        const profileNote = dialog.querySelector("#hg-cvd-profile-note");
+        const liveRegion = dialog.querySelector("#hg-cvd-live");
+
+        function savePreferences() {
+            try {
+                window.localStorage.setItem(storageKey, JSON.stringify(preferences));
+            } catch {
+                // The controls remain active for this page if storage is unavailable.
+            }
+        }
+
+        function applyPreferences() {
+            const root = document.documentElement;
+            const profile = profiles.find(item => item.id === preferences.profile) || profiles[0];
+
+            root.dataset.hgCvdProfile = preferences.profile;
+            root.dataset.hgCvdStrength = preferences.strength;
+            root.dataset.hgCvdBoundaries = String(preferences.boundaries || preferences.profile === "p08" || /^p0[1-6]$/.test(preferences.profile));
+            root.dataset.hgCvdNeutralSurfaces = String(preferences.neutralSurfaces || preferences.profile === "p07");
+
+            profileSelect.value = preferences.profile;
+            strengthSelect.value = preferences.strength;
+            boundariesToggle.checked = preferences.boundaries;
+            neutralToggle.checked = preferences.neutralSurfaces;
+            profileNote.textContent = profile.note;
+
+            document.querySelectorAll(".status-dot").forEach(dot => dot.setAttribute("aria-hidden", "true"));
+            document.querySelectorAll(".response-speed, .project-status, .social-status").forEach(status => {
+                status.setAttribute("data-cvd-text-status", "true");
+            });
+        }
+
+        function announceChange() {
+            const profile = profiles.find(item => item.id === preferences.profile) || profiles[0];
+            liveRegion.textContent = profile.name + " selected. Support emphasis: " + preferences.strength + ".";
+        }
+
+        function updateFromControls() {
+            preferences.profile = profileSelect.value;
+            preferences.strength = strengthSelect.value;
+            preferences.boundaries = boundariesToggle.checked;
+            preferences.neutralSurfaces = neutralToggle.checked;
+            applyPreferences();
+            savePreferences();
+            announceChange();
+        }
+
+        function closeDialog() {
+            if (typeof dialog.close === "function" && dialog.open) {
+                dialog.close();
+            } else {
+                dialog.removeAttribute("open");
+                launcher.focus();
+            }
+        }
+
+        profileSelect.addEventListener("change", updateFromControls);
+        strengthSelect.addEventListener("change", updateFromControls);
+        boundariesToggle.addEventListener("change", updateFromControls);
+        neutralToggle.addEventListener("change", updateFromControls);
+
+        dialog.querySelector("#hg-cvd-close").addEventListener("click", closeDialog);
+        dialog.querySelector("#hg-cvd-done").addEventListener("click", closeDialog);
+        dialog.querySelector("#hg-cvd-reset").addEventListener("click", () => {
+            preferences = { ...defaults };
+            applyPreferences();
+            savePreferences();
+            liveRegion.textContent = "Display preferences reset to Accessible Default.";
+            profileSelect.focus();
+        });
+
+        launcher.addEventListener("click", () => {
+            if (typeof dialog.showModal === "function") {
+                if (!dialog.open) dialog.showModal();
+            } else {
+                dialog.setAttribute("open", "");
+                dialog.setAttribute("role", "dialog");
+                dialog.setAttribute("aria-modal", "false");
+            }
+            profileSelect.focus();
+        });
+
+        dialog.addEventListener("click", event => {
+            if (event.target === dialog) closeDialog();
+        });
+        dialog.addEventListener("close", () => launcher.focus());
+
+        applyPreferences();
     }
 
 });

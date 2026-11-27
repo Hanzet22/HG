@@ -7,6 +7,15 @@
 
 This document records source-level remediation and static checks. It is not a formal WCAG conformance claim, certification, or substitute for testing the rendered pages with browsers and assistive technologies.
 
+## Color vision and display adaptation
+
+- Added an optional, locally stored display-support panel with ten presentation profiles (P00–P09).
+- P01–P06 use clinical terms only as preference labels; they do not diagnose, simulate, or correct a named condition. They share non-color cues and stronger component boundaries.
+- P07 reduces decorative color on selected surfaces; P08 strengthens boundaries and link underlines; P09 exposes manual display controls.
+- Added shape distinctions to response-speed markers and underlined inline links in main-content paragraphs. Status wording remains visible.
+- No global hue filter is applied, and user images/videos are not recolored. Preference data stays in browser local storage and is not sent to the site.
+- Full rationale, profile definitions, evidence, WCAG mapping, and remaining validation are documented in CVD-ADAPTATION.md.
+
 ## Implemented
 
 ### Astro portfolio
@@ -39,6 +48,13 @@ This document records source-level remediation and static checks. It is not a fo
 - Added a final `prefers-reduced-motion: reduce` override after all animation declarations so it disables animations and smooth scrolling regardless of CSS cascade order.
 
 ## Source-level verification completed
+- The optional CVD display-support panel exposes ten P00–P09 presentation profiles and three visual-emphasis levels.
+- The six clinical-name profiles are explicitly non-diagnostic preference labels; no subtype-specific hue transformation or global filter is applied.
+- Response-speed status markers retain visible text and add distinct shapes; inline links in main-content paragraphs receive underlines.
+- Preference storage is local to the browser; no preference telemetry or medical-data collection is implemented.
+- Static CVD audit (node scripts/audit-cvd-adaptation.mjs) passes: 10 profiles, 12 legacy HTML pages, local-only preference storage, shape-based status cues, and no global color filter.
+- The Astro production build and astro check pass after this change with 0 errors, 0 warnings, and 0 hints. Static display-panel contrast checks: #d0d0d8/#12121a 12.15:1, #c5c5ce/#12121a 10.87:1, #ff927d/#12121a 8.57:1, and white/#cc2200 5.53:1.
+
 
 - All 12 Astro HTML pages have `lang="en"`, a page title, one main landmark, a skip link targeting that landmark, and a focusable main target.
 - All images in those pages have an `alt` attribute.

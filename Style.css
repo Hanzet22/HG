@@ -3201,3 +3201,316 @@ main {
     outline: 3px solid #ffffff;
     outline-offset: 3px;
 }
+
+
+/* =========================================================
+   HYPERGARUDA — CVD / COLOR-INDEPENDENT DISPLAY SUPPORT
+   No global hue filters; semantic meaning stays in text.
+   ========================================================= */
+
+main p a:not(.button):not(.btn-primary) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.response-speed .status-dot {
+    flex: 0 0 8px;
+}
+
+.response-speed.slow .status-dot {
+    border: 1px solid currentColor;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.response-speed.fast .status-dot {
+    border-radius: 2px;
+}
+
+.response-speed.super-slow .status-dot {
+    border-radius: 1px;
+    transform: rotate(45deg);
+}
+
+.response-speed.super-fast .status-dot {
+    border: 2px double currentColor;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.hg-cvd-launcher {
+    position: fixed;
+    z-index: 10002;
+    left: 18px;
+    bottom: 18px;
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 14px 8px 9px;
+    border: 1px solid rgba(245, 245, 247, 0.42);
+    border-radius: 999px;
+    background: #12121a;
+    color: #f5f5f7;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.hg-cvd-launcher:hover {
+    border-color: var(--accent-text);
+}
+
+.hg-cvd-launcher:focus-visible,
+.hg-cvd-dialog button:focus-visible,
+.hg-cvd-dialog select:focus-visible,
+.hg-cvd-dialog input:focus-visible {
+    outline: 3px solid var(--accent-gold);
+    outline-offset: 3px;
+}
+
+.hg-cvd-launcher-icon {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 850;
+}
+
+.hg-cvd-dialog {
+    width: min(540px, calc(100vw - 28px));
+    max-width: 540px;
+    max-height: min(84vh, 760px);
+    margin: auto;
+    padding: 24px;
+    overflow-y: auto;
+    border: 1px solid rgba(245, 245, 247, 0.32);
+    border-radius: 18px;
+    background: #12121a;
+    color: #f5f5f7;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
+}
+
+.hg-cvd-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(3px);
+}
+
+.hg-cvd-dialog[open] {
+    animation: hg-cvd-dialog-in 160ms ease-out both;
+}
+
+@keyframes hg-cvd-dialog-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hg-cvd-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.hg-cvd-eyebrow {
+    margin: 0 0 6px;
+    color: var(--accent-text);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+}
+
+.hg-cvd-dialog h2 {
+    margin: 0;
+    color: #f5f5f7;
+    font-size: clamp(1.25rem, 5vw, 1.7rem);
+    line-height: 1.2;
+}
+
+.hg-cvd-close {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 10px;
+    background: #1b1b26;
+    color: #ffffff;
+    font-size: 1.45rem;
+    cursor: pointer;
+}
+
+.hg-cvd-description,
+.hg-cvd-hint,
+.hg-cvd-privacy,
+.hg-cvd-live {
+    color: #d0d0d8;
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.hg-cvd-description { margin: 0 0 20px; }
+
+.hg-cvd-field {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.hg-cvd-field > label,
+.hg-cvd-options legend {
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.hg-cvd-field select {
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid rgba(245, 245, 247, 0.42);
+    border-radius: 9px;
+    background: #0a0a0f;
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.9rem;
+}
+
+.hg-cvd-hint {
+    margin: 0;
+    color: #c5c5ce;
+    font-size: 0.78rem;
+}
+
+.hg-cvd-options {
+    display: grid;
+    gap: 12px;
+    margin: 18px 0;
+    padding: 14px;
+    border: 1px solid rgba(245, 245, 247, 0.3);
+    border-radius: 12px;
+}
+
+.hg-cvd-options legend { padding: 0 6px; }
+
+.hg-cvd-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #f0f0f4;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.hg-cvd-check input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin: 1px 0 0;
+    accent-color: var(--accent-text);
+}
+
+.hg-cvd-privacy {
+    margin: 16px 0;
+    padding: 11px 12px;
+    border-left: 3px solid var(--accent-gold);
+    background: rgba(255, 255, 255, 0.045);
+    font-size: 0.78rem;
+}
+
+.hg-cvd-dialog-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.hg-cvd-dialog-footer button {
+    min-height: 42px;
+    padding: 9px 14px;
+    border: 1px solid rgba(245, 245, 247, 0.38);
+    border-radius: 9px;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.hg-cvd-reset { background: #1b1b26; color: #ffffff; }
+.hg-cvd-done {
+    border-color: #ff927d !important;
+    background: #cc2200;
+    color: #ffffff;
+}
+
+.hg-cvd-live {
+    min-height: 1.5em;
+    margin: 10px 0 0;
+    color: #ffffff;
+    font-size: 0.76rem;
+}
+
+html[data-hg-cvd-strength="subtle"] { --hg-cvd-outline-width: 1px; }
+html[data-hg-cvd-strength="balanced"] { --hg-cvd-outline-width: 2px; }
+html[data-hg-cvd-strength="stronger"] { --hg-cvd-outline-width: 3px; }
+
+html[data-hg-cvd-boundaries="true"] main :is(
+    .project-card, .experience-card, .contact-card, .social-card,
+    .mission-card, .experience-cta, .mission-cta, .contact-principles, .social-note
+) {
+    border-width: var(--hg-cvd-outline-width, 2px);
+    border-color: rgba(245, 245, 247, 0.58);
+}
+
+html[data-hg-cvd-neutral-surfaces="true"] main :is(
+    .project-card, .experience-card, .contact-card, .social-card,
+    .mission-card, .experience-cta, .mission-cta, .contact-principles, .social-note
+) {
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+html[data-hg-cvd-profile="p08"] main a:not(.brand):not(.button):not(.btn-primary) {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+html[data-hg-cvd-strength="stronger"] .response-speed .status-dot {
+    width: 10px;
+    height: 10px;
+}
+
+@media (max-width: 520px) {
+    .hg-cvd-launcher {
+        left: 12px;
+        bottom: 12px;
+        min-height: 44px;
+        padding-right: 12px;
+        font-size: 0.78rem;
+    }
+    .hg-cvd-dialog { padding: 19px; }
+    .hg-cvd-dialog-footer { flex-direction: column-reverse; }
+    .hg-cvd-dialog-footer button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hg-cvd-dialog[open] { animation: none; }
+    .hg-cvd-launcher,
+    .hg-cvd-dialog *,
+    .hg-cvd-dialog *::before,
+    .hg-cvd-dialog *::after {
+        transition: none !important;
+    }
+}
