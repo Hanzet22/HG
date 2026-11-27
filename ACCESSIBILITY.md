@@ -171,3 +171,6 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Full-page axe scans returned zero violations on all 12 routes after removing the launcher's redundant aria-label; the visible “Display support” label now provides the accessible name.
 - Responsive dialog sizing was changed from viewport-unit width/height caps to percentage-based max dimensions after the browser regression test found stale sizing during live viewport changes.
 - The independent Playwright Chromium 159 browser run passed all 16 test groups. The Astro Netlify adapter does not support the generic astro preview command, so CI runs the browser suite against the Astro dev server and checks the production bundle separately. This remains automated Chromium coverage, not cross-browser, physical-device, screen-reader, or CVD-user certification.
+
+- GitHub Actions run 46076435179 passed all 14 steps on branch cvd-a11y-hardening, including Chromium installation, Playwright + axe-core browser tests, full npm audit, Astro production build, Next lint, and Next build. This is CI validation only; no deployment step exists in the workflow.
+- Research documentation includes a separate biomedical evidence cross-check (optical filters and image recolouring) and explicitly distinguishes it from web UI validation.
