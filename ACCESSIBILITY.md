@@ -85,6 +85,8 @@ The currently published pages were fetched separately from the working branch us
 - **Next.js media:** live `/429` and `/Teapot` video elements retain native controls but have no accessible name and no caption `track`. The working branch adds accessible names; caption completeness remains unverified because the media itself has not been inspected.
 - **Source versus production:** the latest source-only footer contrast correction on the Next.js 403, 418, and 429 pages is not present in production. The published sites remain on an older build.
 
+A fresh bounded Firecrawl crawl on 2026-11-27 was configured for the 12 Astro routes (including `/join.html`), but the service returned only 3 pages because the crawl was throttled at the connected account's concurrency limit. A follow-up per-route fetch could not run because the Firecrawl credit allowance was exhausted. This pass therefore does **not** claim a complete fresh live-route sweep; use the earlier individually fetched route observations above as the available evidence, and re-run the remaining live pages when Firecrawl access is available.
+
 These differences confirm that the production sites have not yet picked up the current branch changes. Do not treat a successful source-level check as evidence that the live deployment has been remediated.
 ## References
 
