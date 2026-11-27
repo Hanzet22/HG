@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Audit dependency vulnerabilities (fail on high or critical)
-        run: npm audit --audit-level=high
+        run: npm audit
 
       - name: Check JavaScript syntax
         run: node --check Script.js
@@ -72,6 +72,9 @@ jobs:
 
       - name: Build Astro production bundle (no deployment)
         run: npm run build:astro
+
+      - name: Lint Next companion
+        run: npm run check:next
 
       - name: Build Next companion (no deployment)
         run: npm run build:next
