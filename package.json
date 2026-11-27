@@ -26,5 +26,14 @@
     "@tailwindcss/postcss": "^4.3.3",
     "postcss": "^8.5.30",
     "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "@vercel/nft": "1.11.15",
+    "@netlify/zip-it-and-ship-it": {
+      "archiver": {
+        "readdir-glob": "4.0.0"
+      },
+      "minimatch": "11.0.9"
+    }
   }
 }
