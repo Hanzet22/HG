@@ -164,3 +164,4 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - The same browser run verified dialog fit at 320px and 280px widths, contained scrolling at 420px height, a rendered 25.74 × 25.74 CSS-pixel checkbox target, focus entry, Escape dismissal, focus restoration, and local-only profile persistence.
 - Browser testing found and fixed two shared-script collection errors that previously stopped initialization before the CVD panel, plus a route collision caused by lowercase root HTML filenames. Five legacy HTML sources were moved under legacy/ and their raw imports updated.
 - This is Chromium headless smoke coverage, not cross-browser/assistive-technology certification or validation with people who have CVD.
+- GitHub Actions run 46009114914 passed all 11 steps on the completed hardening branch: npm audit, JavaScript syntax, CVD source audit, Astro check/build, Next lint, and Next build. No Netlify deployment step is present.
