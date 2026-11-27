@@ -14,6 +14,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Improved active-navigation text contrast with the `--accent-text` token.
 - Added a visible-on-focus skip link to all 12 HTML pages, targeting a matching focusable `main` landmark. The static links work without JavaScript; the script retains a fallback for pages without a static link.
 - Exposed the current page with `aria-current="page"` on the primary navigation links, including Social Media and Contact.
+- Excluded the external Dynamic Hub companion link from current-page matching and clear any stale `aria-current` state before revealing it; this prevents two navigation items from being announced as the current page.
 - Preserved Escape-key menu dismissal and focus restoration to the navigation toggle.
 - Increased the minimum hit area for desktop navigation, project links, social links, and secondary contact links to at least 24 CSS pixels in the constrained dimension.
 - Registered `join.html` in the legacy asset router and repaired the malformed import line.
@@ -43,6 +44,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Static anchor checks found no links without an accessible name.
 - The Astro join page is registered in the source router.
 - Primary page navigation exposes the current page with `aria-current="page"`.
+- Static source review confirms the Dynamic Hub placeholder is excluded from route matching and its current-page state is removed when the external companion URL is assigned.
 - Next.js source includes nine native `details` disclosure categories; their summary controls are native HTML.
 - Next.js language, metadata, ARIA, target-size, and reduced-motion changes were re-fetched from the working branch and checked.
 - Static source verification confirms the root layout places the skip link before other controls, and the home, 404, 403, 418, and 429 routes each expose a unique `main#main-content` with `tabIndex={-1}`.
