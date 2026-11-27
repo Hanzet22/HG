@@ -1222,6 +1222,18 @@ html[data-advanced-motion="on"] .motion-toggle.is-enabled .motion-toggle-spark {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   html[data-advanced-motion="on"] body {
     background-size: auto, auto;
   }
