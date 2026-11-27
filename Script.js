@@ -240,7 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 position: fixed;
                 z-index: 999;
                 right: 22px;
-                bottom: 22px;
+                /* Keep the control above the fixed Netlify badge injected in production. */
+                bottom: 80px;
                 width: 46px;
                 height: 46px;
                 display: grid;
