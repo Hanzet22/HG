@@ -102,7 +102,7 @@ export default async function Home() {
 
       <div className="linkhub-container">
         <header className="profile-header">
-          <div aria-label="HyperGaruda monogram" className="profile-avatar">
+          <div role="img" aria-label="HyperGaruda monogram" className="profile-avatar">
             HG<span>.</span>
           </div>
           <p className="eyebrow">PERSONAL LINK HUB</p>
@@ -113,7 +113,7 @@ export default async function Home() {
             TKJ student exploring networking, Linux, AI, open source, and
             motorsport technology.
           </p>
-          <div aria-label="Interests" className="profile-tags">
+          <div role="group" aria-label="Interests" className="profile-tags">
             <span>NETWORKING</span>
             <span>LINUX</span>
             <span>AI</span>
