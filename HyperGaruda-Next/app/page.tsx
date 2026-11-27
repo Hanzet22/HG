@@ -228,7 +228,7 @@ export default async function Home() {
                     <span className="timeline-marker">01</span>
                     <div className="education-copy">
                       <span className="timeline-kicker">EARLY EDUCATION</span>
-                      <h3>Taman Kanak-Kanak (TK)</h3>
+                      <h3 lang="id">Taman Kanak-Kanak (TK)</h3>
                       <p>First stage of the education journey.</p>
                       <a
                         className="map-link"
@@ -245,7 +245,7 @@ export default async function Home() {
                     <div className="education-copy">
                       <span className="timeline-kicker">PRIMARY EDUCATION</span>
                       <h3>MI / SD</h3>
-                      <p>Madrasah Ibtidaiyah / Sekolah Dasar.</p>
+                      <p lang="id">Madrasah Ibtidaiyah / Sekolah Dasar.</p>
                       <a
                         className="map-link"
                         href="https://maps.app.goo.gl/jiyFBYEPTYzvWwkX8"
@@ -261,7 +261,7 @@ export default async function Home() {
                     <div className="education-copy">
                       <span className="timeline-kicker">JUNIOR SECONDARY</span>
                       <h3>MTs / SMP</h3>
-                      <p>Madrasah Tsanawiyah / Sekolah Menengah Pertama.</p>
+                      <p lang="id">Madrasah Tsanawiyah / Sekolah Menengah Pertama.</p>
                       <a
                         className="map-link"
                         href="https://maps.app.goo.gl/tGZvGEoRBpZmkDsu5"
