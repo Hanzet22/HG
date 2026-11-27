@@ -93,7 +93,7 @@ These differences confirm that the production sites have not yet picked up the c
 ### Normative and official implementation references
 
 - [WCAG 2.2 Recommendation](https://www.w3.org/TR/WCAG22/)
-- [WCAG Evaluation Methodology (WCAG-EM) 2.0](https://www.w3.org/TR/WCAG-EM/) — published 2026-07-23; use its scope, exploration, sampling, evaluation, and reporting steps to structure the assessment. It does not replace WCAG's normative success criteria.
+- [WCAG Evaluation Methodology (WCAG-EM) 2.0](https://www.w3.org/TR/WCAG-EM/) — W3C Group Note published 2026-07-23; use its scope, exploration, sampling, evaluation, and reporting steps to structure the assessment. It is informative methodology and does not replace WCAG's normative success criteria.
 - [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/)
 - [Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html)
 - [Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html)
@@ -114,4 +114,5 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Gartland et al. (2022), [The State of Web Accessibility for People with Cognitive Disabilities: A Rapid Evidence Assessment](https://doi.org/10.3390/bs12020026).
 - Power et al. (2012), [Guidelines are only half of the story: accessibility problems encountered by blind users on the web](https://doi.org/10.1145/2207676.2207736).
 - Vigo, Brown, and Conway (2013), [Benchmarking web accessibility evaluation tools: measuring the harm of sole reliance on automated tests](https://doi.org/10.1145/2461121.2461124).
+- Martins, Pereira, and Duarte (2024), [QualState: Finding Website States for Accessibility Evaluation](https://doi.org/10.1145/3677846.3677851), describes how interaction-dependent states in single-page applications can be missed when evaluation tools inspect only the initial DOM. This supports testing expanded/collapsed and other meaningful UI states; it is research evidence, not a WCAG requirement.
 - Kalantari, Bagale, and Motti (2025), [Designing assistive technologies for and with neurodivergent users: considerations from research practice](https://doi.org/10.1093/iwc/iwaf037).
