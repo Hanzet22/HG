@@ -4,7 +4,8 @@ const videoUrl = "https://files.catbox.moe/vz0vsb.mp4";
 
 export default function TooManyRequestsPage() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-4 py-10 text-[#edf4ff]">
+    <title>429 — Too Many Requests | HyperGaruda</title>
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-4 py-10 text-[#edf4ff]">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,#42202b_0%,transparent_60%)]"
