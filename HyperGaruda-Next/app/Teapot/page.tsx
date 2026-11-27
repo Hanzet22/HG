@@ -98,7 +98,7 @@ export default function TeapotPage() {
           </Link>
         </div>
 
-        <p className="mt-8 text-center text-[10px] tracking-[0.2em] text-slate-600">
+        <p className="mt-8 text-center text-[10px] tracking-[0.2em] text-[#74839b]">
           HYPERGARUDA · WARKOP ERROR ARCHIVE
         </p>
       </section>
