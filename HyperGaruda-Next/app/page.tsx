@@ -96,7 +96,7 @@ export default async function Home() {
   const system = await getSystemStatus();
 
   return (
-    <main className="linkhub-page">
+    <main id="main-content" tabIndex={-1} className="linkhub-page">
       <div aria-hidden="true" className="ambient ambient-blue" />
       <div aria-hidden="true" className="ambient ambient-red" />
 
