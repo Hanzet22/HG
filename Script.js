@@ -473,6 +473,12 @@ document.addEventListener("DOMContentLoaded", () => {
             link.addEventListener("click", closeMenu);
         });
 
+        navLinks.addEventListener("focusout", event => {
+            if (!navLinks.contains(event.relatedTarget)) {
+                closeMenu();
+            }
+        });
+
         document.addEventListener("keydown", event => {
             if (event.key === "Escape" &&
                 toggle.getAttribute("aria-expanded") === "true") {
