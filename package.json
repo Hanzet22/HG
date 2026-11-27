@@ -18,8 +18,8 @@
   },
   "dependencies": {
     "@astrojs/check": "latest",
-    "@astrojs/netlify": "latest",
-    "astro": "latest",
+    "@astrojs/netlify": "^8.2.14",
+    "astro": "^7.4.13",
     "typescript": "latest"
   },
   "devDependencies": {
