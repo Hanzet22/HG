@@ -24,6 +24,9 @@ on:
       - "429.html"
       - "package.json"
       - "package-lock.json"
+      - "CVD-ADAPTATION.md"
+      - "ACCESSIBILITY.md"
+      - "HyperGaruda-Next/**"
       - ".github/workflows/cvd-accessibility.yml"
   pull_request:
     branches:
@@ -39,7 +42,7 @@ concurrency:
 
 jobs:
   validate-astro-and-cvd:
-    name: Astro + CVD source validation
+    name: Astro + CVD + Next build validation
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -55,6 +58,9 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
+      - name: Audit dependency vulnerabilities (fail on high or critical)
+        run: npm audit --audit-level=high
+
       - name: Check JavaScript syntax
         run: node --check Script.js
 
@@ -66,3 +72,6 @@ jobs:
 
       - name: Build Astro production bundle (no deployment)
         run: npm run build:astro
+
+      - name: Build Next companion (no deployment)
+        run: npm run build:next
