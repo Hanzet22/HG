@@ -32,6 +32,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Added route-specific metadata titles for the 404, 403, 429, and 418 pages using the Next.js Metadata API.
 - Disabled the always-on avatar animation; the optional advanced animation pack remains user-toggleable.
 - Added accessible names to the two embedded error-page video players.
+- Raised the small footer labels on the Next.js 403, 418, and 429 pages from Tailwind `slate-600` to the project secondary-text color `#74839b`; the measured contrast against `#080b12` is approximately **5.12:1**, replacing a failing **2.60:1** combination.
 - Added a final `prefers-reduced-motion: reduce` override after all animation declarations so it disables animations and smooth scrolling regardless of CSS cascade order.
 
 ## Source-level verification completed
@@ -48,6 +49,7 @@ This document records source-level remediation and static checks. It is not a fo
   - Astro active-navigation text `#ff927d` on `#12121a`: **8.57:1**.
   - Next.js footer text `#9aa8bd` on `#080b12`: **8.16:1**.
   - Next.js secondary text `#74839b` on `#080b12`: **5.12:1** and on `#111622`: **4.70:1**.
+- Next.js error-page footer text before remediation (`#475569` / Tailwind `slate-600`) on `#080b12`: **2.60:1**; corrected source token `#74839b` on `#080b12`: **5.12:1**.
 - The six embedded players (four Astro and two Next.js) have accessible names and native controls. The Astro players no longer autoplay or loop.
 
 ## Still requires browser or media verification
@@ -70,20 +72,22 @@ No deployment was initiated as part of this remediation. The live Netlify sites 
 
 ### Live production snapshot — 2026-11-27
 
-The currently published pages were fetched separately from the working branch. This is a limited markup/content snapshot, not a full interactive browser test.
+The currently published pages were fetched separately from the working branch using live page retrieval. These are rendered markup/content observations, not a full interactive browser test; they do not establish keyboard, screen-reader, visual, timing, or complete media behavior.
 
-- The live Astro `/join.html` route still renders the custom 404 page.
-- The live Astro 404 page still contains a video element with `autoplay`, `muted`, and `loop`; the working-branch `404.html` has those attributes removed and uses user-initiated native controls.
-- The live Astro homepage exposes both Home and Dynamic Hub with `aria-current="page"`; the working-branch `Index.html` hides the Dynamic Hub placeholder and marks only Home as current.
-- The live Next.js root document declares `lang="id"`, while the working-branch root layout declares `lang="en"` and marks Indonesian passages individually.
+- **Astro content routes:** the homepage exposes both Home and Dynamic Hub with `aria-current="page"`. The About, Projects, Experience, Missions, Social Media, and Contact routes each expose their own current-page link and also incorrectly mark Dynamic Hub as current. The live markup snapshots do not expose the source-branch skip link.
+- **Astro join route:** `/join.html` still renders the custom 404 content instead of the Join & Contribute page. Treat this as a live route/content failure even though the page retrieval itself returned an HTML document.
+- **Astro error routes:** the live `/404.html`, `/403.html`, `/418.html`, and `/429.html` video elements still include `autoplay`, `muted`, and `loop`, and use `preload="auto"`. The fetched video elements do not expose accessible names and no caption `track` elements were found. The working-branch versions remove autoplay/mute/loop, use metadata preload, and add accessible names.
+- **Next.js document language:** the live root, `/429`, `/Forbidden`, and `/Teapot` routes declare `lang="id"`. The working branch declares English at the document level and marks Indonesian passages individually with `lang="id"`.
+- **Next.js media:** live `/429` and `/Teapot` video elements retain native controls but have no accessible name and no caption `track`. The working branch adds accessible names; caption completeness remains unverified because the media itself has not been inspected.
+- **Source versus production:** the latest source-only footer contrast correction on the Next.js 403, 418, and 429 pages is not present in production. The published sites remain on an older build.
 
 These differences confirm that the production sites have not yet picked up the current branch changes. Do not treat a successful source-level check as evidence that the live deployment has been remediated.
-
 ## References
 
 ### Normative and official implementation references
 
 - [WCAG 2.2 Recommendation](https://www.w3.org/TR/WCAG22/)
+- [WCAG Evaluation Methodology (WCAG-EM) 2.0](https://www.w3.org/TR/WCAG-EM/) — published 2026-07-23; use its scope, exploration, sampling, evaluation, and reporting steps to structure the assessment. It does not replace WCAG's normative success criteria.
 - [WCAG 2.2 Quick Reference](https://www.w3.org/WAI/WCAG22/quickref/)
 - [Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html)
 - [Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html)
