@@ -1242,3 +1242,29 @@ html[data-advanced-motion="on"] .motion-toggle.is-enabled .motion-toggle-spark {
     will-change: auto;
   }
 }
+
+
+/* WCAG 2.2 A: bypass repeated navigation and reach the page's main content. */
+.skip-link {
+  position: fixed;
+  z-index: 10000;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #080b12;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #080b12;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 2rem));
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #ff927d;
+  outline-offset: 3px;
+}
