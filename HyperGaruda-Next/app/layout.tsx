@@ -54,7 +54,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="en">
       <body>
         <AnimationModeToggle />
         <MorphGlassClient />
