@@ -28,6 +28,7 @@ assert.match(cvdBlock, /localStorage/, "Preferences must persist locally");
 assert.doesNotMatch(cvdBlock, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/, "CVD preference code must not transmit preference data");
 assert.match(cvdBlock, /showModal/, "Dialog should use native modal behavior where supported");
 assert.match(cvdBlock, /aria-live="polite"/, "Profile changes should be announced");
+assert.doesNotMatch(cvdBlock, /launcher\.setAttribute\("aria-label"/, "Launcher accessible name should come from its visible text label");
 
 assert.match(css, /\.response-speed\.slow \.status-dot/, "Slow status must have a non-color shape");
 assert.match(css, /\.response-speed\.fast \.status-dot/, "Fast status must have a non-color shape");
@@ -42,6 +43,7 @@ assert.ok(contrastRatio("#c0a020", "#12121a") >= 3, "Dialog focus indicator toke
 assert.ok(contrastRatio("#ffffff", "#cc2200") >= 4.5, "Primary dialog button text must meet WCAG AA normal-text contrast");
 
 assert.match(css, /\.hg-cvd-dialog,\s*\.hg-cvd-dialog \*\s*\{\s*box-sizing:\s*border-box;/, "Dialog sizing must include padding and borders to prevent narrow-screen overflow");
+assert.match(css, /\.hg-cvd-dialog\s*\{[^}]*width:\s*auto;[^}]*max-width:\s*min\(540px,\s*calc\(100% - 28px\)\);[^}]*max-height:\s*min\(84%,\s*760px\)/s, "Dialog width and height must adapt when viewport dimensions change");
 assert.match(css, /\.hg-cvd-dialog\s*\{[^}]*overscroll-behavior:\s*contain/s, "Dialog scrolling must remain contained");
 assert.match(css, /\.hg-cvd-check\s*\{[^}]*min-height:\s*26px/s, "Checkbox label target must meet WCAG 2.5.8 minimum");
 assert.match(css, /\.hg-cvd-check input\s*\{[^}]*width:\s*26px/s, "Checkbox input target must be at least 24 CSS pixels");
