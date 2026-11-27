@@ -126,3 +126,5 @@ The biomedical literature was checked separately from the HCI/web-accessibility 
 - Lin et al. (2025), ColorAssist, introduces a CVD-individual-labelled image dataset and a perception-guided recolouring model; the PubMed abstract reports subjective testing in hospitals. The full PDF was not available in the research workspace during this pass. This is image-recolouring research, not evidence that static CSS profiles or a global website filter work. DOI: https://doi.org/10.1109/TIP.2025.3602643
 
 The biomedical and HCI evidence point to the same conservative product boundary: keep controls optional, avoid universal correction claims, and do not equate image recolouring or optical-filter results with web-interface usability.
+
+Final CI confirmation — 2026-11-28: GitHub Actions run 46078026621 passed all 14 validation steps on branch cvd-a11y-hardening at commit 73c3c975af581a78ddd563a5a92b07b9500b8cfa. The run includes the three-engine Playwright/axe suite, Astro production build, full npm audit, Next lint and Next build. It contains no deployment action.
