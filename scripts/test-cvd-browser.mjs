@@ -198,6 +198,35 @@ try {
     await mobileContext.close();
   }
 
+  const textSpacingContext = await browser.newContext({ viewport: { width: 320, height: 780 }, reducedMotion: "reduce" });
+  const textSpacingPage = await textSpacingContext.newPage();
+  await textSpacingPage.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
+  await textSpacingPage.addStyleTag({ content: `
+    p, li, dd { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; }
+    p { margin-bottom: 2em !important; }
+  ` });
+  const spacingLayout = await textSpacingPage.evaluate(() => ({ viewport: innerWidth, documentWidth: document.documentElement.scrollWidth }));
+  assert.ok(spacingLayout.documentWidth <= spacingLayout.viewport, "Text-spacing overrides must not cause horizontal overflow at 320 CSS pixels");
+  const spacingAxe = await new AxeBuilder({ page: textSpacingPage }).analyze();
+  assert.equal(spacingAxe.violations.length, 0, "Text-spacing override state must have no axe violations: " + spacingAxe.violations.map((item) => item.id + " (" + item.nodes.map((node) => node.target.join(" ") + ": " + node.failureSummary).join(" | ") + ")").join("; "));
+  record("WCAG text-spacing override", { ...spacingLayout, axeViolations: spacingAxe.violations.length });
+  await textSpacingContext.close();
+
+  const forcedColorsContext = await browser.newContext({ viewport: { width: 360, height: 780 }, reducedMotion: "reduce" });
+  const forcedColorsPage = await forcedColorsContext.newPage();
+  await forcedColorsPage.emulateMedia({ forcedColors: "active" });
+  await forcedColorsPage.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
+  const forcedLauncher = forcedColorsPage.locator("#hg-cvd-launcher");
+  assert.ok(await forcedLauncher.isVisible(), "Display support launcher must remain visible in forced-colors mode");
+  await forcedLauncher.focus();
+  await forcedColorsPage.keyboard.press("Enter");
+  const forcedDialog = forcedColorsPage.locator("#hg-cvd-dialog");
+  assert.ok(await forcedDialog.isVisible(), "Display support dialog must open in forced-colors mode");
+  const forcedAxe = await new AxeBuilder({ page: forcedColorsPage }).analyze();
+  assert.equal(forcedAxe.violations.length, 0, "Forced-colors state must have no axe violations: " + forcedAxe.violations.map((item) => item.id + " (" + item.nodes.map((node) => node.target.join(" ") + ": " + node.failureSummary).join(" | ") + ")").join("; "));
+  record("forced-colors mode", { launcherVisible: true, dialogVisible: true, axeViolations: forcedAxe.violations.length });
+  await forcedColorsContext.close();
+
   const reducedContext = await browser.newContext({ viewport: { width: 360, height: 780 } });
   const reducedPage = await reducedContext.newPage();
   await reducedPage.emulateMedia({ reducedMotion: "reduce" });
