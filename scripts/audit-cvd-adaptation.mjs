@@ -36,6 +36,8 @@ assert.match(css, /\.response-speed\.super-slow \.status-dot/, "Super-slow statu
 assert.match(css, /\.response-speed\.super-fast \.status-dot/, "Super-fast status must have a non-color shape");
 assert.match(css, /main p a:not\(\.button\):not\(\.btn-primary\)/, "Inline content links must have non-color distinction");
 assert.match(css, /\.hg-cvd-dialog button:focus-visible/, "Dialog controls must have visible focus styles");
+assert.match(css, /@media \(forced-colors: active\)/, "Display controls must support forced-colors mode");
+assert.match(css, /\.hg-cvd-dialog \{[^}]*background: Canvas;[^}]*color: CanvasText/s, "Dialog must use system colors in forced-colors mode");
 
 assert.ok(contrastRatio("#d0d0d8", "#12121a") >= 4.5, "Dialog body text must meet WCAG AA normal-text contrast");
 assert.ok(contrastRatio("#c5c5ce", "#12121a") >= 4.5, "Dialog hint text must meet WCAG AA normal-text contrast");
