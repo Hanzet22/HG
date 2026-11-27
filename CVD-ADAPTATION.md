@@ -89,3 +89,27 @@ Before claiming full conformance, complete cross-browser and assistive-technolog
 - status comprehension and task performance with people who have different CVD experiences.
 
 Automated checks and simulations are useful screening aids, not substitutes for testing the rendered interface with people who use it.
+
+
+## Research cross-check — 2026-11-28
+
+A further literature pass checked the design decisions against recent HCI and visual-accessibility evidence:
+
+- Geddes et al. (2025), a scoping review of 113 papers (46 design tools, 55 guideline papers, and 12 simulation papers), found that redundant encoding is commonly recommended but often lacks context-sensitive guidance. The review counted “do not use colour alone” in 16/55 guideline papers and shapes/symbols in 15/55. Its important nuance is to encode the underlying meaning, not merely substitute a colour-name symbol: a checkmark is more useful than a leaf when green means “correct”. Only 5/46 tool papers and 13/55 guideline papers were evaluated with people with CVD. This reinforces the need for semantic labels and real-user validation, not reliance on simulators. DOI: https://doi.org/10.1145/3663547.3746370
+- Zhang et al. (2024) compared smartphone colour-enhancement features with six participants (three described as colour-blind and three as colour-vision-deficient). The objective colour-search task improved on the two devices included in that comparison, while subjective preference was related to naturalness and stronger enhancement could reduce preference. The study did not compare opt-in profiles with a universal default or test a global web-page filter. It supports offering user-selectable assistance as an option, but does not establish one ideal default. The small sample and limited task scope constrain generalization. DOI: https://doi.org/10.3389/fnins.2024.1366541
+- Andrew and Tigwell (2025) interviewed 29 mobile users, including 13 people with a range of vision impairments. This was not a CVD-specific sample, so its findings are adjacent evidence rather than direct CVD validation. Participants described inconsistent alternative-colour-mode coverage across interface elements and asked for more meaningful, manageable control. The authors recommend consistent styling across relevant components and user-adjustable settings. DOI: https://doi.org/10.1145/3743704
+- Huertas et al. (2026) reviewed passive and active visual aids. The available abstract says passive filters do not restore normal trichromatic vision and their benefits are task- and person-dependent; active recolouring may improve discrimination but can trade off against naturalness. Undermind did not have the full PDF for this paper during this pass, so this point is abstract-only and is not used as evidence that a particular web UI profile is effective. DOI: https://doi.org/10.24867/grid-2026-p28
+
+**Implementation consequence:** retain non-colour semantic cues, make presentation changes optional and locally controlled, do not apply a global hue filter, and avoid claiming subtype-specific clinical correction. The literature supports these as cautious design choices; it does not validate the P01–P09 presets as medically tailored interventions.
+
+## Browser regression and CI coverage — 2026-11-28
+
+A new reproducible browser suite lives at scripts/test-cvd-browser.mjs and is invoked by npm run test:cvd:browser. The GitHub Actions workflow installs Chromium, builds Astro, starts the local Astro dev server, and runs Playwright plus axe-core before completing Next lint/build. Astro's Netlify adapter does not support the generic astro preview command, so the browser suite exercises the dev server while the production Astro bundle is checked separately. It remains a validation-only workflow and contains no Netlify deployment step.
+
+The independent Playwright Chromium 159 run passed all 16 test groups: 12 canonical lower-case legacy routes each returned HTTP 200, had no uncaught page errors, and produced zero full-page axe violations; the open dialog also had zero axe violations. The interaction checks cover all ten profile states, all three emphasis levels, manual calibration toggles, keyboard focus entry and Tab/Shift+Tab containment, Escape dismissal and focus restoration, reset, local persistence, storage-disabled fallback, 320px-to-280px resizing, a 420px-tall viewport, touch/mobile emulation, and reduced-motion preference.
+
+This regression pass found and fixed two additional issues:
+- The launcher's explicit accessible name did not match its visible label. The redundant aria-label was removed so the visible “Display support” text supplies the accessible name.
+- A dialog opened at one viewport size could retain stale vw/vh dimensions after a live resize. Its sizing now uses a responsive width: auto with percentage-based max-width and max-height, so the dialog recalculates after viewport changes.
+
+These are automated Chromium/axe results, not physical-device testing, screen-reader certification, cross-browser certification, or user testing with people who have CVD. The site is not being represented as WCAG-conformant solely on the basis of these checks.
