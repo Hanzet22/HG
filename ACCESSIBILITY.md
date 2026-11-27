@@ -35,7 +35,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Disabled the always-on avatar animation; the optional advanced animation pack remains user-toggleable.
 - Added accessible names to the two embedded error-page video players.
 - Added a global skip link before the animation control in the root layout; all five Next.js routes now provide a focusable `main#main-content` target.
-- Raised the small footer labels on the Next.js 403, 418, and 429 pages from Tailwind `slate-600` to the project secondary-text color `#74839b`; the measured contrast against `#080b12` is approximately **5.12:1**, replacing a failing **2.60:1** combination.
+- Raised the small footer labels on the Next.js 404, 403, 418, and 429 pages from Tailwind `slate-600` to the project secondary-text color `#74839b`; the measured contrast against `#080b12` is approximately **5.12:1**, replacing a failing **2.60:1** combination.
 - Added a final `prefers-reduced-motion: reduce` override after all animation declarations so it disables animations and smooth scrolling regardless of CSS cascade order.
 
 ## Source-level verification completed
@@ -55,7 +55,7 @@ This document records source-level remediation and static checks. It is not a fo
   - Astro active-navigation text `#ff927d` on `#12121a`: **8.57:1**.
   - Next.js footer text `#9aa8bd` on `#080b12`: **8.16:1**.
   - Next.js secondary text `#74839b` on `#080b12`: **5.12:1** and on `#111622`: **4.70:1**.
-- Next.js error-page footer text before remediation (`#475569` / Tailwind `slate-600`) on `#080b12`: **2.60:1**; corrected source token `#74839b` on `#080b12`: **5.12:1**.
+- Next.js error-page footer text on the 404, 403, 418, and 429 pages before remediation (`#475569` / Tailwind `slate-600`) on `#080b12`: **2.60:1**; corrected source token `#74839b` on `#080b12`: **5.12:1**.
 - The six embedded players (four Astro and two Next.js) have accessible names and native controls. The Astro players no longer autoplay or loop.
 
 ## Still requires browser or media verification
@@ -88,7 +88,7 @@ The currently published pages were fetched separately from the working branch us
 - **Next.js document language:** the live root, `/429`, `/Forbidden`, and `/Teapot` routes declare `lang="id"`. The working branch declares English at the document level and marks Indonesian passages individually with `lang="id"`.
 - **Next.js bypass navigation:** the live root markup does not expose the new skip link or a matching focusable main target. The source branch now adds both through the root layout and route-level main landmarks.
 - **Next.js media:** live `/429` and `/Teapot` video elements retain native controls but have no accessible name and no caption `track`. The working branch adds accessible names; caption completeness remains unverified because the media itself has not been inspected.
-- **Source versus production:** the latest source-only footer contrast correction on the Next.js 403, 418, and 429 pages is not present in production. The published sites remain on an older build.
+- **Source versus production:** the latest source-only footer contrast correction on the Next.js 404, 403, 418, and 429 pages is not present in production. The published sites remain on an older build.
 
 The earlier bounded Firecrawl crawl on 2026-11-27 was throttled after 3 pages. A subsequent per-route Firecrawl pass fetched the six main content routes (About, Projects, Experience, Missions, Social Media, Contact), the 403/418/429 error routes, and all four Next.js routes; earlier individually fetched observations remain the basis for the Astro homepage, `/404.html`, and `/join.html`. A separate Parallel extraction covered the known routes, returned HTTP 404 for `/join.html`, and included a deliberately nonexistent Next.js route as a negative control. Several Parallel excerpts were cached from 2026-11-24, so use the direct Firecrawl markup snapshots for fresh rendered attributes and treat cached text as route/content corroboration only. Firecrawl credits were exhausted after these checks; no axe-core scan or additional browser session could be run.
 
