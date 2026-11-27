@@ -1,47 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "hypergaruda-advanced-animation";
-
 type MotionMode = "on" | "off";
+
+let currentMode: MotionMode | null = null;
+const listeners = new Set<() => void>();
 
 function applyMotionMode(mode: MotionMode) {
   document.documentElement.dataset.advancedMotion = mode;
 }
 
+function subscribe(callback: () => void) {
+  const handleStorage = () => {
+    currentMode = null;
+    callback();
+  };
+
+  listeners.add(callback);
+  window.addEventListener("storage", handleStorage);
+
+  return () => {
+    listeners.delete(callback);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
+
+function getSnapshot() {
+  if (currentMode !== null) return currentMode === "on";
+
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === "on";
+  } catch {
+    return false;
+  }
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
+function setMotionMode(mode: MotionMode) {
+  currentMode = mode;
+
+  try {
+    window.localStorage.setItem(STORAGE_KEY, mode);
+  } catch {
+    // The in-memory mode still works for this page if storage is unavailable.
+  }
+
+  listeners.forEach((listener) => listener());
+}
+
 export default function AnimationModeToggle() {
-  const [enabled, setEnabled] = useState(false);
+  const enabled = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useEffect(() => {
-    let saved = false;
-
-    try {
-      saved = window.localStorage.getItem(STORAGE_KEY) === "on";
-    } catch {
-      // Keep the default OFF if browser storage is unavailable.
-    }
-
-    setEnabled(saved);
-    applyMotionMode(saved ? "on" : "off");
-  }, []);
+    applyMotionMode(enabled ? "on" : "off");
+  }, [enabled]);
 
   function toggleAnimation() {
-    const next = !enabled;
-    setEnabled(next);
-    applyMotionMode(next ? "on" : "off");
-
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next ? "on" : "off");
-    } catch {
-      // The toggle still works for this page if storage is unavailable.
-    }
+    setMotionMode(enabled ? "off" : "on");
   }
 
   return (
     <button
       type="button"
-      className={`motion-toggle${enabled ? " is-enabled" : ""}`}
+      className={"motion-toggle" + (enabled ? " is-enabled" : "")}
       onClick={toggleAnimation}
       aria-pressed={enabled}
       aria-label={
