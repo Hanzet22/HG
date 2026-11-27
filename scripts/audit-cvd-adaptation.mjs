@@ -23,6 +23,10 @@ assert.match(css, /\.response-speed\.super-slow \.status-dot/, "Super-slow statu
 assert.match(css, /\.response-speed\.super-fast \.status-dot/, "Super-fast status must have a non-color shape");
 assert.match(css, /main p a:not\(\.button\):not\(\.btn-primary\)/, "Inline content links must have non-color distinction");
 assert.match(css, /\.hg-cvd-dialog button:focus-visible/, "Dialog controls must have visible focus styles");
+assert.match(css, /\.hg-cvd-dialog,\s*\.hg-cvd-dialog \*\s*\{\s*box-sizing:\s*border-box;/, "Dialog sizing must include padding and borders to prevent narrow-screen overflow");
+assert.match(css, /\.hg-cvd-dialog\s*\{[^}]*overscroll-behavior:\s*contain/s, "Dialog scrolling must remain contained");
+assert.match(css, /\.hg-cvd-check\s*\{[^}]*min-height:\s*24px/s, "Checkbox label target must meet WCAG 2.5.8 minimum");
+assert.match(css, /\.hg-cvd-check input\s*\{[^}]*width:\s*24px/s, "Checkbox input target must be at least 24 CSS pixels");
 assert.doesNotMatch(css, /hue-rotate|filter\s*:\s*grayscale|filter\s*:\s*sepia/i, "No global hue/grayscale filter should be introduced");
 
 const imports = [...router.matchAll(/import\s+\w+Html\s+from\s+"..\/..\/([^"]+\.html)\?raw";/gi)].map(match => match[1]);
