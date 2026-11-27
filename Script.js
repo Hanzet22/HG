@@ -213,7 +213,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             .hg-current-link {
-                color: var(--accent, #cc2200) !important;
+                color: var(--text-primary, #f5f5f7) !important;
+            }
+
+            .hg-skip-link {
+                position: fixed;
+                z-index: 10001;
+                top: 12px;
+                left: 12px;
+                padding: 12px 16px;
+                border: 2px solid var(--accent-gold, #c0a020);
+                border-radius: 8px;
+                background: var(--bg-secondary, #12121a);
+                color: var(--text-primary, #f5f5f7);
+                font-weight: 700;
+                transform: translateY(-160%);
+            }
+
+            .hg-skip-link:focus {
+                transform: translateY(0);
+                outline: 3px solid var(--accent-gold, #c0a020);
+                outline-offset: 3px;
             }
 
             #hg-back-to-top {
@@ -387,8 +407,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!navbar || !navLinks) return;
 
-        const links = $$("a[href]", navLinks);
+        const links = $("a[href]", navLinks);
         const currentPath = normalizePath(location.pathname);
+        setupSkipLink(navbar);
 
         links.forEach(link => {
             let target;
@@ -461,6 +482,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         HG.mobile.addEventListener?.("change", closeMenu);
+    }
+
+    function setupSkipLink(navbar) {
+        const main = $("main");
+        if (!main) return;
+
+        main.id ||= "main-content";
+        if ($(".hg-skip-link")) return;
+
+        const skipLink = document.createElement("a");
+        skipLink.className = "hg-skip-link";
+        skipLink.href = "#" + main.id;
+        skipLink.textContent = "Skip to main content";
+        navbar.parentNode?.insertBefore(skipLink, navbar);
     }
 
     function normalizePath(path) {
