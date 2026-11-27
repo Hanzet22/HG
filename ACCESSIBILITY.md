@@ -184,6 +184,8 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - Final code/test CI confirmation: run 46082600617 passed all 14 steps on branch head f56d19c31e2e92d184612d96942cc87685ece939, including the expanded 43-group Chromium/Firefox/WebKit browser suite, live-region announcements, representative profile-state axe checks, 200% text-size emulation, full npm audit, Astro production build, Next lint and Next build. No deployment step is present.
 
-- Deployment guard: the CVD branch is 74 commits ahead of production branch portfolio-setup; the latter is 117 commits ahead of the live Netlify deploy. The 20-file branch diff also contains earlier Next companion, dependency lock, and legacy-route changes; merging would combine roughly 191 unpublished commits. No merge, PR, or deploy has been initiated; the latest live Netlify deployment remains unchanged.
+- Deployment guard: the CVD branch is 76 commits ahead of production branch portfolio-setup; the latter is 117 commits ahead of the live Netlify deploy. The 20-file branch diff also contains earlier Next companion, dependency lock, and legacy-route changes; merging would combine roughly 193 unpublished commits. No merge, PR, or deploy has been initiated; the latest live Netlify deployment remains unchanged.
 
 - The profile regression also verifies that every selection updates the polite live region and that P01–P06 explicitly state they are not diagnoses; axe scans cover representative baseline, preset, low-chroma, high-distinction and personal-calibration states.
+
+- Documentation finalization CI: run 46083005616 passed all 14 steps on commit 48d76874ac8399e87130327e5c97f66ab186200e. The final branch-ahead count in this guide includes one subsequent documentation-only correction commit.
