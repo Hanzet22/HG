@@ -145,7 +145,7 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 ## CVD follow-up hardening — 2026-11-27
 
 - Active engineering branch: `cvd-a11y-hardening` (based on `portfolio-setup`). This work is not yet merged into the production branch.
-- Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs the full npm audit, JavaScript syntax validation, the CVD source audit, Astro checks, Next lint, and Astro plus Next companion builds. It does not invoke Netlify or deploy artifacts.
+- Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs the full npm audit, JavaScript syntax validation, the CVD source audit, Astro checks/build, Playwright + axe-core in Chromium, Firefox and WebKit, Next lint, and Next build. It does not invoke Netlify or deploy artifacts.
 - Dialog geometry now uses border-box sizing to prevent its declared viewport width from overflowing after padding and borders are added. Dialog scrolling is contained.
 - Checkbox controls now have 26 × 26 CSS-pixel input targets and a 26-pixel minimum label hit-area height, aligning with WCAG 2.2 SC 2.5.8 without relying on a spacing exception.
 - WCAG mapping now includes SC 2.4.11 (Focus Not Obscured) and SC 2.5.8 (Target Size Minimum), in addition to the existing color, contrast, and focus criteria.
@@ -155,24 +155,17 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - After refreshing the dependency lock, Astro 7.4.13, @astrojs/netlify 8.2.14, Next.js 16.4.6, and matching eslint-config-next were installed. Scoped overrides pin @vercel/nft 1.11.15, readdir-glob 4.0.0, and minimatch 11.0.9 in the Netlify packaging chain. A clean npm ci plus npm audit reports zero vulnerabilities. Astro check/build and Next lint/build pass locally. The unsafe forced adapter downgrade to 6.5.13 was not used.
 - The Next workspace now includes an ESLint 9 flat config based on the official Next.js guidance: https://nextjs.org/docs/app/api-reference/config/eslint. Both npm run check:next and npm run build:next pass.
-- The CI workflow now runs the full npm audit, CVD source audit, Astro checks/build, Playwright + axe-core browser regression across Chromium, Firefox, and WebKit against the Astro dev server, Next lint, and Next build. It installs Chromium and does not deploy. Documentation, browser tests, and Next workspace changes are included in its push-path filters.
+- The CI workflow now runs the full npm audit, CVD source audit, Astro checks/build, Playwright + axe-core browser regression across Chromium, Firefox, and WebKit against the Astro dev server, Next lint, and Next build. It installs Chromium, Firefox and WebKit and does not deploy. Documentation, browser tests, and Next workspace changes are included in its push-path filters.
 
 - The Next motion toggle now uses React's external-store subscription pattern to hydrate from local storage without a synchronous state update inside an effect; it retains an in-memory fallback if storage is unavailable.
 - Added the official Next.js ESLint flat configuration and corrected one JSX apostrophe. Next lint and build now pass locally.
 
-- A temporary Chromium + Playwright + axe-core smoke test (kept outside the repository) found zero axe violations in the CVD dialog subtree, verified all 12 legacy routes return HTTP 200 and inject the launcher, and confirmed no uncaught page errors.
-- The same browser run verified dialog fit at 320px and 280px widths, contained scrolling at 420px height, a rendered 25.74 × 25.74 CSS-pixel checkbox target, focus entry, Escape dismissal, focus restoration, and local-only profile persistence.
 - Browser testing found and fixed two shared-script collection errors that previously stopped initialization before the CVD panel, plus a route collision caused by lowercase root HTML filenames. Five legacy HTML sources were moved under legacy/ and their raw imports updated.
-- This is Chromium headless smoke coverage, not cross-browser/assistive-technology certification or validation with people who have CVD.
-- GitHub Actions run 46009391092 passed all 11 steps on the completed hardening branch: npm audit, JavaScript syntax, CVD source audit, Astro check/build, Next lint, and Next build. No Netlify deployment step is present.
-- A separate mobile-emulation smoke test used a 360 × 780 viewport, DPR 2, touch input, and coarse pointer; launcher tap, dialog bounds, checkbox target, P07 local persistence, and reduced-motion behavior all passed. This does not replace testing on physical devices.
 
-- The browser regression suite is maintained in scripts/test-cvd-browser.mjs and runs as npm run test:cvd:browser. It covers 12 canonical routes, full-page axe scans, dialog axe scan, all ten profiles, all emphasis levels, keyboard, persistence/reset, storage-disabled behavior, responsive resizing, touch emulation, and reduced motion.
+- The browser regression suite is maintained in scripts/test-cvd-browser.mjs and runs as npm run test:cvd:browser across Chromium, Firefox, and WebKit. It covers 12 canonical routes, full-page axe scans, dialog axe scan, all ten profiles, all emphasis levels, visible/unobscured keyboard focus, persistence/reset, storage-disabled behavior, 320px reflow, responsive resizing, touch emulation where supported, and reduced motion.
 - Full-page axe scans returned zero violations on all 12 routes after removing the launcher's redundant aria-label; the visible “Display support” label now provides the accessible name.
 - Responsive dialog sizing was changed from viewport-unit width/height caps to percentage-based max dimensions after the browser regression test found stale sizing during live viewport changes.
-- The independent Playwright Chromium 159, Firefox 159, and WebKit 27.2 browser runs passed their supported regression groups. The Astro Netlify adapter does not support the generic astro preview command, so CI runs the browser suite against the Astro dev server and checks the production bundle separately. This remains automated Chromium coverage, not cross-browser, physical-device, screen-reader, or CVD-user certification.
 
-- GitHub Actions run 46076435179 passed all 14 steps on branch cvd-a11y-hardening, including Chromium installation, Playwright + axe-core browser tests, full npm audit, Astro production build, Next lint, and Next build. This is CI validation only; no deployment step exists in the workflow.
 - Research documentation includes a separate biomedical evidence cross-check (optical filters and image recolouring) and explicitly distinguishes it from web UI validation.
 
 - Cross-browser checks covered all 12 canonical routes and the open dialog with zero axe violations in Chromium, Firefox, and WebKit. Firefox mobile viewport emulation is skipped because Playwright Firefox does not support that mode; touch/mobile emulation is tested in Chromium and WebKit.
