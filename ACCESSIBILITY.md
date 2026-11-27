@@ -15,6 +15,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Added a visible-on-focus skip link to all 12 HTML pages, targeting a matching focusable `main` landmark. The static links work without JavaScript; the script retains a fallback for pages without a static link.
 - Exposed the current page with `aria-current="page"` on the primary navigation links, including Social Media and Contact.
 - Excluded the external Dynamic Hub companion link from current-page matching and clear any stale `aria-current` state before revealing it; this prevents two navigation items from being announced as the current page.
+- Moved the fixed Back to Top control above the Netlify-injected bottom-right badge observed in production, avoiding their overlapping hit areas.
 - Preserved Escape-key menu dismissal and focus restoration to the navigation toggle.
 - Increased the minimum hit area for desktop navigation, project links, social links, and secondary contact links to at least 24 CSS pixels in the constrained dimension.
 - Registered `join.html` in the legacy asset router and repaired the malformed import line.
@@ -45,6 +46,7 @@ This document records source-level remediation and static checks. It is not a fo
 - The Astro join page is registered in the source router.
 - Primary page navigation exposes the current page with `aria-current="page"`.
 - Static source review confirms the Dynamic Hub placeholder is excluded from route matching and its current-page state is removed when the external companion URL is assigned.
+- Static CSS review confirms the Astro Back to Top control is positioned 80 CSS pixels above the viewport bottom, clear of the observed 64-pixel-high Netlify badge region.
 - Next.js source includes nine native `details` disclosure categories; their summary controls are native HTML.
 - Next.js language, metadata, ARIA, target-size, and reduced-motion changes were re-fetched from the working branch and checked.
 - Static source verification confirms the root layout places the skip link before other controls, and the home, 404, 403, 418, and 429 routes each expose a unique `main#main-content` with `tabIndex={-1}`.
@@ -80,6 +82,7 @@ No deployment was initiated as part of this remediation. The live Netlify sites 
 The currently published pages were fetched separately from the working branch using live page retrieval. These are rendered markup/content observations, not a full interactive browser test; they do not establish keyboard, screen-reader, visual, timing, or complete media behavior.
 
 - **Astro content routes:** the homepage exposes both Home and Dynamic Hub with `aria-current="page"`. The About, Projects, Experience, Missions, Social Media, and Contact routes each expose their own current-page link and also incorrectly mark Dynamic Hub as current. The live markup snapshots do not expose the source-branch skip link.
+- **Host-injected overlay:** live markup includes a fixed Netlify badge at the bottom-right (`194 × 64` CSS pixels, very high stacking order). The source Back to Top control was also fixed at the bottom-right (`46 × 46`, `z-index: 999`), creating an overlapping region when visible. The source branch moves Back to Top upward; the host badge itself is not controlled by repository CSS. Check the live result after an authorized deployment and disable or reposition the badge in host settings if it still obscures content.
 - **Astro join route:** `/join.html` still renders the custom 404 content instead of the Join & Contribute page. Treat this as a live route/content failure even though the page retrieval itself returned an HTML document.
 - **Astro error routes:** the live `/404.html`, `/403.html`, `/418.html`, and `/429.html` video elements still include `autoplay`, `muted`, and `loop`, and use `preload="auto"`. The fetched video elements do not expose accessible names and no caption `track` elements were found. The working-branch versions remove autoplay/mute/loop, use metadata preload, and add accessible names.
 - **Next.js document language:** the live root, `/429`, `/Forbidden`, and `/Teapot` routes declare `lang="id"`. The working branch declares English at the document level and marks Indonesian passages individually with `lang="id"`.
