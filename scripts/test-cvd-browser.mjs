@@ -107,6 +107,15 @@ try {
       neutral: document.documentElement.dataset.hgCvdNeutralSurfaces,
     }));
     assert.deepEqual(actual, { profile, ...state }, profile + " must apply its documented presentation state");
+    const announcement = await dialog.locator("#hg-cvd-live").textContent();
+    assert.ok(announcement.includes("selected. Support emphasis:"), profile + " changes must be announced through the live region");
+    if (/^p0[1-6]$/.test(profile)) {
+      assert.ok((await dialog.locator("#hg-cvd-profile-note").textContent()).includes("not a diagnosis"), profile + " must be clearly labelled as a preference, not a diagnosis");
+    }
+    if (["p00", "p01", "p07", "p08", "p09"].includes(profile)) {
+      const profileAxe = await new AxeBuilder({ page }).include("#hg-cvd-dialog").analyze();
+      assert.equal(profileAxe.violations.length, 0, profile + " representative dialog state must have no axe violations: " + profileAxe.violations.map((item) => item.id).join(", "));
+    }
   }
   for (const strength of ["subtle", "balanced", "stronger"]) {
     await dialog.locator("#hg-cvd-strength").selectOption(strength);
