@@ -16,6 +16,7 @@ const script = readFileSync("Script.js", "utf8");
 const css = readFileSync("Style.css", "utf8");
 const router = readFileSync("src/lib/legacy-assets.ts", "utf8");
 const guide = readFileSync("CVD-ADAPTATION.md", "utf8");
+assert.ok(script.includes('const links = $$("a[href]", navLinks);'), "Navigation must iterate a NodeList, not a single element");
 
 const profileIds = [...script.matchAll(/\{ id: "(p\d{2})"/g)].map(match => match[1]);
 assert.deepEqual(profileIds, ["p00", "p01", "p02", "p03", "p04", "p05", "p06", "p07", "p08", "p09"], "Expected ten ordered display profiles");
@@ -42,8 +43,8 @@ assert.ok(contrastRatio("#ffffff", "#cc2200") >= 4.5, "Primary dialog button tex
 
 assert.match(css, /\.hg-cvd-dialog,\s*\.hg-cvd-dialog \*\s*\{\s*box-sizing:\s*border-box;/, "Dialog sizing must include padding and borders to prevent narrow-screen overflow");
 assert.match(css, /\.hg-cvd-dialog\s*\{[^}]*overscroll-behavior:\s*contain/s, "Dialog scrolling must remain contained");
-assert.match(css, /\.hg-cvd-check\s*\{[^}]*min-height:\s*24px/s, "Checkbox label target must meet WCAG 2.5.8 minimum");
-assert.match(css, /\.hg-cvd-check input\s*\{[^}]*width:\s*24px/s, "Checkbox input target must be at least 24 CSS pixels");
+assert.match(css, /\.hg-cvd-check\s*\{[^}]*min-height:\s*26px/s, "Checkbox label target must meet WCAG 2.5.8 minimum");
+assert.match(css, /\.hg-cvd-check input\s*\{[^}]*width:\s*26px/s, "Checkbox input target must be at least 24 CSS pixels");
 assert.doesNotMatch(css, /hue-rotate|filter\s*:\s*grayscale|filter\s*:\s*sepia/i, "No global hue/grayscale filter should be introduced");
 
 const imports = [...router.matchAll(/import\s+\w+Html\s+from\s+"..\/..\/([^"]+\.html)\?raw";/gi)].map(match => match[1]);
@@ -55,5 +56,7 @@ for (const path of imports) {
 }
 assert.match(guide, /not a medical tool/i, "Documentation must state that profiles are non-diagnostic");
 assert.match(guide, /WCAG 2\.2 mapping/, "Documentation must map relevant WCAG criteria");
+
+assert.ok(script.includes('const surfaces = $$(".hg-morph-glass");'), "MorphGlass surfaces must be collected as a NodeList");
 
 console.log("CVD audit passed: " + profileIds.length + " profiles, " + imports.length + " legacy pages, local-only preference storage, redundant status cues, and no global color filter.");
