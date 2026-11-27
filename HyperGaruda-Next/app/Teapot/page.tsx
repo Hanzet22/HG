@@ -49,6 +49,7 @@ export default function TeapotPage() {
           </div>
 
           <video
+            aria-label="Video accompanying the 418 I'm a Teapot page"
             className="aspect-video w-full bg-black object-contain"
             controls
             playsInline
