@@ -26,9 +26,9 @@ export default function TeapotPage() {
           </h2>
 
           <div className="mt-5 space-y-2 text-sm leading-7 text-slate-300">
-            <p>Aku adalah Teh. 🍵</p>
-            <p>Kau adalah Peminum Teh.</p>
-            <p className="font-bold text-cyan-200">
+            <p lang="id">Aku adalah Teh. 🍵</p>
+            <p lang="id">Kau adalah Peminum Teh.</p>
+            <p lang="id" className="font-bold text-cyan-200">
               Selagi ngeteh, nah, nonton penari Furries Gintan,
               bradar! 🦊💃
             </p>
@@ -57,11 +57,11 @@ export default function TeapotPage() {
           </video>
 
           <div className="space-y-2 px-4 py-4">
-            <p className="text-sm font-bold text-violet-200">
+            <p lang="id" className="text-sm font-bold text-violet-200">
               🍵 WAKTUNYA NGETEH, BRADAR!
             </p>
 
-            <p className="text-xs leading-6 text-slate-400">
+            <p lang="id" className="text-xs leading-6 text-slate-400">
               Seruput tehmu santai-santai. Sambil ngeteh,
               nikmati aksi penari Furries Gintan, bradar! 🦊
               <br />
@@ -91,7 +91,7 @@ export default function TeapotPage() {
             href="/"
             className="inline-flex rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-3 text-sm font-bold text-cyan-200 transition hover:bg-cyan-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
           >
-            ← Balik ke Bio Link
+            <span lang="id">← Balik ke Bio Link</span>
           </Link>
         </div>
 
