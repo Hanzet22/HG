@@ -32,6 +32,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Added route-specific metadata titles for the 404, 403, 429, and 418 pages using the Next.js Metadata API.
 - Disabled the always-on avatar animation; the optional advanced animation pack remains user-toggleable.
 - Added accessible names to the two embedded error-page video players.
+- Added a global skip link before the animation control in the root layout; all five Next.js routes now provide a focusable `main#main-content` target.
 - Raised the small footer labels on the Next.js 403, 418, and 429 pages from Tailwind `slate-600` to the project secondary-text color `#74839b`; the measured contrast against `#080b12` is approximately **5.12:1**, replacing a failing **2.60:1** combination.
 - Added a final `prefers-reduced-motion: reduce` override after all animation declarations so it disables animations and smooth scrolling regardless of CSS cascade order.
 
@@ -44,6 +45,7 @@ This document records source-level remediation and static checks. It is not a fo
 - Primary page navigation exposes the current page with `aria-current="page"`.
 - Next.js source includes nine native `details` disclosure categories; their summary controls are native HTML.
 - Next.js language, metadata, ARIA, target-size, and reduced-motion changes were re-fetched from the working branch and checked.
+- Static source verification confirms the root layout places the skip link before other controls, and the home, 404, 403, 418, and 429 routes each expose a unique `main#main-content` with `tabIndex={-1}`.
 - Static contrast calculations:
   - Astro active-navigation text `#ff927d` on `#0a0a0f`: **9.09:1**.
   - Astro active-navigation text `#ff927d` on `#12121a`: **8.57:1**.
@@ -79,6 +81,7 @@ The currently published pages were fetched separately from the working branch us
 - **Astro join route:** `/join.html` still renders the custom 404 content instead of the Join & Contribute page. Treat this as a live route/content failure even though the page retrieval itself returned an HTML document.
 - **Astro error routes:** the live `/404.html`, `/403.html`, `/418.html`, and `/429.html` video elements still include `autoplay`, `muted`, and `loop`, and use `preload="auto"`. The fetched video elements do not expose accessible names and no caption `track` elements were found. The working-branch versions remove autoplay/mute/loop, use metadata preload, and add accessible names.
 - **Next.js document language:** the live root, `/429`, `/Forbidden`, and `/Teapot` routes declare `lang="id"`. The working branch declares English at the document level and marks Indonesian passages individually with `lang="id"`.
+- **Next.js bypass navigation:** the live root markup does not expose the new skip link or a matching focusable main target. The source branch now adds both through the root layout and route-level main landmarks.
 - **Next.js media:** live `/429` and `/Teapot` video elements retain native controls but have no accessible name and no caption `track`. The working branch adds accessible names; caption completeness remains unverified because the media itself has not been inspected.
 - **Source versus production:** the latest source-only footer contrast correction on the Next.js 403, 418, and 429 pages is not present in production. The published sites remain on an older build.
 
