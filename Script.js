@@ -453,7 +453,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         document.addEventListener("keydown", event => {
-            if (event.key === "Escape") closeMenu();
+            if (event.key === "Escape" &&
+                toggle.getAttribute("aria-expanded") === "true") {
+                closeMenu();
+                toggle.focus();
+            }
         });
 
         HG.mobile.addEventListener?.("change", closeMenu);
