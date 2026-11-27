@@ -1,8 +1,10 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Access forbidden" };
 
 export default function ForbiddenPage() {
   return (
-    <title>403 — Access Forbidden | HyperGaruda</title>
       <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#080b12] px-5 py-12 text-[#edf4ff]">
       <div
         aria-hidden="true"
