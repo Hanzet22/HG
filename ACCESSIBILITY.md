@@ -145,10 +145,14 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 ## CVD follow-up hardening — 2026-11-27
 
 - Active engineering branch: `cvd-a11y-hardening` (based on `portfolio-setup`). This work is not yet merged into the production branch.
-- Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs JavaScript syntax validation, the CVD source audit, Astro checks, and an Astro build. It does not invoke Netlify or deploy artifacts.
+- Added a dedicated GitHub Actions validation workflow at `.github/workflows/cvd-accessibility.yml`. It runs a high/critical dependency audit, JavaScript syntax validation, the CVD source audit, Astro checks, and Astro plus Next companion builds. It does not invoke Netlify or deploy artifacts.
 - Dialog geometry now uses border-box sizing to prevent its declared viewport width from overflowing after padding and borders are added. Dialog scrolling is contained.
 - Checkbox controls now have 24 × 24 CSS-pixel input targets and a 24-pixel minimum label hit-area height, aligning with WCAG 2.2 SC 2.5.8 without relying on a spacing exception.
 - WCAG mapping now includes SC 2.4.11 (Focus Not Obscured) and SC 2.5.8 (Target Size Minimum), in addition to the existing color, contrast, and focus criteria.
 - Additional research records the limitations of small single-page CVD user surveys and the distinction between simulation-based screening and validation with people who have CVD.
 - Deployment remains intentionally paused. The latest published Netlify deployment has not been changed by this branch.
 
+
+- After refreshing the dependency lock, Astro 7.4.13, @astrojs/netlify 8.2.14, Next.js 16.4.6, and matching eslint-config-next were installed. Astro check/build and Next build pass locally. npm audit dropped from 24 findings (including 7 high) to 10 moderate and 0 high/critical; the remaining moderate findings are in the Netlify packaging dependency graph. The forced npm fix would roll the adapter back to 6.5.13, so it was deliberately not used.
+- The standalone npm run check:next currently fails because the Next workspace has no ESLint 9 flat config. npm run build:next passes. This is an adjacent lint configuration gap, not a CVD source-audit failure.
+- The CI workflow now audits high/critical dependency findings and builds both Astro and the Next companion. Documentation and Next workspace changes are included in its push-path filters.
