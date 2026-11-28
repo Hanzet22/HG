@@ -45,7 +45,7 @@ assert.equal(videoCount, 6, "Expected six video players in the media inventory")
 assert.equal(mediaUrls.size, 5, "Expected five unique MP4 URLs; duplicated sources should remain visible in the inventory");
 
 const inventory = readFileSync("MEDIA-ACCESSIBILITY-INVENTORY.md", "utf8");
-assert.match(inventory, /six video elements/i, "Media inventory must document the six player count");
+assert.match(inventory, /6 video elements/i, "Media inventory must document the six player count");
 assert.match(inventory, /No authored \`<track kind="captions">\` element was found/i, "Inventory must disclose the missing authored caption tracks");
 assert.match(inventory, /not a media-content audit/i, "Inventory must state its evidence boundary");
 
