@@ -338,6 +338,37 @@ try {
   record("reduced motion", motion);
   await reducedContext.close();
 
+
+  const mediaRoutes = ["/403.html", "/404.html", "/418.html", "/429.html"];
+  for (const route of mediaRoutes) {
+    const mediaContext = await browser.newContext({ viewport: { width: 960, height: 720 }, reducedMotion: "reduce" });
+    const mediaPage = await mediaContext.newPage();
+    await mediaPage.goto(new URL(route, baseUrl).toString(), { waitUntil: "domcontentloaded" });
+    const media = mediaPage.locator("video");
+    const videoCount = await media.count();
+    for (let index = 0; index < videoCount; index += 1) {
+      const video = media.nth(index);
+      assert.ok(await video.getAttribute("controls") !== null, route + " video must expose native controls");
+      assert.ok(await video.getAttribute("autoplay") === null, route + " video must not autoplay");
+      assert.ok(await video.getAttribute("loop") === null, route + " video must not loop");
+      assert.ok(await video.getAttribute("muted") === null, route + " video must not be forced muted");
+      assert.equal(await video.getAttribute("preload"), "metadata", route + " video should avoid eager media download");
+      const accessibleName = await video.getAttribute("aria-label") || await video.getAttribute("aria-labelledby");
+      assert.ok(accessibleName && accessibleName.trim().length > 0, route + " video must have an accessible name");
+    }
+    const captionTrackCount = await media.locator("track[kind='captions'], track[kind='subtitles']").count();
+    record("user-controlled media " + route, {
+      videoCount,
+      nativeControls: true,
+      autoplay: false,
+      looping: false,
+      eagerPreload: false,
+      captionTrackCount,
+      captionsAndFlashAnalysisRequireHumanMediaReview: true,
+    });
+    await mediaContext.close();
+  }
+
   const skipped = results.filter((result) => result.skipped).length;
   console.log(JSON.stringify({ engine: browserName, total: results.length, passed: results.length - skipped, skipped, failed: 0, results }, null, 2));
 } finally {
