@@ -7,6 +7,8 @@
 
 This document separates normative WCAG requirements, empirical accessibility research, and cautious design extrapolations. It is not medical advice, a clinical assessment, or a conformance certification.
 
+**Latest evidence and engineering addendum:** [WCAG research update — 2026-11-28](WCAG-RESEARCH-UPDATE-2026-11-28.md) covers new PubMed/Europe PMC searches, recent clinical/HCI evidence, and the live reduced-motion runtime fix.
+
 ## 1. Normative implementation baseline
 
 The conformance target is the W3C WCAG 2.2 Recommendation. Success criteria—not a particular tool or technique—determine conformance.
@@ -57,7 +59,7 @@ WCAG 2.3.1 is the normative conformance criterion. The actual media must be eval
 
 ## 3. Existing HG behavior and remaining risks
 
-- Astro's shared script detects `prefers-reduced-motion: reduce` and avoids the GSAP animation path when reduced motion is requested.
+- Astro's shared script detects `prefers-reduced-motion: reduce`, listens for live preference changes, stops in-flight GSAP/ScrollTrigger motion when reduction is enabled, reveals content, completes counters and pauses video. Playwright coverage for changing the preference while the page is open is in CI run #101.
 - The stylesheet has a reduced-motion override for animation duration, iteration count, transitions and smooth scrolling.
 - The four Astro error-page videos are user-initiated, use native controls and metadata preload; autoplay and looping are absent in the current source.
 - The four Astro error-page video elements have accessible names. The two Next.js error-page players also have accessible names in the source.
