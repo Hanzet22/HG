@@ -88,6 +88,8 @@ The source rectangle uses normalized coordinates with a bottom-left origin. The 
 4. The WebGL2 path accepts an explicit readable source, downsamples into bounded GPU targets, runs repeated Kawase-style blur passes, then composites tint, edge response and restrained refraction.
 5. Unsupported browsers retain an opaque/translucent CSS fallback.
 
+The source texture keeps its allocation while bounded source dimensions remain unchanged; subsequent frames update it with `texSubImage2D`. Render-target textures are resized without replacing their framebuffer attachments. This is an allocation-lifecycle change, not a guaranteed performance improvement: benchmark image and video uploads on target devices before making speed claims.
+
 The WebGL2 path is an optional GPU enhancement. It is not an AGSL runtime, does not execute Mochy's Android shader source, and does not claim pixel-identical output.
 
 ## Accessibility and performance
