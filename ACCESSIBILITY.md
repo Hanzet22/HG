@@ -140,3 +140,8 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 - Martins, Pereira, and Duarte (2024), [QualState: Finding Website States for Accessibility Evaluation](https://doi.org/10.1145/3677846.3677851), describes how interaction-dependent states in single-page applications can be missed when evaluation tools inspect only the initial DOM. This supports testing expanded/collapsed and other meaningful UI states; it is research evidence, not a WCAG requirement.
 - Fliti et al. (2026), [Flow-A11y: Flow-Aware Accessibility Testing](https://doi.org/10.48550/arXiv.2607.03100), evaluates runtime traces across 45 dynamic WCAG checks and 17 completed public-site scenarios. The reported pipeline reached 45.6% exact status accuracy, 41.4% failure precision, and 38.7% failure recall, with 39.7% of rows marked incomplete; the study did not test screen-reader/assistive-technology combinations. Treat it as evidence for flow-based testing and evidence-gated uncertainty—not as proof that an automated agent can certify conformance.
 - Kalantari, Bagale, and Motti (2025), [Designing assistive technologies for and with neurodivergent users: considerations from research practice](https://doi.org/10.1093/iwc/iwaf037).
+
+
+## WCAG 2.2 research and validation plan
+
+The current evidence map, clinical-literature boundaries, criteria matrix, and remaining validation tasks are maintained in [WCAG-RESEARCH.md](WCAG-RESEARCH.md). This document separates normative WCAG success criteria from empirical health/accessibility research. Clinical studies inform cautious presentation choices only; they do not diagnose users or certify the interface.
