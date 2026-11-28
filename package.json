@@ -14,7 +14,8 @@
     "build:astro": "astro build",
     "build:next": "npm run build --workspace=hypergaruda-next",
     "check": "astro check",
-    "check:next": "npm run lint --workspace=hypergaruda-next"
+    "check:next": "npm run lint --workspace=hypergaruda-next",
+    "check:legacy": "node scripts/check-legacy-assets.mjs"
   },
   "dependencies": {
     "@astrojs/check": "latest",
