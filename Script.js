@@ -1043,7 +1043,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { id: "p04", name: "Deuteranopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a deuteranopia correction." },
             { id: "p05", name: "Tritanomaly Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanomaly correction." },
             { id: "p06", name: "Tritanopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanopia correction." },
-            { id: "p07", name: "Low-Chroma / Monochrome-Friendly", note: "Reduces decorative color in selected surfaces while preserving text and status labels." },
+            { id: "p07", name: "Simplified Surfaces", note: "Removes selected decorative gradients and shadows while preserving semantic text and status labels." },
             { id: "p08", name: "High-Distinction UI", note: "Strengthens component boundaries and link distinction without applying a global color filter." },
             { id: "p09", name: "Personal Calibration", note: "Combine the manual display controls below to suit your own viewing preference." }
         ];
@@ -1095,7 +1095,7 @@ document.addEventListener("DOMContentLoaded", () => {
             '<div class="hg-cvd-field"><label for="hg-cvd-strength">Support emphasis</label><select id="hg-cvd-strength" name="strength"><option value="subtle">Subtle</option><option value="balanced">Balanced</option><option value="stronger">Stronger</option></select><p class="hg-cvd-hint">This changes visual emphasis only, not medical severity.</p></div>' +
             '<fieldset class="hg-cvd-options"><legend>Personal calibration</legend>' +
                 '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox"><span>Emphasize component boundaries</span></label>' +
-                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Reduce decorative color on selected surfaces</span></label>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Remove decorative gradients and shadows on selected surfaces</span></label>' +
             '</fieldset>' +
             '<p class="hg-cvd-privacy">Your preference is stored locally in this browser only. It is not sent to HyperGaruda. Images and videos are not recolored.</p>' +
             '<div class="hg-cvd-dialog-footer"><button class="hg-cvd-reset" id="hg-cvd-reset" type="button">Reset preferences</button><button class="hg-cvd-done" id="hg-cvd-done" type="button">Apply &amp; close</button></div>' +

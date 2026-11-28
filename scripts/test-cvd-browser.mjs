@@ -156,6 +156,8 @@ try {
   assert.deepEqual(manual, { boundaries: "true", neutral: "true" }, "Manual calibration toggles must apply");
 
   await dialog.locator("#hg-cvd-profile").selectOption("p07");
+  assert.ok((await dialog.locator("#hg-cvd-profile option:checked").textContent()).includes("Simplified Surfaces"), "P07 must describe its actual surface treatment");
+  assert.ok((await dialog.locator("#hg-cvd-profile-note").textContent()).includes("decorative gradients and shadows"), "P07 must not imply an unimplemented chroma or monochrome filter");
   await dialog.locator("#hg-cvd-strength").selectOption("subtle");
   await dialog.locator("#hg-cvd-done").click();
   assert.ok(await launcher.evaluate((element) => document.activeElement === element), "Closing the dialog must restore focus to the launcher");

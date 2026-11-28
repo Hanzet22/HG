@@ -23,11 +23,13 @@ The implementation does not recolor images or videos. It does not collect medica
 | P04 | Deuteranopia Assist | Common non-color support layer and stronger component boundaries; not a diagnosis or deuteranopia correction |
 | P05 | Tritanomaly Assist | Common non-color support layer and stronger component boundaries; not a diagnosis or tritanomaly correction |
 | P06 | Tritanopia Assist | Common non-color support layer and stronger component boundaries; not a diagnosis or tritanopia correction |
-| P07 | Low-Chroma / Monochrome-Friendly | Removes decorative gradients and shadows from selected surfaces while preserving semantic text and status labels |
+| P07 | Simplified Surfaces | Removes decorative gradients and shadows from selected surfaces while preserving semantic text and status labels |
 | P08 | High-Distinction UI | Stronger component boundaries and more prominent link underlines |
 | P09 | Personal Calibration | Lets the user combine component-boundary and neutral-surface preferences manually |
 
 The emphasis options—Subtle, Balanced, and Stronger—change visual emphasis only. They are not clinical severity levels.
+
+P07 is deliberately named **Simplified Surfaces**: it removes selected decorative gradients and shadows. It does not reduce page saturation, convert the interface to monochrome, or recolor images. The earlier “Low-Chroma / Monochrome-Friendly” label overstated what the implementation actually does and was replaced for accuracy.
 
 ## Implemented behavior
 
@@ -152,4 +154,4 @@ Research source coverage: Exa and Parallel were used for independent web and Pub
 Latest full CI confirmation — 2026-11-28: GitHub Actions run 46085688556 passed all 14 validation steps on commit 61605d4bc1b3a88ee2bf6fc0f8a32dcdc3f6faba. It includes the 48-group Chromium/Firefox/WebKit Playwright/axe suite, redundant status-label checks, malformed preference fallback, modal-backdrop dismissal/focus restoration, 200% text-size emulation, forced-colors and text-spacing checks, Astro production build, full npm audit, Next lint and Next build. The workflow contains no deployment action.
 
 
-- 2026-11-28 regression expansion: runtime browser checks now verify 20 project status labels, one social status label and six response-speed labels remain readable in text, are marked as redundant status text, and do not expose decorative dots to assistive technology. Additional cases verify malformed stored preferences fall back safely and backdrop dismissal restores focus. Local results: Chromium 48/48, WebKit 48/48, Firefox 47 passed with one unsupported mobile-emulation skip. CI validation for this expansion is pending.
+- 2026-11-28 regression expansion: runtime browser checks now verify 20 project status labels, one social status label and six response-speed labels remain readable in text, are marked as redundant status text, and do not expose decorative dots to assistive technology. Additional cases verify malformed stored preferences fall back safely and backdrop dismissal restores focus. Local results: Chromium 48/48, WebKit 48/48, Firefox 47 passed with one unsupported mobile-emulation skip. P07 is explicitly named “Simplified Surfaces” and browser/static audits assert that its description does not claim a chroma or monochrome filter. This P07 accuracy correction is locally validated and awaiting CI.
