@@ -284,8 +284,9 @@ export function createMorphGlassRenderer(
     for (const target of [targetA, targetB]) {
       context.bindTexture(context.TEXTURE_2D, target.texture);
       context.texImage2D(context.TEXTURE_2D, 0, context.RGBA8, targetWidth, targetHeight, 0, context.RGBA, context.UNSIGNED_BYTE, null);
+      // The texture remains attached to this framebuffer across storage resizes.
+      // Re-check completeness after reallocating storage without reattaching it.
       context.bindFramebuffer(context.FRAMEBUFFER, target.framebuffer);
-      context.framebufferTexture2D(context.FRAMEBUFFER, context.COLOR_ATTACHMENT0, context.TEXTURE_2D, target.texture, 0);
       if (context.checkFramebufferStatus(context.FRAMEBUFFER) !== context.FRAMEBUFFER_COMPLETE) {
         throw new Error("MorphGlass framebuffer is incomplete.");
       }
