@@ -15,17 +15,29 @@
     "build:next": "npm run build --workspace=hypergaruda-next",
     "check": "astro check",
     "check:next": "npm run lint --workspace=hypergaruda-next",
+    "test:cvd:browser": "node scripts/test-cvd-browser.mjs",
     "check:legacy": "node scripts/check-legacy-assets.mjs"
   },
   "dependencies": {
     "@astrojs/check": "latest",
-    "@astrojs/netlify": "latest",
-    "astro": "latest",
+    "@astrojs/netlify": "^8.2.14",
+    "astro": "^7.4.13",
     "typescript": "latest"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "playwright": "^1.65.1",
     "postcss": "^8.5.30",
     "tailwindcss": "^4.3.3"
+  },
+  "overrides": {
+    "@vercel/nft": "1.11.15",
+    "@netlify/zip-it-and-ship-it": {
+      "archiver": {
+        "readdir-glob": "4.0.0"
+      },
+      "minimatch": "11.0.9"
+    }
   }
 }
