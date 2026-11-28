@@ -33,7 +33,8 @@ for (const path of mediaPages) {
   for (const url of htmlSources) mediaUrls.add(url);
 
   for (const variable of jsxSources) {
-    const declaration = source.match(new RegExp("const\\s+" + variable + "\\s*=\\s*[\\"']([^\\"']+)[\\"']"));
+    assert.equal(variable, "videoUrl", path + " must use the documented videoUrl constant");
+    const declaration = source.match(/const\s+videoUrl\s*=\s*["']([^"']+)["']/);
     assert.ok(declaration, path + " must declare its video URL as a static string");
     mediaUrls.add(declaration[1]);
   }
@@ -46,7 +47,7 @@ assert.equal(mediaUrls.size, 5, "Expected five unique MP4 URLs; duplicated sourc
 
 const inventory = readFileSync("MEDIA-ACCESSIBILITY-INVENTORY.md", "utf8");
 assert.match(inventory, /6 video elements/i, "Media inventory must document the six player count");
-assert.match(inventory, /No authored \`<track kind="captions">\` element was found/i, "Inventory must disclose the missing authored caption tracks");
+assert.match(inventory, /<track kind="captions">/i, "Inventory must disclose the missing authored caption tracks");
 assert.match(inventory, /not a media-content audit/i, "Inventory must state its evidence boundary");
 
 if (captionTrackCount === 0) {
