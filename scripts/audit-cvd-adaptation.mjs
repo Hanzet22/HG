@@ -31,6 +31,10 @@ assert.match(cvdBlock, /aria-live="polite"/, "Profile changes should be announce
 assert.match(cvdBlock, /name: "Simplified Surfaces"/, "P07 label must reflect its actual surface-only behavior");
 assert.match(cvdBlock, /decorative gradients and shadows/, "P07 description must state the actual surface changes");
 assert.doesNotMatch(cvdBlock, /Low-Chroma|Monochrome-Friendly/, "P07 must not claim an unimplemented chroma or monochrome filter");
+assert.match(cvdBlock, /boundariesToggle\.disabled = boundariesLocked/, "Profile-required boundaries must be visibly locked in the controls");
+assert.match(cvdBlock, /neutralToggle\.disabled = neutralSurfacesLocked/, "Profile-required surface treatment must be visibly locked in the controls");
+assert.match(cvdBlock, /if \(!boundariesToggle\.disabled\) preferences\.boundaries/, "Locked profile settings must not overwrite manual preferences");
+assert.match(cvdBlock, /if \(!neutralToggle\.disabled\) preferences\.neutralSurfaces/, "Locked profile settings must not overwrite manual preferences");
 assert.match(cvdBlock, /\.response-speed, \.project-status, \.social-status/, "Status components must be identified for redundant text support");
 assert.match(cvdBlock, /dot\.setAttribute\("aria-hidden", "true"\)/, "Decorative status shapes must be hidden from assistive technology");
 assert.doesNotMatch(cvdBlock, /launcher\.setAttribute\("aria-label"/, "Launcher accessible name should come from its visible text label");

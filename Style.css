@@ -3429,6 +3429,15 @@ main p a:not(.button):not(.btn-primary) {
     accent-color: var(--accent-text);
 }
 
+.hg-cvd-check.hg-cvd-check-locked {
+    cursor: not-allowed;
+}
+
+.hg-cvd-check input:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
 .hg-cvd-privacy {
     margin: 16px 0;
     padding: 11px 12px;

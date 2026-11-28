@@ -1096,6 +1096,7 @@ document.addEventListener("DOMContentLoaded", () => {
             '<fieldset class="hg-cvd-options"><legend>Personal calibration</legend>' +
                 '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox"><span>Emphasize component boundaries</span></label>' +
                 '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Remove decorative gradients and shadows on selected surfaces</span></label>' +
+                '<p class="hg-cvd-hint">Some profiles apply these settings automatically. Select P00 or P09 to adjust a locked setting manually.</p>' +
             '</fieldset>' +
             '<p class="hg-cvd-privacy">Your preference is stored locally in this browser only. It is not sent to HyperGaruda. Images and videos are not recolored.</p>' +
             '<div class="hg-cvd-dialog-footer"><button class="hg-cvd-reset" id="hg-cvd-reset" type="button">Reset preferences</button><button class="hg-cvd-done" id="hg-cvd-done" type="button">Apply &amp; close</button></div>' +
@@ -1122,15 +1123,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const root = document.documentElement;
             const profile = profiles.find(item => item.id === preferences.profile) || profiles[0];
 
+            const boundariesLocked = preferences.profile === "p08" || /^p0[1-6]$/.test(preferences.profile);
+            const neutralSurfacesLocked = preferences.profile === "p07";
+            const effectiveBoundaries = preferences.boundaries || boundariesLocked;
+            const effectiveNeutralSurfaces = preferences.neutralSurfaces || neutralSurfacesLocked;
+
             root.dataset.hgCvdProfile = preferences.profile;
             root.dataset.hgCvdStrength = preferences.strength;
-            root.dataset.hgCvdBoundaries = String(preferences.boundaries || preferences.profile === "p08" || /^p0[1-6]$/.test(preferences.profile));
-            root.dataset.hgCvdNeutralSurfaces = String(preferences.neutralSurfaces || preferences.profile === "p07");
+            root.dataset.hgCvdBoundaries = String(effectiveBoundaries);
+            root.dataset.hgCvdNeutralSurfaces = String(effectiveNeutralSurfaces);
 
             profileSelect.value = preferences.profile;
             strengthSelect.value = preferences.strength;
-            boundariesToggle.checked = preferences.boundaries;
-            neutralToggle.checked = preferences.neutralSurfaces;
+            boundariesToggle.checked = effectiveBoundaries;
+            boundariesToggle.disabled = boundariesLocked;
+            boundariesToggle.closest(".hg-cvd-check").classList.toggle("hg-cvd-check-locked", boundariesLocked);
+            neutralToggle.checked = effectiveNeutralSurfaces;
+            neutralToggle.disabled = neutralSurfacesLocked;
+            neutralToggle.closest(".hg-cvd-check").classList.toggle("hg-cvd-check-locked", neutralSurfacesLocked);
             profileNote.textContent = profile.note;
 
             document.querySelectorAll(".status-dot").forEach(dot => dot.setAttribute("aria-hidden", "true"));
@@ -1147,8 +1157,8 @@ document.addEventListener("DOMContentLoaded", () => {
         function updateFromControls() {
             preferences.profile = profileSelect.value;
             preferences.strength = strengthSelect.value;
-            preferences.boundaries = boundariesToggle.checked;
-            preferences.neutralSurfaces = neutralToggle.checked;
+            if (!boundariesToggle.disabled) preferences.boundaries = boundariesToggle.checked;
+            if (!neutralToggle.disabled) preferences.neutralSurfaces = neutralToggle.checked;
             applyPreferences();
             savePreferences();
             announceChange();
