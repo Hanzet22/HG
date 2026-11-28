@@ -111,6 +111,14 @@ The earlier bounded Firecrawl crawl on 2026-11-27 was throttled after 3 pages. A
 A separate Parallel content-extraction pass requested 17 URLs: the 11 known Astro content/error routes and four live Next.js routes returned content, while `/join.html` returned HTTP 404 and a deliberately nonexistent Next.js test route returned HTTP 404 as expected. This is content-level route evidence, not a DOM, accessibility-tree, keyboard, or visual audit. Several excerpts were cached from 2026-11-24, so do not treat all 17 as fresh 2026-11-27 production snapshots.
 
 These differences confirm that the production sites have not yet picked up the current branch changes. Do not treat a successful source-level check as evidence that the live deployment has been remediated.
+
+
+## Live reduced-motion preference handling
+
+The Astro motion engine now listens for changes to the browser/OS `prefers-reduced-motion` setting while the page is open. When reduction is enabled, it stops active GSAP animations and ScrollTriggers, makes reveal content visible, completes number counters, and pauses/removes autoplay from video elements. When the preference is turned off again, the page remains usable without forcing animations to restart.
+
+Playwright now includes a live preference-change regression on `/projects.html`. The new test is being validated in GitHub Actions; passing this test is evidence for this behavior only, not a WCAG conformance certification. See [WCAG-RESEARCH.md](WCAG-RESEARCH.md) and [the 2026-11-28 research update](WCAG-RESEARCH-UPDATE-2026-11-28.md).
+
 ## References
 
 ### Normative and official implementation references
