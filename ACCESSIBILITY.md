@@ -117,7 +117,7 @@ These differences confirm that the production sites have not yet picked up the c
 
 The Astro motion engine now listens for changes to the browser/OS `prefers-reduced-motion` setting while the page is open. When reduction is enabled, it stops active GSAP animations and ScrollTriggers, makes reveal content visible, completes number counters, and pauses/removes autoplay from video elements. When the preference is turned off again, the page remains usable without forcing animations to restart.
 
-Playwright now includes a live preference-change regression on `/projects.html`. The new test is being validated in GitHub Actions; passing this test is evidence for this behavior only, not a WCAG conformance certification. See [WCAG-RESEARCH.md](WCAG-RESEARCH.md) and [the 2026-11-28 research update](WCAG-RESEARCH-UPDATE-2026-11-28.md).
+Playwright now includes a live preference-change regression on `/projects.html`. It passed in [GitHub Actions run #103](https://github.com/Hanzet22/HG/actions/runs/46164000414) across Chromium, Firefox and WebKit. This is evidence for this behavior only, not a WCAG conformance certification. See [WCAG-RESEARCH.md](WCAG-RESEARCH.md) and [the 2026-11-28 research update](WCAG-RESEARCH-UPDATE-2026-11-28.md).
 
 ## References
 
