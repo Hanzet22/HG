@@ -2,8 +2,9 @@
 
 **Scope:** WCAG 2.2 Level A and AA  
 **Repository:** `Hanzet22/HG`  
-**Working branch:** `portfolio-setup`  
-**Last source review:** 2026-11-27
+- **Working branch:** `cvd-a11y-hardening` (not merged)
+- **Production branch:** `portfolio-setup`
+- **Last source review:** 2026-11-28
 
 This document records source-level remediation and static checks. It is not a formal WCAG conformance claim, certification, or substitute for testing the rendered pages with browsers and assistive technologies.
 
@@ -182,13 +183,13 @@ Research on cognitive accessibility and blind-user barriers supports testing wit
 
 - PubMed/PMC provider contracts were discovered through the Firecrawl Life Sciences catalogue, but no provider query ran because the connected Firecrawl balance was 0 credits (the direct PubMed query was refused before execution for needing 5 credits; the earlier Europe PMC query was also refused). Firecrawl research-index and full-text paper reads did succeed. A further Undermind deep search was blocked by the workspace free-usage limit until 2026-11-28 00:30 UTC; existing Undermind PDFs and the completed CVD searches were used.
 
-- Latest full CI confirmation for the 46-group status regression: run 46085164760 passed all 14 steps on commit a6c65658be13753e73b98ecef764304a49169baf, including npm audit, source audit, Astro check/build, three-engine Playwright/axe tests, Next lint and Next build. The newer 48-group suite adds malformed local-storage fallback and modal-backdrop dismissal/focus restoration; it has passed locally in all three engines and is pending CI. No deployment step is present.
+- Latest full CI confirmation: run 46085688556 passed all 14 steps on commit 61605d4bc1b3a88ee2bf6fc0f8a32dcdc3f6faba. It includes npm audit, source audit, Astro check/build, the 48-group Chromium/Firefox/WebKit Playwright/axe suite, malformed local-storage fallback, modal-backdrop dismissal/focus restoration, Next lint and Next build. No deployment step is present.
 
-- Deployment guard: the CVD branch is 78 commits ahead of production branch portfolio-setup; the latter is 117 commits ahead of the live Netlify deploy. The 20-file branch diff also contains earlier Next companion, dependency lock, and legacy-route changes; merging would combine roughly 195 unpublished commits. No merge, PR, or deploy has been initiated; the latest live Netlify deployment remains unchanged.
+- Deployment guard: the CVD branch is 79 commits ahead of production branch portfolio-setup; the latter is 117 commits ahead of the live Netlify deploy. The 20-file branch diff also contains earlier Next companion, dependency lock, and legacy-route changes; merging would combine roughly 196 unpublished commits. No merge, PR, or deploy has been initiated; the latest live Netlify deployment remains unchanged.
 
 - The profile regression also verifies that every selection updates the polite live region and that P01–P06 explicitly state they are not diagnoses; axe scans cover representative baseline, preset, low-chroma, high-distinction and personal-calibration states.
 
 - Documentation finalization CI: run 46083005616 passed all 14 steps on commit 48d76874ac8399e87130327e5c97f66ab186200e. The final branch-ahead count in this guide includes one subsequent documentation-only correction commit.
 
 - Research update (2026-11-28): added the CHI 2022 direct CVD-participant colour-pattern study (29 CVD participants + 29 controls; three task types with aid-specific outcomes) and clarified the 2025 web-colour-scheme study composition (18 male CVD participants: 10 deutan, 5 protan, 3 tritan; one page only). These studies support task-specific redundant cues and individual evaluation, not blanket pattern overlays or a universal color scheme.
-- 2026 local regression expansion adds runtime checks for 27 status components across Projects, Social Media and Contact, malformed local-storage fallback, and modal-backdrop dismissal with focus restoration. The 48-group suite passed locally in Chromium and WebKit (48/48 each) and Firefox (47 passed, one unsupported mobile-emulation skip); CI is pending for this expansion. The preceding 46-group version passed all 14 CI steps in run 46085164760.
+- 2026 local regression expansion adds runtime checks for 27 status components across Projects, Social Media and Contact, malformed local-storage fallback, and modal-backdrop dismissal with focus restoration. The 48-group suite passed locally in Chromium and WebKit (48/48 each) and Firefox (47 passed, one unsupported mobile-emulation skip); GitHub Actions run 46085688556 then passed all 14 validation steps on the same code/test commit.
