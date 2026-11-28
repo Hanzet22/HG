@@ -634,7 +634,7 @@ export default async function Home() {
                   />
                 </div>
                 <p className="panel-intro">
-                  The SMKN 1 Mandau project is an independent replica concept, not the official school website and not a representative channel for the school. Do not submit students' personal information in issue reports.
+                  The SMKN 1 Mandau project is an independent replica concept, not the official school website and not a representative channel for the school. Do not submit students&apos; personal information in issue reports.
                 </p>
               </div>
             </details>
