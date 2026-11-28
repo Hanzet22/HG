@@ -70,7 +70,7 @@ WCAG 2.3.1 is the normative conformance criterion. The actual media must be eval
 
 The `cvd-a11y-hardening` branch contains a browser suite that has passed GitHub Actions run [46096066915](https://github.com/Hanzet22/HG/actions/runs/46096066915) at commit `5691bbb81144e7b21029d16908db588ac26404bd`. The suite covers 12 Astro routes, axe checks, 320px reflow, 200% text-size emulation, keyboard/dialog behavior, status semantics, forced-colors, reduced motion, and Chromium/Firefox/WebKit. That historical pass belongs to that branch and commit.
 
-The tested source and test tooling have now been ported selectively to `portfolio-setup`. The new workflow must run against the current branch before its result is described as passing. It runs dependency audit, source audits, Astro checks/build, browser tests in three engines, Next lint/build, and the legacy-route smoke check. It has no Netlify deployment step.
+The tested source and test tooling have now been ported selectively to `portfolio-setup`. The current branch passed GitHub Actions run [#103](https://github.com/Hanzet22/HG/actions/runs/46164000414) at commit `91d4781050645ec5207a34e24ef14d630cc584f8`, including dependency audit, source audits, Astro checks/build, browser tests in Chromium/Firefox/WebKit, Next lint/build, and the legacy-route smoke check. It has no Netlify deployment step.
 
 Still required after CI:
 1. Verify all six media players by actual playback, including captions, audio description/media alternatives and flashing analysis.
