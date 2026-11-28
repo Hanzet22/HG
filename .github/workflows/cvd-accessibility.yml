@@ -28,6 +28,7 @@ on:
       - "package-lock.json"
       - "CVD-ADAPTATION.md"
       - "ACCESSIBILITY.md"
+      - "WCAG-RESEARCH*.md"
       - "HyperGaruda-Next/**"
       - ".github/workflows/cvd-accessibility.yml"
   pull_request:
