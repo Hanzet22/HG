@@ -16,7 +16,8 @@
     "check": "astro check",
     "check:next": "npm run lint --workspace=hypergaruda-next",
     "test:cvd:browser": "node scripts/test-cvd-browser.mjs",
-    "check:legacy": "node scripts/check-legacy-assets.mjs"
+    "check:legacy": "node scripts/check-legacy-assets.mjs",
+    "check:media": "node scripts/audit-media-accessibility.mjs"
   },
   "dependencies": {
     "@astrojs/check": "latest",
