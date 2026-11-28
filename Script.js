@@ -90,10 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 HG.scrollTrigger.getAll().forEach(trigger => trigger.kill());
             }
 
-            $(".hg-reveal, .hg-reveal-left, .hg-reveal-right, .hg-reveal-scale")
+            document.querySelectorAll(".hg-reveal, .hg-reveal-left, .hg-reveal-right, .hg-reveal-scale")
                 .forEach(element => element.classList.add("hg-visible"));
 
-            $("[data-count]").forEach(counter => {
+            document.querySelectorAll("[data-count]").forEach(counter => {
                 const target = Number(counter.dataset.count);
                 if (!Number.isFinite(target)) return;
                 const prefix = counter.dataset.prefix || "";
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     `${prefix}${Math.round(target).toLocaleString()}${suffix}`;
             });
 
-            $("video").forEach(video => {
+            document.querySelectorAll("video").forEach(video => {
                 video.pause();
                 video.autoplay = false;
                 video.removeAttribute("autoplay");
