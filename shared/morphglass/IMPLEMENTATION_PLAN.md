@@ -54,6 +54,9 @@ shared/morphglass/
 - [x] Implement bounded source staging and GPU render targets.
 - [x] Implement repeated Kawase-style blur passes and glass compositing.
 - [x] Add WebGL context-loss detection and explicit resource disposal.
+- [x] Reuse bounded source texture storage for repeated frames when dimensions are unchanged.
+- [x] Preserve render-target framebuffer attachments when resizing texture storage.
+- [ ] Verify behavior on real browsers and mobile GPUs.- [x] Add WebGL context-loss detection and explicit resource disposal.
 - [ ] Verify behavior on real browsers and mobile GPUs.
 - [ ] Add automated renderer tests where a WebGL-capable runner is available.
 
