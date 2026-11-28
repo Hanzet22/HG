@@ -227,7 +227,7 @@ export function createMorphGlassRenderer(
   const maxTextureSize = context.getParameter(context.MAX_TEXTURE_SIZE) as number;
   const maxViewportDims = context.getParameter(context.MAX_VIEWPORT_DIMS) as Int32Array;
   const requestedMaxEdge = options.maxRenderEdge ?? 2048;
-  const maxRenderEdge = Math.max(256, Math.min(
+  const maxRenderEdge = Math.max(1, Math.min(
     Number.isFinite(requestedMaxEdge) ? requestedMaxEdge : 2048,
     maxTextureSize,
   ));
@@ -249,6 +249,8 @@ export function createMorphGlassRenderer(
   let rect = normalizeRect(options.sourceRect ?? { x: 0, y: 0, width: 1, height: 1 });
   let targetWidth = 0;
   let targetHeight = 0;
+  let sourceTextureWidth = 0;
+  let sourceTextureHeight = 0;
   let destroyed = false;
   let lost = false;
   let pointer: [number, number] = [0.5, 0.25];
@@ -329,7 +331,33 @@ export function createMorphGlassRenderer(
     context.activeTexture(context.TEXTURE0);
     context.bindTexture(context.TEXTURE_2D, sourceTexture);
     try {
-      context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, staging);
+      // Allocate storage only when the bounded source dimensions change. Repeated
+      // renders (including video frames) update the existing allocation instead
+      // of redefining the texture store on every call.
+      if (sourceTextureWidth !== sourceWidth || sourceTextureHeight !== sourceHeight) {
+        context.texImage2D(
+          context.TEXTURE_2D,
+          0,
+          context.RGBA8,
+          sourceWidth,
+          sourceHeight,
+          0,
+          context.RGBA,
+          context.UNSIGNED_BYTE,
+          null,
+        );
+        sourceTextureWidth = sourceWidth;
+        sourceTextureHeight = sourceHeight;
+      }
+      context.texSubImage2D(
+        context.TEXTURE_2D,
+        0,
+        0,
+        0,
+        context.RGBA,
+        context.UNSIGNED_BYTE,
+        staging,
+      );
     } catch (error) {
       options.onError?.(error instanceof Error ? error : new Error("MorphGlass texture upload failed. The source may be cross-origin without CORS permission."));
       return;
