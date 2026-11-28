@@ -11,6 +11,8 @@ This document separates normative WCAG requirements, empirical accessibility res
 
 **Follow-up evidence addendum:** [WCAG research follow-up — 2026-11-28](WCAG-RESEARCH-FOLLOWUP-2026-11-28.md) adds new motion/HCI and cognitive-web research, clarifies evidence limitations, and records the next media-validation steps.
 
+**Embedded media inventory:** [Media accessibility inventory](MEDIA-ACCESSIBILITY-INVENTORY.md) records six video players across legacy error pages and the Next companion, including the current caption-track and manual-review gaps.
+
 ## 1. Normative implementation baseline
 
 The conformance target is the W3C WCAG 2.2 Recommendation. Success criteria—not a particular tool or technique—determine conformance.
