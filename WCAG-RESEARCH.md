@@ -91,3 +91,7 @@ Research used Exa, Firecrawl, Parallel and Undermind. Firecrawl's research-paper
 - Jordan & Vanderheiden (2024), [International Guidelines for Photosensitive Epilepsy: Gap Analysis and Recommendations](https://doi.org/10.1145/3694790).
 - Fisher et al. (2022), [Visually sensitive seizures: An updated review by the Epilepsy Foundation](https://doi.org/10.1111/epi.17175).
 - Gartland et al. (2022), [The State of Web Accessibility for People with Cognitive Disabilities: A Rapid Evidence Assessment](https://doi.org/10.3390/bs12020026).
+
+
+### New browser regression coverage
+The current branch's Playwright suite now checks the four Astro error-page video players for native controls, accessible names, no autoplay, no looping, no forced mute, and metadata-only preload. The test records caption-track presence but does not assert caption completeness because the actual media audio and visuals have not been reviewed. Frame-level flash analysis and accurate captions/audio descriptions remain manual media-review tasks.
