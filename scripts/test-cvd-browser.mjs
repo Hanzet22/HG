@@ -186,6 +186,11 @@ try {
   await page.keyboard.press("Escape");
   assert.equal(await dialog.evaluate((element) => element.open), false, "Escape must close the dialog");
   assert.ok(await launcher.evaluate((element) => document.activeElement === element), "Escape must restore focus to the launcher");
+  await launcher.click();
+  await page.mouse.click(2, 70);
+  assert.equal(await dialog.evaluate((element) => element.open), false, "Clicking the modal backdrop must close the dialog");
+  assert.ok(await launcher.evaluate((element) => document.activeElement === element), "Backdrop dismissal must restore focus to the launcher");
+  record("modal backdrop dismissal", { closed: true, focusRestored: true });
   assert.equal(pageErrors.length, 0, "Main page must not throw uncaught page errors");
   record("dialog, profiles, keyboard, persistence, and responsive geometry", {
     axeViolations: dialogAxe.violations.length, profileCount: 10, strengthLevels: 3,
@@ -216,6 +221,22 @@ try {
   assert.equal(blockedErrors.length, 0, "Storage-disabled mode must not throw uncaught errors");
   record("storage-disabled fallback", { profile: "p08", pageErrors: blockedErrors.length });
   await blockedContext.close();
+
+  const invalidContext = await browser.newContext({ viewport: { width: 360, height: 780 } });
+  await invalidContext.addInitScript(() => {
+    localStorage.setItem("hg-cvd-display-preferences-v1", JSON.stringify({
+      profile: "p99", strength: "critical", boundaries: "yes", neutralSurfaces: 1,
+    }));
+  });
+  const invalidPage = await invalidContext.newPage();
+  await invalidPage.goto(new URL("/index.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
+  await invalidPage.locator("#hg-cvd-launcher").click();
+  assert.equal(await invalidPage.locator("#hg-cvd-profile").inputValue(), "p00", "Unknown stored profiles must fall back to Accessible Default");
+  assert.equal(await invalidPage.locator("#hg-cvd-strength").inputValue(), "balanced", "Unknown stored emphasis must fall back to Balanced");
+  assert.equal(await invalidPage.evaluate(() => document.documentElement.dataset.hgCvdBoundaries), "false", "Invalid boundary preference types must be ignored");
+  assert.equal(await invalidPage.evaluate(() => document.documentElement.dataset.hgCvdNeutralSurfaces), "false", "Invalid neutral-surface preference types must be ignored");
+  record("invalid stored preference fallback", { profile: "p00", strength: "balanced", invalidBooleansIgnored: true });
+  await invalidContext.close();
 
   if (browserName === "firefox") {
     record("mobile touch emulation", { skipped: "Playwright Firefox does not expose mobile viewport emulation" });
