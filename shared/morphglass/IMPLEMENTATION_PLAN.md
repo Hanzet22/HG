@@ -1,7 +1,7 @@
 # HG MorphGlass — Implementation Plan
 
 Status: first WebGL2 renderer and selected-site CSS integration committed  
-Target branch: `morphglass/gpl3-adaptation`  
+Target branch: `portfolio-setup`  
 License: GPL-3.0-only for the adapted MorphGlass package  
 Upstream pin: `realidkroo/Mochy-Music@e6a17d2eb9f48b503fe07e35049cb522b8486db2`
 
@@ -56,7 +56,6 @@ shared/morphglass/
 - [x] Add WebGL context-loss detection and explicit resource disposal.
 - [x] Reuse bounded source texture storage for repeated frames when dimensions are unchanged.
 - [x] Preserve render-target framebuffer attachments when resizing texture storage.
-- [ ] Verify behavior on real browsers and mobile GPUs.- [x] Add WebGL context-loss detection and explicit resource disposal.
 - [ ] Verify behavior on real browsers and mobile GPUs.
 - [ ] Add automated renderer tests where a WebGL-capable runner is available.
 
@@ -69,6 +68,7 @@ shared/morphglass/
 ### Phase 5 — Framework integration and release
 - [x] Add a Next.js client-only lifecycle adapter.
 - [x] Integrate the CSS backend in Astro's legacy asset response.
+- [x] Register the legacy Join page in the SSR asset map.
 - [ ] Add an Astro-native component/adapter if the portfolio migrates away from the legacy HTML response.
 - [ ] Evaluate WebGL2 on selected visual surfaces only; keep CSS default.
 - [ ] Run Astro and Next.js builds and inspect Deploy Previews.
