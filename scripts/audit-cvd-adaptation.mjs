@@ -33,6 +33,8 @@ assert.match(cvdBlock, /decorative gradients and shadows/, "P07 description must
 assert.doesNotMatch(cvdBlock, /Low-Chroma|Monochrome-Friendly/, "P07 must not claim an unimplemented chroma or monochrome filter");
 assert.match(cvdBlock, /boundariesToggle\.disabled = boundariesLocked/, "Profile-required boundaries must be visibly locked in the controls");
 assert.match(cvdBlock, /neutralToggle\.disabled = neutralSurfacesLocked/, "Profile-required surface treatment must be visibly locked in the controls");
+assert.ok(cvdBlock.includes("aria-describedby=") && cvdBlock.includes("hg-cvd-control-hint"), "Locked controls must reference their explanation for assistive technology");
+assert.match(cvdBlock, /hg-cvd-lock-status/, "Locked controls must expose a visible automatic-state label");
 assert.match(cvdBlock, /if \(!boundariesToggle\.disabled\) preferences\.boundaries/, "Locked profile settings must not overwrite manual preferences");
 assert.match(cvdBlock, /if \(!neutralToggle\.disabled\) preferences\.neutralSurfaces/, "Locked profile settings must not overwrite manual preferences");
 assert.match(cvdBlock, /\.response-speed, \.project-status, \.social-status/, "Status components must be identified for redundant text support");
@@ -45,6 +47,8 @@ assert.match(css, /\.response-speed\.super-slow \.status-dot/, "Super-slow statu
 assert.match(css, /\.response-speed\.super-fast \.status-dot/, "Super-fast status must have a non-color shape");
 assert.match(css, /main p a:not\(\.button\):not\(\.btn-primary\)/, "Inline content links must have non-color distinction");
 assert.match(css, /\.hg-cvd-dialog button:focus-visible/, "Dialog controls must have visible focus styles");
+assert.match(css, /\.hg-cvd-check-locked \.hg-cvd-lock-status/, "Profile-locked controls must display a visible Automatic label");
+assert.match(css, /\.hg-cvd-lock-status[\s\S]*?border-color: ButtonText/, "Automatic labels must remain distinguishable in forced-colors mode");
 assert.match(css, /@media \(forced-colors: active\)/, "Display controls must support forced-colors mode");
 assert.match(css, /\.hg-cvd-dialog \{[^}]*background: Canvas;[^}]*color: CanvasText/s, "Dialog must use system colors in forced-colors mode");
 

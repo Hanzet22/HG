@@ -1094,9 +1094,9 @@ document.addEventListener("DOMContentLoaded", () => {
             '<div class="hg-cvd-field"><label for="hg-cvd-profile">Display profile</label><select id="hg-cvd-profile" name="profile">' + options + '</select><p class="hg-cvd-hint" id="hg-cvd-profile-note"></p></div>' +
             '<div class="hg-cvd-field"><label for="hg-cvd-strength">Support emphasis</label><select id="hg-cvd-strength" name="strength"><option value="subtle">Subtle</option><option value="balanced">Balanced</option><option value="stronger">Stronger</option></select><p class="hg-cvd-hint">This changes visual emphasis only, not medical severity.</p></div>' +
             '<fieldset class="hg-cvd-options"><legend>Personal calibration</legend>' +
-                '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox"><span>Emphasize component boundaries</span></label>' +
-                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Remove decorative gradients and shadows on selected surfaces</span></label>' +
-                '<p class="hg-cvd-hint">Some profiles apply these settings automatically. Select P00 or P09 to adjust a locked setting manually.</p>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox" aria-describedby=\"hg-cvd-control-hint\"><span>Emphasize component boundaries</span><span class=\"hg-cvd-lock-status\">Automatic</span></label>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox" aria-describedby=\"hg-cvd-control-hint\"><span>Remove decorative gradients and shadows on selected surfaces</span><span class=\"hg-cvd-lock-status\">Automatic</span></label>' +
+                '<p class="hg-cvd-hint" id=\"hg-cvd-control-hint\">Some profiles apply these settings automatically. Select P00 or P09 to adjust a locked setting manually.</p>' +
             '</fieldset>' +
             '<p class="hg-cvd-privacy">Your preference is stored locally in this browser only. It is not sent to HyperGaruda. Images and videos are not recolored.</p>' +
             '<div class="hg-cvd-dialog-footer"><button class="hg-cvd-reset" id="hg-cvd-reset" type="button">Reset preferences</button><button class="hg-cvd-done" id="hg-cvd-done" type="button">Apply &amp; close</button></div>' +

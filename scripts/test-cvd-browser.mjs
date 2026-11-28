@@ -113,16 +113,16 @@ try {
   assert.ok(await dialog.evaluate((element) => element.contains(document.activeElement)), "Reverse Tab focus must remain inside the modal dialog");
 
   const expected = {
-    p00: { boundaries: "false", neutral: "false", boundariesChecked: false, boundariesDisabled: false, neutralChecked: false, neutralDisabled: false },
-    p01: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p02: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p03: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p04: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p05: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p06: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p07: { boundaries: "false", neutral: "true", boundariesChecked: false, boundariesDisabled: false, neutralChecked: true, neutralDisabled: true },
-    p08: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false },
-    p09: { boundaries: "false", neutral: "false", boundariesChecked: false, boundariesDisabled: false, neutralChecked: false, neutralDisabled: false },
+    p00: { boundaries: "false", neutral: "false", boundariesChecked: false, boundariesDisabled: false, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: false, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p01: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p02: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p03: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p04: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p05: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p06: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p07: { boundaries: "false", neutral: "true", boundariesChecked: false, boundariesDisabled: false, neutralChecked: true, neutralDisabled: true, boundariesLockVisible: false, neutralLockVisible: true, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p08: { boundaries: "true", neutral: "false", boundariesChecked: true, boundariesDisabled: true, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: true, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
+    p09: { boundaries: "false", neutral: "false", boundariesChecked: false, boundariesDisabled: false, neutralChecked: false, neutralDisabled: false, boundariesLockVisible: false, neutralLockVisible: false, boundariesDescribedBy: "hg-cvd-control-hint", neutralDescribedBy: "hg-cvd-control-hint" },
   };
   for (const [profile, state] of Object.entries(expected)) {
     await dialog.locator("#hg-cvd-profile").selectOption(profile);
@@ -134,6 +134,10 @@ try {
       boundariesDisabled: document.querySelector("#hg-cvd-boundaries").disabled,
       neutralChecked: document.querySelector("#hg-cvd-neutral-surfaces").checked,
       neutralDisabled: document.querySelector("#hg-cvd-neutral-surfaces").disabled,
+      boundariesLockVisible: document.querySelector("#hg-cvd-boundaries").closest("label").querySelector(".hg-cvd-lock-status").getClientRects().length > 0,
+      neutralLockVisible: document.querySelector("#hg-cvd-neutral-surfaces").closest("label").querySelector(".hg-cvd-lock-status").getClientRects().length > 0,
+      boundariesDescribedBy: document.querySelector("#hg-cvd-boundaries").getAttribute("aria-describedby"),
+      neutralDescribedBy: document.querySelector("#hg-cvd-neutral-surfaces").getAttribute("aria-describedby"),
     }));
     assert.deepEqual(actual, { profile, ...state }, profile + " must apply its documented presentation state");
     const announcement = await dialog.locator("#hg-cvd-live").textContent();
@@ -162,11 +166,13 @@ try {
   await dialog.locator("#hg-cvd-profile").selectOption("p01");
   assert.equal(await dialog.locator("#hg-cvd-boundaries").isChecked(), true, "P01 must apply its required boundary treatment");
   assert.equal(await dialog.locator("#hg-cvd-boundaries").isDisabled(), true, "P01 must lock its required boundary treatment");
+  assert.ok(await dialog.locator("#hg-cvd-boundaries").locator("xpath=..").locator(".hg-cvd-lock-status").isVisible(), "P01 must visibly label its automatic boundary setting");
   assert.equal(await dialog.locator("#hg-cvd-neutral-surfaces").isChecked(), true, "P01 must preserve a separately selected manual surface preference");
   await dialog.locator("#hg-cvd-profile").selectOption("p07");
   assert.equal(await dialog.locator("#hg-cvd-boundaries").isChecked(), true, "P07 must preserve a separately selected manual boundary preference");
   assert.equal(await dialog.locator("#hg-cvd-neutral-surfaces").isChecked(), true, "P07 must apply its required surface treatment");
   assert.equal(await dialog.locator("#hg-cvd-neutral-surfaces").isDisabled(), true, "P07 must lock its required surface treatment");
+  assert.ok(await dialog.locator("#hg-cvd-neutral-surfaces").locator("xpath=..").locator(".hg-cvd-lock-status").isVisible(), "P07 must visibly label its automatic surface setting");
   await dialog.locator("#hg-cvd-profile").selectOption("p00");
   assert.equal(await dialog.locator("#hg-cvd-boundaries").isChecked(), true, "Manual boundary preference must survive profile changes");
   assert.equal(await dialog.locator("#hg-cvd-neutral-surfaces").isChecked(), true, "Manual surface preference must survive profile changes");

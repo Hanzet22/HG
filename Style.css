@@ -3429,6 +3429,29 @@ main p a:not(.button):not(.btn-primary) {
     accent-color: var(--accent-text);
 }
 
+.hg-cvd-check > span:first-of-type {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.hg-cvd-lock-status {
+    display: none;
+    flex: 0 0 auto;
+    padding: 2px 7px;
+    border: 1px solid rgba(245, 245, 247, 0.42);
+    border-radius: 999px;
+    background: #1b1b26;
+    color: #d0d0d8;
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.hg-cvd-check-locked .hg-cvd-lock-status {
+    display: inline-flex;
+    align-items: center;
+}
+
 .hg-cvd-check.hg-cvd-check-locked {
     cursor: not-allowed;
 }
@@ -3574,6 +3597,12 @@ html[data-hg-cvd-strength="stronger"] .response-speed .status-dot {
         border: 1px solid FieldText;
         background: Field;
         color: FieldText;
+    }
+
+    .hg-cvd-lock-status {
+        border-color: ButtonText;
+        background: ButtonFace;
+        color: ButtonText;
     }
 
     .hg-cvd-dialog button {
