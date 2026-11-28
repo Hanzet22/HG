@@ -69,6 +69,7 @@ shared/morphglass/
 - [x] Add a Next.js client-only lifecycle adapter.
 - [x] Integrate the CSS backend in Astro's legacy asset response.
 - [x] Register the legacy Join page in the SSR asset map.
+- [x] Add a source-level smoke check for imported legacy assets and route registration.
 - [ ] Add an Astro-native component/adapter if the portfolio migrates away from the legacy HTML response.
 - [ ] Evaluate WebGL2 on selected visual surfaces only; keep CSS default.
 - [ ] Run Astro and Next.js builds and inspect Deploy Previews.
