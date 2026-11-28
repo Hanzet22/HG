@@ -29,6 +29,7 @@ on:
       - "CVD-ADAPTATION.md"
       - "ACCESSIBILITY.md"
       - "WCAG-RESEARCH*.md"
+      - "MEDIA-ACCESSIBILITY-INVENTORY.md"
       - "HyperGaruda-Next/**"
       - ".github/workflows/cvd-accessibility.yml"
   pull_request:
@@ -72,6 +73,9 @@ jobs:
 
       - name: Check legacy asset registry
         run: npm run check:legacy
+
+      - name: Audit embedded media accessibility source
+        run: npm run check:media
 
       - name: Run Astro type and content checks
         run: npm run check
