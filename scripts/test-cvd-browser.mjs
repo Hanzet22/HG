@@ -48,6 +48,32 @@ try {
     await reflowContext.close();
   }
 
+  // Verify that a live OS/browser preference change updates scripted motion too.
+  const motionContext = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+    reducedMotion: "no-preference",
+  });
+  const motionPage = await motionContext.newPage();
+  await motionPage.goto(new URL("/projects.html", baseUrl).toString(), { waitUntil: "domcontentloaded" });
+  assert.equal(
+    await motionPage.locator("html").evaluate(element => element.classList.contains("hg-reduced-motion")),
+    false,
+    "no-preference should not set the reduced-motion class"
+  );
+  await motionPage.emulateMedia({ reducedMotion: "reduce" });
+  await motionPage.waitForFunction(() => document.documentElement.classList.contains("hg-reduced-motion"));
+  const reducedMotionState = await motionPage.evaluate(() => ({
+    reducedClass: document.documentElement.classList.contains("hg-reduced-motion"),
+    hiddenReveals: [...document.querySelectorAll(".hg-reveal, .hg-reveal-left, .hg-reveal-right, .hg-reveal-scale")]
+      .filter(element => !element.classList.contains("hg-visible")).length,
+  }));
+  assert.equal(reducedMotionState.reducedClass, true, "live preference change must enable reduced-motion state");
+  assert.equal(reducedMotionState.hiddenReveals, 0, "live preference change must reveal all content immediately");
+  await motionPage.emulateMedia({ reducedMotion: "no-preference" });
+  await motionPage.waitForFunction(() => !document.documentElement.classList.contains("hg-reduced-motion"));
+  record("live reduced-motion preference changes", reducedMotionState);
+  await motionContext.close();
+
   const statusPages = [
     { route: "/projects.html", selector: ".project-status" },
     { route: "/socialmedia.html", selector: ".social-status" },
