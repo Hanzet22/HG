@@ -8,10 +8,12 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const reducedMotionQuery = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
+
     const HG = {
-        reducedMotion: window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches,
+        reducedMotion: reducedMotionQuery.matches,
 
         mobile: window.matchMedia("(max-width: 760px)"),
 
@@ -38,9 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.documentElement.classList.add("js-enabled");
 
-    if (HG.reducedMotion) {
-        document.documentElement.classList.add("hg-reduced-motion");
-    }
+    setupReducedMotionPreference();
 
     if (HG.gsap && HG.scrollTrigger) {
         HG.gsap.registerPlugin(HG.scrollTrigger);
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }`
     );
 
-    injectMotionStyles()
+    injectMotionStyles();
     updateCopyright();
     setupNavigation();
     setupScrollProgress();
@@ -66,7 +66,60 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCvdAdaptation();
 
     /* -----------------------------------------------------
-       2. DYNAMIC COPYRIGHT YEAR
+       2. LIVE REDUCED-MOTION PREFERENCE
+       ----------------------------------------------------- */
+
+    function setupReducedMotionPreference() {
+        const applyPreference = () => {
+            HG.reducedMotion = reducedMotionQuery.matches;
+            document.documentElement.classList.toggle(
+                "hg-reduced-motion",
+                HG.reducedMotion
+            );
+
+            if (!HG.reducedMotion) return;
+
+            // Stop in-flight scripted motion instead of relying on CSS alone.
+            if (HG.gsap) {
+                HG.gsap.globalTimeline
+                    .getChildren(true, true, true)
+                    .forEach(animation => animation.kill());
+            }
+
+            if (HG.scrollTrigger) {
+                HG.scrollTrigger.getAll().forEach(trigger => trigger.kill());
+            }
+
+            $(".hg-reveal, .hg-reveal-left, .hg-reveal-right, .hg-reveal-scale")
+                .forEach(element => element.classList.add("hg-visible"));
+
+            $("[data-count]").forEach(counter => {
+                const target = Number(counter.dataset.count);
+                if (!Number.isFinite(target)) return;
+                const prefix = counter.dataset.prefix || "";
+                const suffix = counter.dataset.suffix || "";
+                counter.textContent =
+                    `${prefix}${Math.round(target).toLocaleString()}${suffix}`;
+            });
+
+            $("video").forEach(video => {
+                video.pause();
+                video.autoplay = false;
+                video.removeAttribute("autoplay");
+            });
+        };
+
+        applyPreference();
+
+        if (typeof reducedMotionQuery.addEventListener === "function") {
+            reducedMotionQuery.addEventListener("change", applyPreference);
+        } else if (typeof reducedMotionQuery.addListener === "function") {
+            reducedMotionQuery.addListener(applyPreference);
+        }
+    }
+
+    /* -----------------------------------------------------
+       3. DYNAMIC COPYRIGHT YEAR
        ----------------------------------------------------- */
 
     function updateCopyright() {
@@ -393,6 +446,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     opacity: 1 !important;
                     transform: none !important;
                 }
+            }
+
+            html.hg-reduced-motion {
+                scroll-behavior: auto !important;
+            }
+
+            html.hg-reduced-motion *,
+            html.hg-reduced-motion *::before,
+            html.hg-reduced-motion *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            html.hg-reduced-motion .hg-motion-ready .hg-reveal,
+            html.hg-reduced-motion .hg-motion-ready .hg-reveal-left,
+            html.hg-reduced-motion .hg-motion-ready .hg-reveal-right,
+            html.hg-reduced-motion .hg-motion-ready .hg-reveal-scale,
+            html.hg-reduced-motion .hg-reveal,
+            html.hg-reduced-motion .hg-reveal-left,
+            html.hg-reduced-motion .hg-reveal-right,
+            html.hg-reduced-motion .hg-reveal-scale {
+                opacity: 1 !important;
+                transform: none !important;
             }
         `;
 
