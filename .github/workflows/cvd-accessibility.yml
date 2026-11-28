@@ -1,0 +1,108 @@
+name: CVD accessibility validation
+
+on:
+  push:
+    branches:
+      - cvd-a11y-hardening
+      - portfolio-setup
+    paths:
+      - "Script.js"
+      - "Style.css"
+      - "scripts/**"
+      - "src/lib/legacy-assets.ts"
+      - "src/pages/**"
+      - "legacy/**"
+      - "Index.html"
+      - "About.html"
+      - "Projects.html"
+      - "Experience.html"
+      - "Missions.html"
+      - "Socialmedia.html"
+      - "Contact.html"
+      - "join.html"
+      - "403.html"
+      - "404.html"
+      - "418.html"
+      - "429.html"
+      - "package.json"
+      - "package-lock.json"
+      - "CVD-ADAPTATION.md"
+      - "ACCESSIBILITY.md"
+      - "HyperGaruda-Next/**"
+      - ".github/workflows/cvd-accessibility.yml"
+  pull_request:
+    branches:
+      - portfolio-setup
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cvd-accessibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-astro-and-cvd:
+    name: Astro + CVD + Next quality validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit dependency vulnerabilities (fail on any known finding)
+        run: npm audit
+
+      - name: Check JavaScript syntax
+        run: node --check Script.js
+
+      - name: Run CVD accessibility source audit
+        run: node scripts/audit-cvd-adaptation.mjs
+
+      - name: Check legacy asset registry
+        run: npm run check:legacy
+
+      - name: Run Astro type and content checks
+        run: npm run check
+
+      - name: Build Astro production bundle (no deployment)
+        run: npm run build:astro
+
+      - name: Install Chromium, Firefox, and WebKit for browser accessibility tests
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      - name: Start Astro dev server for browser regression
+        run: |
+          npm run dev:astro -- --host 127.0.0.1 > /tmp/hg-astro-dev.log 2>&1 &
+          echo $! > /tmp/hg-astro-dev.pid
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:4321/index.html > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/hg-astro-dev.log
+          exit 1
+
+      - name: Run Chromium, Firefox, WebKit, and axe accessibility smoke tests
+        run: |
+          for engine in chromium firefox webkit; do
+            echo "Running browser engine: $engine"
+            CVD_BROWSER_ENGINE="$engine" npm run test:cvd:browser
+          done
+
+      - name: Lint Next companion
+        run: npm run check:next
+
+      - name: Build Next companion (no deployment)
+        run: npm run build:next
