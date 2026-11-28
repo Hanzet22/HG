@@ -9,6 +9,8 @@ This document separates normative WCAG requirements, empirical accessibility res
 
 **Latest evidence and engineering addendum:** [WCAG research update — 2026-11-28](WCAG-RESEARCH-UPDATE-2026-11-28.md) covers new PubMed/Europe PMC searches, recent clinical/HCI evidence, and the live reduced-motion runtime fix.
 
+**Follow-up evidence addendum:** [WCAG research follow-up — 2026-11-28](WCAG-RESEARCH-FOLLOWUP-2026-11-28.md) adds new motion/HCI and cognitive-web research, clarifies evidence limitations, and records the next media-validation steps.
+
 ## 1. Normative implementation baseline
 
 The conformance target is the W3C WCAG 2.2 Recommendation. Success criteria—not a particular tool or technique—determine conformance.
