@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!navbar || !navLinks) return;
 
-        const links = $("a[href]", navLinks);
+        const links = $$("a[href]", navLinks);
         const currentPath = normalizePath(location.pathname);
         setupSkipLink(navbar);
 
@@ -887,7 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ----------------------------------------------------- */
 
     function setupMorphGlass() {
-        const surfaces = $(".hg-morph-glass");
+        const surfaces = $$(".hg-morph-glass");
 
         if (
             surfaces.length === 0 ||
@@ -1043,7 +1043,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { id: "p04", name: "Deuteranopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a deuteranopia correction." },
             { id: "p05", name: "Tritanomaly Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanomaly correction." },
             { id: "p06", name: "Tritanopia Assist", note: "Uses the common non-color support layer. The name is a preference label, not a diagnosis or a tritanopia correction." },
-            { id: "p07", name: "Low-Chroma / Monochrome-Friendly", note: "Reduces decorative color in selected surfaces while preserving text and status labels." },
+            { id: "p07", name: "Simplified Surfaces", note: "Removes selected decorative gradients and shadows while preserving semantic text and status labels." },
             { id: "p08", name: "High-Distinction UI", note: "Strengthens component boundaries and link distinction without applying a global color filter." },
             { id: "p09", name: "Personal Calibration", note: "Combine the manual display controls below to suit your own viewing preference." }
         ];
@@ -1075,7 +1075,6 @@ document.addEventListener("DOMContentLoaded", () => {
         launcher.className = "hg-cvd-launcher";
         launcher.setAttribute("aria-haspopup", "dialog");
         launcher.setAttribute("aria-controls", "hg-cvd-dialog");
-        launcher.setAttribute("aria-label", "Open color vision and display support settings");
         launcher.innerHTML = '<span class="hg-cvd-launcher-icon" aria-hidden="true">Aa</span><span>Display support</span>';
 
         const dialog = document.createElement("dialog");
@@ -1095,8 +1094,9 @@ document.addEventListener("DOMContentLoaded", () => {
             '<div class="hg-cvd-field"><label for="hg-cvd-profile">Display profile</label><select id="hg-cvd-profile" name="profile">' + options + '</select><p class="hg-cvd-hint" id="hg-cvd-profile-note"></p></div>' +
             '<div class="hg-cvd-field"><label for="hg-cvd-strength">Support emphasis</label><select id="hg-cvd-strength" name="strength"><option value="subtle">Subtle</option><option value="balanced">Balanced</option><option value="stronger">Stronger</option></select><p class="hg-cvd-hint">This changes visual emphasis only, not medical severity.</p></div>' +
             '<fieldset class="hg-cvd-options"><legend>Personal calibration</legend>' +
-                '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox"><span>Emphasize component boundaries</span></label>' +
-                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox"><span>Reduce decorative color on selected surfaces</span></label>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-boundaries" type="checkbox" aria-describedby=\"hg-cvd-control-hint\"><span>Emphasize component boundaries</span><span class=\"hg-cvd-lock-status\">Automatic</span></label>' +
+                '<label class="hg-cvd-check"><input id="hg-cvd-neutral-surfaces" type="checkbox" aria-describedby=\"hg-cvd-control-hint\"><span>Remove decorative gradients and shadows on selected surfaces</span><span class=\"hg-cvd-lock-status\">Automatic</span></label>' +
+                '<p class="hg-cvd-hint" id=\"hg-cvd-control-hint\">Some profiles apply these settings automatically. Select P00 or P09 to adjust a locked setting manually.</p>' +
             '</fieldset>' +
             '<p class="hg-cvd-privacy">Your preference is stored locally in this browser only. It is not sent to HyperGaruda. Images and videos are not recolored.</p>' +
             '<div class="hg-cvd-dialog-footer"><button class="hg-cvd-reset" id="hg-cvd-reset" type="button">Reset preferences</button><button class="hg-cvd-done" id="hg-cvd-done" type="button">Apply &amp; close</button></div>' +
@@ -1123,15 +1123,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const root = document.documentElement;
             const profile = profiles.find(item => item.id === preferences.profile) || profiles[0];
 
+            const boundariesLocked = preferences.profile === "p08" || /^p0[1-6]$/.test(preferences.profile);
+            const neutralSurfacesLocked = preferences.profile === "p07";
+            const effectiveBoundaries = preferences.boundaries || boundariesLocked;
+            const effectiveNeutralSurfaces = preferences.neutralSurfaces || neutralSurfacesLocked;
+
             root.dataset.hgCvdProfile = preferences.profile;
             root.dataset.hgCvdStrength = preferences.strength;
-            root.dataset.hgCvdBoundaries = String(preferences.boundaries || preferences.profile === "p08" || /^p0[1-6]$/.test(preferences.profile));
-            root.dataset.hgCvdNeutralSurfaces = String(preferences.neutralSurfaces || preferences.profile === "p07");
+            root.dataset.hgCvdBoundaries = String(effectiveBoundaries);
+            root.dataset.hgCvdNeutralSurfaces = String(effectiveNeutralSurfaces);
 
             profileSelect.value = preferences.profile;
             strengthSelect.value = preferences.strength;
-            boundariesToggle.checked = preferences.boundaries;
-            neutralToggle.checked = preferences.neutralSurfaces;
+            boundariesToggle.checked = effectiveBoundaries;
+            boundariesToggle.disabled = boundariesLocked;
+            boundariesToggle.closest(".hg-cvd-check").classList.toggle("hg-cvd-check-locked", boundariesLocked);
+            neutralToggle.checked = effectiveNeutralSurfaces;
+            neutralToggle.disabled = neutralSurfacesLocked;
+            neutralToggle.closest(".hg-cvd-check").classList.toggle("hg-cvd-check-locked", neutralSurfacesLocked);
             profileNote.textContent = profile.note;
 
             document.querySelectorAll(".status-dot").forEach(dot => dot.setAttribute("aria-hidden", "true"));
@@ -1148,8 +1157,8 @@ document.addEventListener("DOMContentLoaded", () => {
         function updateFromControls() {
             preferences.profile = profileSelect.value;
             preferences.strength = strengthSelect.value;
-            preferences.boundaries = boundariesToggle.checked;
-            preferences.neutralSurfaces = neutralToggle.checked;
+            if (!boundariesToggle.disabled) preferences.boundaries = boundariesToggle.checked;
+            if (!neutralToggle.disabled) preferences.neutralSurfaces = neutralToggle.checked;
             applyPreferences();
             savePreferences();
             announceChange();
